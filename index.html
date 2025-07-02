@@ -6,14 +6,28 @@
   <title>🏠 HomeHive — Smart Home Inventory</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js" defer></script>
-
   <!-- SortableJS for drag/drop -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" defer></script>
+  <script src="app.js" defer></script>
+
+  <style>
+    /* Utility class for screen-reader-only text */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -51,7 +65,7 @@
   </nav>
 
   <main id="container" role="list" aria-live="polite" aria-relevant="additions removals">
-    <!-- Categories and items will be dynamically rendered here -->
+    <!-- Categories and items rendered dynamically -->
   </main>
 
   <section class="add-form" aria-labelledby="addItemHeading">
@@ -72,23 +86,6 @@
     <button type="button" onclick="addCategory()">Add Category</button>
     <ul class="category-list" id="categoryList" aria-live="polite"></ul>
   </section>
-
-  <script src="app.js" defer></script>
-
-  <style>
-    /* Utility class for screen-reader-only text */
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-  </style>
 
 </body>
 </html>
