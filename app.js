@@ -84,6 +84,62 @@ function toggleCollapse(cat) {
   render();
 }
 
+// === SWIPE GESTURE HANDLER ===
+function addSwipeListeners(li, item, cat) {
+  let startX = 0;
+  let currentX = 0;
+  let threshold = 80; // minimum swipe distance in px to trigger action
+  let swiping = false;
+
+  li.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    swiping = true;
+    li.style.transition = ''; // cancel transition for drag
+  });
+
+  li.addEventListener('touchmove', (e) => {
+    if (!swiping) return;
+    currentX = e.touches[0].clientX;
+    let deltaX = currentX - startX;
+    if (Math.abs(deltaX) > 5) {
+      e.preventDefault(); // prevent vertical scroll while swiping horizontally
+      li.style.transform = `translateX(${deltaX}px)`;
+    }
+  });
+
+  li.addEventListener('touchend', (e) => {
+    swiping = false;
+    let deltaX = currentX - startX;
+    li.style.transition = 'transform 0.3s ease';
+
+    if (deltaX > threshold) {
+      // Swipe right: toggle checked state
+      if (checkedItems[item]) {
+        delete checkedItems[item];
+      } else {
+        checkedItems[item] = true;
+      }
+      save();
+      render();
+    } else if (deltaX < -threshold) {
+      // Swipe left: delete item
+      deletedStack.push({ cat, item });
+      const idx = state[cat].indexOf(item);
+      if (idx !== -1) {
+        state[cat].splice(idx, 1);
+        delete checkedItems[item];
+        delete dueDates[item];
+        save();
+        render();
+        document.getElementById('undoBtn')?.removeAttribute('disabled');
+      }
+    } else {
+      // Not enough swipe distance - reset position
+      li.style.transform = 'translateX(0)';
+    }
+  });
+}
+
 function render() {
   const container = document.getElementById('container');
   container.innerHTML = '';
@@ -204,7 +260,8 @@ function render() {
 
       const delBtn = document.createElement('button');
       delBtn.className = 'danger';
-      delBtn.textContent = 'Delete';
+      delBtn.innerHTML = '🗑️';
+      delBtn.title = 'Delete item';
       delBtn.onclick = () => {
         deletedStack.push({ cat, item });
         const idx = state[cat].indexOf(item);
@@ -214,10 +271,13 @@ function render() {
           delete dueDates[item];
           save();
           render();
-          document.getElementById('undoBtn').disabled = false;
+          document.getElementById('undoBtn')?.removeAttribute('disabled');
         }
       };
       li.appendChild(delBtn);
+
+      // Attach swipe listeners for mobile swipe gestures
+      addSwipeListeners(li, item, cat);
 
       ul.appendChild(li);
     }
@@ -226,7 +286,6 @@ function render() {
     container.appendChild(section);
   }
 
-  // Update category dropdown for adding new items
   const categorySelect = document.getElementById('categorySelect');
   categorySelect.innerHTML = '';
   for (const cat of Object.keys(state)) {
@@ -236,7 +295,6 @@ function render() {
     categorySelect.appendChild(opt);
   }
 
-  // Update category manager list
   const catList = document.getElementById('categoryList');
   catList.innerHTML = '';
   for (const cat of Object.keys(state)) {
@@ -261,7 +319,6 @@ function render() {
         }
         state[newName] = state[cat];
         delete state[cat];
-        // move checked, dueDates, collapsed state
         collapsedState[newName] = collapsedState[cat];
         delete collapsedState[cat];
         save();
@@ -271,11 +328,11 @@ function render() {
     li.appendChild(span);
 
     const delBtn = document.createElement('button');
-    delBtn.textContent = 'Delete';
+    delBtn.innerHTML = '🗑️';
     delBtn.className = 'danger';
+    delBtn.title = 'Delete category';
     delBtn.onclick = () => {
       if (confirm(`Delete category "${cat}" and all its items?`)) {
-        // Remove checkedItems and dueDates for all items in category
         for (const item of state[cat]) {
           delete checkedItems[item];
           delete dueDates[item];
@@ -334,17 +391,33 @@ function addCategory() {
   render();
 }
 
-
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
+// Dark mode toggle & persistence
+function applyDarkMode(dark) {
+  if (dark) document.body.classList.add('dark');
+  else document.body.classList.remove('dark');
+  localStorage.setItem('darkMode', dark ? 'true' : 'false');
 }
 
-// Export to PDF (placeholder)
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+}
+
 function exportPDF() {
   window.print();
 }
 
 window.onload = async () => {
+  const saved = localStorage.getItem('darkMode');
+  if (saved === 'true') {
+    applyDarkMode(true);
+  } else if (saved === 'false') {
+    applyDarkMode(false);
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyDarkMode(prefersDark);
+  }
+
   await load();
   render();
 };
