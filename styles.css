@@ -27,6 +27,11 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+#container, .section {
+  overflow-x: hidden;
 }
 
 body.dark {
