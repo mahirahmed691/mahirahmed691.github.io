@@ -2,28 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🏠 Household Inventory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏠 Smart Household Inventory</title>
   <style>
     body { font-family: sans-serif; margin: 0; padding: 1rem; background: #f8f8f8; }
     h1 { text-align: center; }
     .section { background: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .section h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; }
+    .section.collapsed ul { display: none; }
+    .section h2 { display: flex; justify-content: space-between; cursor: pointer; }
     ul { list-style: none; padding: 0; margin: 0; }
     li { padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
     label { display: flex; align-items: center; gap: 0.5rem; flex: 1; }
     input[type="checkbox"] { transform: scale(1.2); }
     button { background: #e74c3c; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; }
     button:hover { background: #c0392b; }
-    .add-form { margin-top: 2rem; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .edit-btn { background: #3498db; margin-left: 0.5rem; }
+    .edit-btn:hover { background: #2980b9; }
+    .add-form, .search-box, .export-box { background: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     input, select { padding: 0.5rem; margin-right: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
     .add-btn { background: #27ae60; color: white; border: none; cursor: pointer; }
     .add-btn:hover { background: #1e8449; }
+    .completed h2 { text-decoration: line-through; color: gray; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-<h1>🏠 Household Inventory</h1>
+<h1>🏠 Smart Inventory</h1>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search items..." oninput="render()">
+</div>
 
 <div id="container"></div>
 
@@ -34,16 +43,19 @@
   <button class="add-btn" onclick="addItem()">Add</button>
 </div>
 
-<script>
-const STORAGE_KEY = 'inventory_v1';
+<div class="export-box">
+  <button onclick="downloadBackup()">⬇️ Backup My List</button>
+</div>
 
-let inventory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-  "🏠 Household": ["🔪 Kitchen", "🧦 Sock holder", "💨 Dehumidifier", "🛍️ Bin bags", "Kitchen roll", "Floor cleaner"],
+<script>
+const STORAGE_KEY = 'smart_inventory_v1';
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+  "🏠 Household": ["Kitchen", "Sock holder", "Dehumidifier", "Bin bags", "Kitchen roll", "Floor cleaner"],
   "🧻 Bathroom": ["Toilet roll"],
-  "📋 Household Tasks": ["🔔 Contact maintenance (fix bell)", "💡 Ring Mark (light bulbs)"],
+  "📋 Household Tasks": ["Contact maintenance (fix bell)", "Ring Mark (light bulbs)"],
   "🛒 Groceries": [
     "🥩 Mixed beans (tin)", "Tuna", "Chicken breast", "Eggs",
-    "🍞 Daal", "Bread", "Potatoes", "Wraps", "Crumpets", "Pasta",
+    "🥞 Daal", "Bread", "Potatoes", "Wraps", "Crumpets", "Pasta",
     "🥬 Spring onion", "Coriander 🌿", "Garlic 🧄", "Lemon 🍋", "Lime 🍋",
     "🌶️ Panch phoron", "Bay leaves 🍃", "Cinnamon stick", "Cardamon", "Cajun", "Cayenne 🌶️",
     "🧂 Sandwich filling", "Tomato purée 🍅", "Garlic and ginger paste",
@@ -51,39 +63,60 @@ let inventory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
   ],
   "🐱 House Stuff": ["Cat biscuits", "Cat litter 🐱", "Bin Buddy 🗑️"]
 };
+let checkedItems = JSON.parse(localStorage.getItem('checked_items') || '{}');
 
 function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem('checked_items', JSON.stringify(checkedItems));
 }
 
 function render() {
   const container = document.getElementById("container");
+  const search = document.getElementById("searchInput").value.toLowerCase();
   container.innerHTML = "";
-
-  for (const [category, items] of Object.entries(inventory)) {
+  for (const [cat, items] of Object.entries(state)) {
     const section = document.createElement("div");
     section.className = "section";
-    section.innerHTML = `<h2>${category}</h2><ul></ul>`;
+    const completed = items.length && items.every(i => checkedItems[i]);
+    if (completed) section.classList.add("completed");
+
+    section.innerHTML = `<h2 onclick="this.parentElement.classList.toggle('collapsed')">${cat} <span>${completed ? '✅' : ''}</span></h2><ul></ul>`;
     const ul = section.querySelector("ul");
 
-    items.forEach((item, index) => {
+    items.forEach((item, i) => {
+      if (search && !item.toLowerCase().includes(search)) return;
       const li = document.createElement("li");
       const label = document.createElement("label");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-
+      checkbox.checked = !!checkedItems[item];
       checkbox.onchange = () => {
-        checkbox.checked ? li.style.textDecoration = "line-through" : li.style.textDecoration = "none";
+        checkedItems[item] = checkbox.checked;
+        save();
+        render();
       };
-
+      const span = document.createElement("span");
+      span.textContent = item;
+      span.contentEditable = true;
+      span.onblur = () => {
+        const newText = span.textContent.trim();
+        if (newText && newText !== item) {
+          state[cat][i] = newText;
+          checkedItems[newText] = checkedItems[item];
+          delete checkedItems[item];
+          save();
+          render();
+        }
+      };
       label.appendChild(checkbox);
-      label.appendChild(document.createTextNode(item));
+      label.appendChild(span);
 
       const del = document.createElement("button");
       del.textContent = "Delete";
       del.onclick = () => {
         if (confirm(`Delete "${item}"?`)) {
-          inventory[category].splice(index, 1);
+          state[cat].splice(i, 1);
+          delete checkedItems[item];
           save();
           render();
         }
@@ -96,14 +129,13 @@ function render() {
 
     container.appendChild(section);
   }
-
   populateCategories();
 }
 
 function populateCategories() {
   const catSelect = document.getElementById("categorySelect");
   catSelect.innerHTML = "";
-  for (const cat of Object.keys(inventory)) {
+  for (const cat of Object.keys(state)) {
     const opt = document.createElement("option");
     opt.value = cat;
     opt.textContent = cat;
@@ -114,16 +146,21 @@ function populateCategories() {
 function addItem() {
   const name = document.getElementById("itemName").value.trim();
   const cat = document.getElementById("categorySelect").value;
-
-  if (!name || !cat) {
-    alert("Please fill out all fields.");
-    return;
-  }
-
-  inventory[cat].push(name);
+  if (!name || !cat) return alert("Please fill out all fields.");
+  state[cat].push(name);
   save();
   render();
   document.getElementById("itemName").value = "";
+}
+
+function downloadBackup() {
+  const blob = new Blob([JSON.stringify({ state, checkedItems }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "inventory_backup.json";
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 render();
