@@ -39,6 +39,14 @@ body.dark {
   color: var(--dark-fg);
 }
 
+.add-form input.searchCategory,
+.category-manager input.searchCategory {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+
 h1 {
   text-align: center;
   margin: 1.5rem 0 2rem;
@@ -401,4 +409,11 @@ body.dark .category-manager {
     padding: 0.5rem;
     font-size: 1rem;
   }
+
+  .topbar input.searchCategory {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
 }

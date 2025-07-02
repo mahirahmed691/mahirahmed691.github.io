@@ -17,7 +17,7 @@
   <h1>HomeHive</h1>
 
   <div class="topbar">
-    <input type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
+    <input class="searchCategory" type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
     <select id="taskFilter" onchange="render()">
       <option value="all">Show: All Items</option>
       <option value="due">Due Soon / Overdue Tasks</option>
@@ -30,14 +30,14 @@
 
   <div class="add-form">
     <h2>Add New Item</h2>
-    <input type="text" id="itemName" placeholder="Item name" />
+    <input class="searchCategory" type="text" id="itemName" placeholder="Item name" />
     <select id="categorySelect"></select>
     <button onclick="addItem()">Add</button>
   </div>
 
   <div class="category-manager">
     <h2>Manage Categories</h2>
-    <input type="text" id="newCategoryName" placeholder="New category name" />
+    <input class="searchCategory" type="text" id="newCategoryName" placeholder="New category name" />
     <button onclick="addCategory()">Add Category</button>
     <ul class="category-list" id="categoryList"></ul>
   </div>
