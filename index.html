@@ -3,89 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🏠 HomeHive — Smart Home Inventory</title>
+  <title>HomeHive</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <!-- SortableJS for drag/drop -->
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" defer></script>
-  <script src="app.js" defer></script>
-
-  <style>
-    /* Utility class for screen-reader-only text */
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
 
-  <header>
-    <h1 id="appTitle" tabindex="0">🏠 HomeHive</h1>
-  </header>
+  <h1>🏠 HomeHive</h1>
 
-  <nav class="topbar" role="search" aria-label="Inventory controls">
-    <input 
-      type="search" 
-      id="searchInput" 
-      placeholder="Search items..." 
-      oninput="render()" 
-      aria-describedby="searchHelp"
-      autocomplete="off"
-    />
-    <small id="searchHelp" class="visually-hidden">Filter inventory items by name</small>
-
-    <select id="taskFilter" onchange="render()" aria-label="Filter tasks">
+  <div class="topbar">
+    <input type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
+    <select id="taskFilter" onchange="render()">
       <option value="all">Show: All Items</option>
       <option value="due">Due Soon / Overdue Tasks</option>
       <option value="overdue">Overdue Tasks Only</option>
     </select>
+    <button onclick="toggleDarkMode()" class="toggle-dark" title="Toggle dark mode">🌓</button>
+  </div>
 
-    <button 
-      onclick="toggleDarkMode()" 
-      class="toggle-dark" 
-      title="Toggle dark mode" 
-      aria-pressed="false" 
-      aria-label="Toggle dark mode"
-      type="button"
-    >
-      🌓
-    </button>
-  </nav>
+  <div id="container"></div>
 
-  <main id="container" role="list" aria-live="polite" aria-relevant="additions removals">
-    <!-- Categories and items rendered dynamically -->
-  </main>
+  <div class="add-form">
+    <h2>Add New Item</h2>
+    <input type="text" id="itemName" placeholder="Item name" />
+    <select id="categorySelect"></select>
+    <button onclick="addItem()">Add</button>
+  </div>
 
-  <section class="add-form" aria-labelledby="addItemHeading">
-    <h2 id="addItemHeading">Add New Item</h2>
-    <label for="itemName" class="visually-hidden">Item name</label>
-    <input type="text" id="itemName" placeholder="Item name" autocomplete="off" />
+  <div class="category-manager">
+    <h2>Manage Categories</h2>
+    <input type="text" id="newCategoryName" placeholder="New category name" />
+    <button onclick="addCategory()">Add Category</button>
+    <ul class="category-list" id="categoryList"></ul>
+  </div>
 
-    <label for="categorySelect" class="visually-hidden">Select category</label>
-    <select id="categorySelect" aria-required="true"></select>
-
-    <button type="button" onclick="addItem()">Add</button>
-  </section>
-
-  <section class="category-manager" aria-labelledby="manageCategoriesHeading">
-    <h2 id="manageCategoriesHeading">Manage Categories</h2>
-    <label for="newCategoryName" class="visually-hidden">New category name</label>
-    <input type="text" id="newCategoryName" placeholder="New category name" autocomplete="off" />
-    <button type="button" onclick="addCategory()">Add Category</button>
-    <ul class="category-list" id="categoryList" aria-live="polite"></ul>
-  </section>
+  <script src="app.js"></script>
 
 </body>
 </html>
