@@ -6,15 +6,16 @@
 <title>🏠 Smart Household Inventory Pro with Tasks</title>
 <style>
   :root {
-    --bg: #f8f8f8;
+    --bg: #fafafa;
     --fg: #222;
-    --accent: #27ae60;
-    --danger: #e74c3c;
-    --warning: #e67e22;
+    --accent: #2a9d8f;
+    --danger: #e76f51;
+    --warning: #f4a261;
     --shadow: rgba(0,0,0,0.1);
     --light-bg: #fff;
     --dark-bg: #121212;
     --dark-fg: #ddd;
+    --transition: 0.3s ease;
   }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +23,7 @@
     color: var(--fg);
     margin: 0;
     padding: 1rem;
-    transition: background 0.3s, color 0.3s;
+    transition: background var(--transition), color var(--transition);
   }
   body.dark {
     background: var(--dark-bg);
@@ -30,77 +31,101 @@
   }
   h1 {
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
   }
   .topbar {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
   button, select, input[type="text"] {
     font-size: 1rem;
-    padding: 0.4rem 0.7rem;
-    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
     border: 1px solid #ccc;
+    transition: background-color 0.2s ease;
   }
   button {
     cursor: pointer;
     border: none;
     background: var(--accent);
     color: white;
-    transition: background 0.2s;
+    font-weight: 600;
   }
   button:hover {
-    background: #1e8449;
+    background: #23867a;
   }
   button.danger {
     background: var(--danger);
   }
   button.danger:hover {
-    background: #c0392b;
+    background: #cc5b3e;
   }
   select {
     min-width: 180px;
   }
   input[type="text"] {
-    width: 200px;
+    width: 220px;
+    border: 1px solid #ccc;
   }
   .section {
     background: var(--light-bg);
-    border-radius: 8px;
-    box-shadow: 0 2px 6px var(--shadow);
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    transition: background 0.3s, color 0.3s;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow);
+    margin-bottom: 1.8rem;
+    transition: background var(--transition), color var(--transition);
   }
   body.dark .section {
-    background: #222;
+    background: #1e1e1e;
   }
-  .section.collapsed ul {
-    display: none;
-  }
-  .section > h2 {
+  .section h2 {
     cursor: pointer;
     user-select: none;
+    margin: 0;
+    padding: 1rem 1.25rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.25rem;
+    border-bottom: 1px solid #ddd;
+    transition: border-color var(--transition);
   }
-  .section.completed > h2 {
-    text-decoration: line-through;
-    color: gray;
+  body.dark .section h2 {
+    border-color: #444;
+  }
+  .section h2 span.status-check {
+    font-size: 1.2rem;
+    color: var(--accent);
+    user-select: none;
+  }
+  .section h2 .arrow {
+    font-size: 1.3rem;
+    transition: transform var(--transition);
+    user-select: none;
+  }
+  .section.collapsed h2 .arrow {
+    transform: rotate(-90deg);
   }
   ul {
     list-style: none;
-    padding-left: 0;
-    margin-top: 0.5rem;
+    margin: 0;
+    padding: 0 1.5rem 1rem 1.5rem;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height var(--transition) ease;
+  }
+  .section.collapsed ul {
+    max-height: 0;
+    padding-bottom: 0;
   }
   li {
     display: flex;
     align-items: center;
-    padding: 0.35rem 0;
+    padding: 0.45rem 0;
     border-bottom: 1px solid #eee;
   }
   body.dark li {
@@ -110,77 +135,104 @@
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     user-select: none;
   }
   li label span {
     flex: 1;
     cursor: text;
+    outline: none;
+  }
+  li label span:focus {
+    background: #f0fdfa;
+    border-radius: 4px;
   }
   li label input[type="checkbox"] {
     transform: scale(1.3);
+    cursor: pointer;
   }
   li button {
-    margin-left: 0.5rem;
+    margin-left: 0.6rem;
     background: var(--danger);
     border: none;
     color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
   }
   li button:hover {
-    background: #c0392b;
+    background: #cc5b3e;
   }
-  .add-form, .search-box, .export-box, .category-manager, .undo-box, .filter-tasks {
+  .add-form, .search-box, .export-box, .category-manager, .undo-box {
     background: var(--light-bg);
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px var(--shadow);
-    margin-bottom: 1rem;
-    transition: background 0.3s, color 0.3s;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow);
+    margin-bottom: 1.5rem;
+    transition: background var(--transition), color var(--transition);
   }
   body.dark .add-form,
   body.dark .search-box,
   body.dark .export-box,
   body.dark .category-manager,
-  body.dark .undo-box,
-  body.dark .filter-tasks {
-    background: #222;
+  body.dark .undo-box {
+    background: #1e1e1e;
   }
   .add-form input[type="text"],
   .category-manager input[type="text"] {
-    width: 220px;
+    width: 240px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 0.45rem 0.6rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  .add-form input[type="text"]:focus,
+  .category-manager input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
   }
   .category-list {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
   }
   .category-list li {
-    padding: 0.25rem 0;
+    padding: 0.3rem 0;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    user-select: none;
   }
   .category-list li span {
     flex: 1;
     cursor: text;
+    outline: none;
+  }
+  .category-list li span:focus {
+    background: #f0fdfa;
+    border-radius: 4px;
   }
   .category-list li button {
-    background: #e67e22;
+    background: #f4a261;
     border: none;
     color: white;
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
   }
   .category-list li button:hover {
-    background: #d35400;
+    background: #db7c3a;
   }
   .toggle-dark {
     background: #444;
-    padding: 0.2rem 0.7rem;
-    border-radius: 4px;
+    padding: 0.3rem 1rem;
+    border-radius: 6px;
     border: none;
     color: white;
+    font-weight: 600;
   }
   .toggle-dark:hover {
     background: #666;
@@ -188,44 +240,66 @@
   .drag-handle {
     cursor: grab;
     user-select: none;
-    font-weight: bold;
-    margin-right: 8px;
+    font-weight: 700;
+    margin-right: 10px;
+    color: #999;
+    transition: color 0.2s ease;
+  }
+  .drag-handle:hover {
+    color: var(--accent);
   }
   .undo-box button {
-    background: #2980b9;
+    background: #2a9d8f;
     border: none;
     color: white;
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
+    padding: 0.45rem 1.2rem;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
   }
   .undo-box button:hover {
-    background: #1c5980;
+    background: #23867a;
   }
   .hidden {
     display: none !important;
   }
   .due-date {
     font-size: 0.85rem;
-    font-weight: bold;
-    margin-left: 0.5rem;
+    font-weight: 600;
+    margin-left: 0.6rem;
     user-select: none;
+    min-width: 80px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0 6px;
+    white-space: nowrap;
   }
   .due-date.overdue {
-    color: var(--danger);
+    color: white;
+    background: var(--danger);
   }
   .due-date.upcoming {
-    color: var(--warning);
+    color: white;
+    background: var(--warning);
   }
   .due-date-btn {
     background: none;
     border: none;
     cursor: pointer;
-    margin-left: 0.5rem;
-    font-size: 1.1rem;
+    margin-left: 0.6rem;
+    font-size: 1.3rem;
+    color: var(--accent);
+    transition: color 0.2s ease;
   }
   .due-date-btn:hover {
-    color: var(--accent);
+    color: #1f776b;
+  }
+  #searchInput {
+    border-radius: 8px;
+  }
+  #taskFilter {
+    border-radius: 8px;
   }
 </style>
 </head>
@@ -235,7 +309,7 @@
 
 <div class="topbar">
   <input type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
-  <select id="taskFilter" class="filter-tasks" onchange="render()">
+  <select id="taskFilter" onchange="render()">
     <option value="all">Show: All Items</option>
     <option value="due">Due Soon / Overdue Tasks</option>
     <option value="overdue">Overdue Tasks Only</option>
@@ -271,6 +345,7 @@ const STORAGE_KEY = 'smart_inventory_pro';
 const CHECKED_KEY = 'smart_inventory_checked';
 const DELETED_KEY = 'smart_inventory_deleted';
 const DUE_DATES_KEY = 'smart_inventory_due_dates';
+const COLLAPSE_KEY = 'smart_inventory_collapsed';
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
   "🏠 Household": ["Kitchen", "Sock holder", "Dehumidifier", "Bin bags", "Kitchen roll", "Floor cleaner"],
@@ -290,12 +365,14 @@ let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 let checkedItems = JSON.parse(localStorage.getItem(CHECKED_KEY) || '{}');
 let deletedStack = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
 let dueDates = JSON.parse(localStorage.getItem(DUE_DATES_KEY) || '{}');
+let collapsedState = JSON.parse(localStorage.getItem(COLLAPSE_KEY) || '{}');
 
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   localStorage.setItem(CHECKED_KEY, JSON.stringify(checkedItems));
   localStorage.setItem(DELETED_KEY, JSON.stringify(deletedStack));
   localStorage.setItem(DUE_DATES_KEY, JSON.stringify(dueDates));
+  localStorage.setItem(COLLAPSE_KEY, JSON.stringify(collapsedState));
   document.getElementById('undoBtn').disabled = deletedStack.length === 0;
 }
 
@@ -307,7 +384,10 @@ function formatDate(dateStr) {
 }
 function isOverdue(dateStr) {
   if (!dateStr) return false;
-  return new Date(dateStr) < new Date();
+  const d = new Date(dateStr);
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  return d < now;
 }
 function isUpcoming(dateStr) {
   if (!dateStr) return false;
@@ -327,18 +407,24 @@ function requestNotificationPermission() {
 function notifyDueTasks() {
   if (Notification.permission !== "granted") return;
   for (const [cat, items] of Object.entries(state)) {
-    if (cat !== '📋 Household Tasks') continue; // only for tasks category
+    if (cat !== '📋 Household Tasks') continue;
     for (const item of items) {
       const due = dueDates[item];
       if (!due) continue;
       const dueDateObj = new Date(due);
       const now = new Date();
       const diff = dueDateObj - now;
-      if (diff > 0 && diff <= 60*60*1000) { // due within 1 hour
+      if (diff > 0 && diff <= 60*60*1000) {
         new Notification(`Reminder: "${item}" is due soon!`);
       }
     }
   }
+}
+
+function toggleCollapse(cat) {
+  collapsedState[cat] = !collapsedState[cat];
+  save();
+  render();
 }
 
 function render() {
@@ -363,11 +449,23 @@ function render() {
     section.className = 'section';
     const allChecked = filteredItems.length > 0 && filteredItems.every(item => checkedItems[item]);
     if (allChecked) section.classList.add('completed');
-    section.innerHTML = `<h2>${cat} <span>${allChecked ? '✅' : ''}</span></h2><ul></ul>`;
+    if (collapsedState[cat]) section.classList.add('collapsed');
 
-    const ul = section.querySelector('ul');
+    // Header with collapsible arrow and status check
+    const header = document.createElement('h2');
+    header.innerHTML = `
+      <span>${cat}</span>
+      <div>
+        <span class="status-check">${allChecked ? '✅' : ''}</span>
+        <span class="arrow">${collapsedState[cat] ? '▶' : '▼'}</span>
+      </div>
+    `;
+    header.onclick = () => toggleCollapse(cat);
+    section.appendChild(header);
 
-    filteredItems.forEach((item, i) => {
+    const ul = document.createElement('ul');
+
+    filteredItems.forEach((item) => {
       const li = document.createElement('li');
 
       const label = document.createElement('label');
@@ -393,7 +491,6 @@ function render() {
           return;
         }
         if (newText !== item) {
-          // Update item name in state & checked items & due dates
           const idx = state[cat].indexOf(item);
           if (idx !== -1) {
             state[cat][idx] = newText;
@@ -414,7 +511,6 @@ function render() {
       label.appendChild(checkbox);
       label.appendChild(span);
 
-      // Due date display and edit button only for "📋 Household Tasks"
       if (cat === '📋 Household Tasks') {
         const dueDateText = document.createElement('span');
         dueDateText.className = 'due-date';
@@ -423,22 +519,27 @@ function render() {
           dueDateText.textContent = formatDate(due);
           if (isOverdue(due)) dueDateText.classList.add('overdue');
           else if (isUpcoming(due)) dueDateText.classList.add('upcoming');
+        } else {
+          dueDateText.textContent = '-';
+          dueDateText.style.color = '#888';
         }
         label.appendChild(dueDateText);
 
         const dueBtn = document.createElement('button');
         dueBtn.className = 'due-date-btn';
-        dueBtn.title = 'Set/Edit due date';
-        dueBtn.innerHTML = '📅';
-        dueBtn.onclick = () => {
-          const newDate = prompt('Enter due date (YYYY-MM-DD):', dueDates[item] || '');
-          if (newDate === null) return; // cancelled
-          if (newDate.trim() === '') {
+        dueBtn.title = 'Set due date (YYYY-MM-DD)';
+        dueBtn.textContent = '📅';
+        dueBtn.onclick = (e) => {
+          e.stopPropagation();
+          const newDue = prompt('Enter due date (YYYY-MM-DD) or leave empty to clear:', due || '');
+          if (newDue === null) return;
+          if (newDue.trim() === '') {
             delete dueDates[item];
-          } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate.trim())) {
-            alert('Invalid date format. Use YYYY-MM-DD.');
+          } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newDue)) {
+            alert('Invalid date format! Use YYYY-MM-DD.');
+            return;
           } else {
-            dueDates[item] = newDate.trim();
+            dueDates[item] = newDue;
           }
           save();
           render();
@@ -446,82 +547,77 @@ function render() {
         label.appendChild(dueBtn);
       }
 
-      const del = document.createElement('button');
-      del.textContent = 'Delete';
-      del.onclick = () => {
-        if (confirm(`Delete "${item}"?`)) {
+      li.appendChild(label);
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+      delBtn.title = 'Delete this item';
+      delBtn.onclick = () => {
+        if (confirm(`Delete item "${item}"?`)) {
           deletedStack.push({ cat, item, checked: !!checkedItems[item], due: dueDates[item] });
-          const idx = state[cat].indexOf(item);
-          if (idx !== -1) state[cat].splice(idx, 1);
+          const index = state[cat].indexOf(item);
+          if (index !== -1) state[cat].splice(index, 1);
           delete checkedItems[item];
           delete dueDates[item];
           save();
           render();
         }
       };
-
-      li.appendChild(label);
-      li.appendChild(del);
+      li.appendChild(delBtn);
 
       ul.appendChild(li);
     });
 
+    section.appendChild(ul);
     container.appendChild(section);
   }
 
-  populateCategorySelect();
-  renderCategoryManager();
-  save();
-  initSortable();
-}
-
-function populateCategorySelect() {
-  const catSelect = document.getElementById('categorySelect');
-  catSelect.innerHTML = '';
+  // Fill category select dropdown
+  const select = document.getElementById('categorySelect');
+  select.innerHTML = '';
   for (const cat of Object.keys(state)) {
     const opt = document.createElement('option');
     opt.value = cat;
     opt.textContent = cat;
-    catSelect.appendChild(opt);
+    select.appendChild(opt);
   }
+
+  // Render category manager
+  renderCategoryManager();
+
+  initSortable();
 }
 
 function addItem() {
-  const name = document.getElementById('itemName').value.trim();
-  const cat = document.getElementById('categorySelect').value;
-  if (!name || !cat) {
-    alert('Please fill out all fields.');
+  const nameInput = document.getElementById('itemName');
+  const catSelect = document.getElementById('categorySelect');
+  const name = nameInput.value.trim();
+  const cat = catSelect.value;
+
+  if (!name) {
+    alert('Item name cannot be empty!');
     return;
   }
 
-  // Auto-categorisation keywords for groceries
-  const groceryProteins = ['tuna','chicken','eggs','beans'];
-  const groceryCarbs = ['bread','daal','potatoes','wraps','crumpets','pasta'];
-  const groceryVeggies = ['spring onion','coriander','garlic','lemon','lime'];
-  const grocerySpices = ['panch','bay leaves','cinnamon','cardamon','cajun','cayenne'];
-  const groceryCondiments = ['sandwich','tomato','ginger','garlic'];
-  const groceryDrinks = ['coffee','orange juice'];
-
-  let lcName = name.toLowerCase();
-  if (cat === '🛒 Groceries') {
-    if (groceryProteins.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else if (groceryCarbs.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else if (groceryVeggies.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else if (grocerySpices.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else if (groceryCondiments.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else if (groceryDrinks.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
-    else state[cat].push(name);
-  } else {
-    state[cat].push(name);
+  if (!state[cat]) {
+    alert('Category does not exist!');
+    return;
   }
 
-  document.getElementById('itemName').value = '';
+  if (state[cat].includes(name)) {
+    alert('Item already exists in this category!');
+    return;
+  }
+
+  state[cat].push(name);
+  nameInput.value = '';
   save();
   render();
 }
 
 function addCategory() {
-  const newCat = document.getElementById('newCategoryName').value.trim();
+  const input = document.getElementById('newCategoryName');
+  const newCat = input.value.trim();
   if (!newCat) {
     alert('Category name cannot be empty!');
     return;
@@ -531,7 +627,7 @@ function addCategory() {
     return;
   }
   state[newCat] = [];
-  document.getElementById('newCategoryName').value = '';
+  input.value = '';
   save();
   render();
 }
@@ -539,6 +635,7 @@ function addCategory() {
 function renderCategoryManager() {
   const list = document.getElementById('categoryList');
   list.innerHTML = '';
+
   for (const cat of Object.keys(state)) {
     const li = document.createElement('li');
 
@@ -567,10 +664,10 @@ function renderCategoryManager() {
         state[newName] = state[cat];
         delete state[cat];
 
-        // Fix checkedItems & dueDates keys for renamed category items
+        // Update checkedItems & dueDates keys for renamed category items
         for (const item of state[newName]) {
           if (checkedItems[item]) checkedItems[item] = checkedItems[item];
-          if (dueDates[item]) dueDates[item] = dueDates[item];
+          if (dueDates[item]) dueDates[newName] = dueDates[newName];
         }
         save();
         render();
@@ -580,9 +677,9 @@ function renderCategoryManager() {
 
     const del = document.createElement('button');
     del.textContent = 'Delete';
+    del.title = 'Delete this category and all its items';
     del.onclick = () => {
       if (confirm(`Delete category "${cat}" and all its items?`)) {
-        // Delete all checked items and due dates related to category items
         for (const item of state[cat]) {
           delete checkedItems[item];
           delete dueDates[item];
@@ -593,10 +690,10 @@ function renderCategoryManager() {
       }
     };
     li.appendChild(del);
+
     list.appendChild(li);
   }
 
-  // Make categories sortable
   new Sortable(list, {
     animation: 150,
     handle: '.drag-handle',
@@ -605,7 +702,6 @@ function renderCategoryManager() {
       const moved = keys.splice(evt.oldIndex, 1)[0];
       keys.splice(evt.newIndex, 0, moved);
 
-      // Rebuild state with new order
       const newState = {};
       for (const k of keys) newState[k] = state[k];
       state = newState;
@@ -627,12 +723,7 @@ function undoDelete() {
 }
 
 function downloadBackup() {
-  const backup = {
-    state,
-    checkedItems,
-    deletedStack,
-    dueDates,
-  };
+  const backup = { state, checkedItems, deletedStack, dueDates, collapsedState };
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
   const a = document.createElement('a');
   a.href = dataStr;
@@ -658,6 +749,7 @@ function importBackup() {
           checkedItems = data.checkedItems;
           deletedStack = data.deletedStack || [];
           dueDates = data.dueDates || {};
+          collapsedState = data.collapsedState || {};
           save();
           render();
           alert('Backup imported successfully!');
@@ -678,7 +770,7 @@ function exportPDF() {
   const doc = new jsPDF();
   let y = 10;
   doc.setFontSize(18);
-  doc.text('🏠 Smart Household Inventory', 10, y);
+  doc.text('🏠 Smart Household Inventory Pro', 10, y);
   y += 10;
   doc.setFontSize(12);
 
@@ -730,8 +822,6 @@ function initSortable() {
         if (!state[cat]) return;
         const reordered = [];
         evt.to.querySelectorAll('li label span:first-child').forEach(span => reordered.push(span.textContent));
-        // Because span textContent is item text
-        // Use label span to get item text instead of span textContent? Just grab li label span[1]
         reordered.length = 0;
         evt.to.querySelectorAll('li label span').forEach(span => reordered.push(span.textContent));
         state[cat] = reordered;
@@ -750,6 +840,5 @@ window.onload = () => {
   setInterval(notifyDueTasks, 60000); // check every minute
 };
 </script>
-
 </body>
 </html>
