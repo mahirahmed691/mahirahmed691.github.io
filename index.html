@@ -6,44 +6,43 @@
   <title>HomeHive</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <!-- SortableJS for drag/drop -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
+  <div class="app-window">
+    <header>
+      <h1>🏠 HomeHive</h1>
+      <div class="topbar">
+        <input type="search" id="searchInput" placeholder="Search items..." oninput="render()" autocomplete="off" />
+        <select id="taskFilter" onchange="render()">
+          <option value="all">Show: All Items</option>
+          <option value="due">Due Soon / Overdue Tasks</option>
+          <option value="overdue">Overdue Tasks Only</option>
+        </select>
+        <button onclick="toggleDarkMode()" class="toggle-dark" title="Toggle dark mode">🌓</button>
+      </div>
+    </header>
 
-  <h1>🏠 HomeHive</h1>
+    <main id="container"></main>
 
-  <div class="topbar">
-    <input type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
-    <select id="taskFilter" onchange="render()">
-      <option value="all">Show: All Items</option>
-      <option value="due">Due Soon / Overdue Tasks</option>
-      <option value="overdue">Overdue Tasks Only</option>
-    </select>
-    <button onclick="toggleDarkMode()" class="toggle-dark" title="Toggle dark mode">🌓</button>
-  </div>
+    <section class="add-form">
+      <h2>Add New Item</h2>
+      <input type="text" id="itemName" placeholder="Item name" />
+      <select id="categorySelect"></select>
+      <button onclick="addItem()">Add</button>
+    </section>
 
-  <div id="container"></div>
-
-  <div class="add-form">
-    <h2>Add New Item</h2>
-    <input type="text" id="itemName" placeholder="Item name" />
-    <select id="categorySelect"></select>
-    <button onclick="addItem()">Add</button>
-  </div>
-
-  <div class="category-manager">
-    <h2>Manage Categories</h2>
-    <input type="text" id="newCategoryName" placeholder="New category name" />
-    <button onclick="addCategory()">Add Category</button>
-    <ul class="category-list" id="categoryList"></ul>
+    <section class="category-manager">
+      <h2>Manage Categories</h2>
+      <input type="text" id="newCategoryName" placeholder="New category name" />
+      <button onclick="addCategory()">Add Category</button>
+      <ul class="category-list" id="categoryList"></ul>
+    </section>
   </div>
 
   <script src="app.js"></script>
-
 </body>
 </html>
