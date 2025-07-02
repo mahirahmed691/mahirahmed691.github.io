@@ -13,6 +13,7 @@
   --dark-fg: #ddd;
   --transition: 0.3s ease;
   --radius: 12px;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html, body {
@@ -20,7 +21,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-y: auto;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-family);
   background: var(--bg);
   color: var(--fg);
   transition: background var(--transition), color var(--transition);
