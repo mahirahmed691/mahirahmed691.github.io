@@ -334,19 +334,6 @@ function addCategory() {
   render();
 }
 
-function undoDelete() {
-  if (deletedStack.length === 0) return;
-  const { cat, item } = deletedStack.pop();
-  if (!state[cat]) state[cat] = [];
-  if (!state[cat].includes(item)) {
-    state[cat].push(item);
-  }
-  save();
-  render();
-  if (deletedStack.length === 0) {
-    document.getElementById('undoBtn').disabled = true;
-  }
-}
 
 function toggleDarkMode() {
   document.body.classList.toggle('dark');
@@ -355,50 +342,6 @@ function toggleDarkMode() {
 // Export to PDF (placeholder)
 function exportPDF() {
   window.print();
-}
-
-// Backup JSON download
-function downloadBackup() {
-  const data = JSON.stringify({state, checkedItems, dueDates, collapsedState}, null, 2);
-  const blob = new Blob([data], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'household-inventory-backup.json';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Import JSON backup
-function importBackup() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.json,application/json';
-  input.onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = evt => {
-      try {
-        const data = JSON.parse(evt.target.result);
-        if (data.state && typeof data.state === 'object') {
-          state = data.state;
-          checkedItems = data.checkedItems || {};
-          dueDates = data.dueDates || {};
-          collapsedState = data.collapsedState || {};
-          save();
-          render();
-          alert('Backup imported successfully!');
-        } else {
-          alert('Invalid backup file!');
-        }
-      } catch (err) {
-        alert('Error parsing backup file!');
-      }
-    };
-    reader.readAsText(file);
-  };
-  input.click();
 }
 
 window.onload = async () => {
