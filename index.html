@@ -1,37 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🏠 Smart Household Inventory</title>
-  <style>
-    body { font-family: sans-serif; margin: 0; padding: 1rem; background: #f8f8f8; }
-    h1 { text-align: center; }
-    .section { background: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .section.collapsed ul { display: none; }
-    .section h2 { display: flex; justify-content: space-between; cursor: pointer; }
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
-    label { display: flex; align-items: center; gap: 0.5rem; flex: 1; }
-    input[type="checkbox"] { transform: scale(1.2); }
-    button { background: #e74c3c; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #c0392b; }
-    .edit-btn { background: #3498db; margin-left: 0.5rem; }
-    .edit-btn:hover { background: #2980b9; }
-    .add-form, .search-box, .export-box { background: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    input, select { padding: 0.5rem; margin-right: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
-    .add-btn { background: #27ae60; color: white; border: none; cursor: pointer; }
-    .add-btn:hover { background: #1e8449; }
-    .completed h2 { text-decoration: line-through; color: gray; }
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🏠 Smart Household Inventory Pro with Tasks</title>
+<style>
+  :root {
+    --bg: #f8f8f8;
+    --fg: #222;
+    --accent: #27ae60;
+    --danger: #e74c3c;
+    --warning: #e67e22;
+    --shadow: rgba(0,0,0,0.1);
+    --light-bg: #fff;
+    --dark-bg: #121212;
+    --dark-fg: #ddd;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    padding: 1rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark {
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  button, select, input[type="text"] {
+    font-size: 1rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    background: var(--accent);
+    color: white;
+    transition: background 0.2s;
+  }
+  button:hover {
+    background: #1e8449;
+  }
+  button.danger {
+    background: var(--danger);
+  }
+  button.danger:hover {
+    background: #c0392b;
+  }
+  select {
+    min-width: 180px;
+  }
+  input[type="text"] {
+    width: 200px;
+  }
+  .section {
+    background: var(--light-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark .section {
+    background: #222;
+  }
+  .section.collapsed ul {
+    display: none;
+  }
+  .section > h2 {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section.completed > h2 {
+    text-decoration: line-through;
+    color: gray;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  body.dark li {
+    border-color: #444;
+  }
+  li label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    user-select: none;
+  }
+  li label span {
+    flex: 1;
+    cursor: text;
+  }
+  li label input[type="checkbox"] {
+    transform: scale(1.3);
+  }
+  li button {
+    margin-left: 0.5rem;
+    background: var(--danger);
+    border: none;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+  li button:hover {
+    background: #c0392b;
+  }
+  .add-form, .search-box, .export-box, .category-manager, .undo-box, .filter-tasks {
+    background: var(--light-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+    margin-bottom: 1rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark .add-form,
+  body.dark .search-box,
+  body.dark .export-box,
+  body.dark .category-manager,
+  body.dark .undo-box,
+  body.dark .filter-tasks {
+    background: #222;
+  }
+  .add-form input[type="text"],
+  .category-manager input[type="text"] {
+    width: 220px;
+  }
+  .category-list {
+    margin-top: 0.5rem;
+  }
+  .category-list li {
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .category-list li span {
+    flex: 1;
+    cursor: text;
+  }
+  .category-list li button {
+    background: #e67e22;
+    border: none;
+    color: white;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .category-list li button:hover {
+    background: #d35400;
+  }
+  .toggle-dark {
+    background: #444;
+    padding: 0.2rem 0.7rem;
+    border-radius: 4px;
+    border: none;
+    color: white;
+  }
+  .toggle-dark:hover {
+    background: #666;
+  }
+  .drag-handle {
+    cursor: grab;
+    user-select: none;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  .undo-box button {
+    background: #2980b9;
+    border: none;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .undo-box button:hover {
+    background: #1c5980;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .due-date {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    user-select: none;
+  }
+  .due-date.overdue {
+    color: var(--danger);
+  }
+  .due-date.upcoming {
+    color: var(--warning);
+  }
+  .due-date-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    font-size: 1.1rem;
+  }
+  .due-date-btn:hover {
+    color: var(--accent);
+  }
+</style>
 </head>
 <body>
 
-<h1>🏠 Smart Inventory</h1>
+<h1>🏠 Smart Household Inventory Pro with Tasks</h1>
 
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search items..." oninput="render()">
+<div class="topbar">
+  <input type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
+  <select id="taskFilter" class="filter-tasks" onchange="render()">
+    <option value="all">Show: All Items</option>
+    <option value="due">Due Soon / Overdue Tasks</option>
+    <option value="overdue">Overdue Tasks Only</option>
+  </select>
+  <button onclick="toggleDarkMode()" class="toggle-dark" title="Toggle dark mode">🌓</button>
+  <button onclick="undoDelete()" id="undoBtn" disabled title="Undo last delete">↩️ Undo</button>
+  <button onclick="exportPDF()" title="Print / Export PDF">🖨️ Print/Export PDF</button>
+  <button onclick="downloadBackup()" title="Backup JSON">⬇️ Backup</button>
+  <button onclick="importBackup()" title="Import JSON">⬆️ Import</button>
 </div>
 
 <div id="container"></div>
@@ -40,22 +253,32 @@
   <h2>Add New Item</h2>
   <input type="text" id="itemName" placeholder="Item name" />
   <select id="categorySelect"></select>
-  <button class="add-btn" onclick="addItem()">Add</button>
+  <button onclick="addItem()">Add</button>
 </div>
 
-<div class="export-box">
-  <button onclick="downloadBackup()">⬇️ Backup My List</button>
+<div class="category-manager">
+  <h2>Manage Categories</h2>
+  <input type="text" id="newCategoryName" placeholder="New category name" />
+  <button onclick="addCategory()">Add Category</button>
+  <ul class="category-list" id="categoryList"></ul>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <script>
-const STORAGE_KEY = 'smart_inventory_v1';
+const STORAGE_KEY = 'smart_inventory_pro';
+const CHECKED_KEY = 'smart_inventory_checked';
+const DELETED_KEY = 'smart_inventory_deleted';
+const DUE_DATES_KEY = 'smart_inventory_due_dates';
+
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
   "🏠 Household": ["Kitchen", "Sock holder", "Dehumidifier", "Bin bags", "Kitchen roll", "Floor cleaner"],
   "🧻 Bathroom": ["Toilet roll"],
   "📋 Household Tasks": ["Contact maintenance (fix bell)", "Ring Mark (light bulbs)"],
   "🛒 Groceries": [
     "🥩 Mixed beans (tin)", "Tuna", "Chicken breast", "Eggs",
-    "🥞 Daal", "Bread", "Potatoes", "Wraps", "Crumpets", "Pasta",
+    "🍞 Daal", "Bread", "Potatoes", "Wraps", "Crumpets", "Pasta",
     "🥬 Spring onion", "Coriander 🌿", "Garlic 🧄", "Lemon 🍋", "Lime 🍋",
     "🌶️ Panch phoron", "Bay leaves 🍃", "Cinnamon stick", "Cardamon", "Cajun", "Cayenne 🌶️",
     "🧂 Sandwich filling", "Tomato purée 🍅", "Garlic and ginger paste",
@@ -63,60 +286,175 @@ let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
   ],
   "🐱 House Stuff": ["Cat biscuits", "Cat litter 🐱", "Bin Buddy 🗑️"]
 };
-let checkedItems = JSON.parse(localStorage.getItem('checked_items') || '{}');
+
+let checkedItems = JSON.parse(localStorage.getItem(CHECKED_KEY) || '{}');
+let deletedStack = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+let dueDates = JSON.parse(localStorage.getItem(DUE_DATES_KEY) || '{}');
 
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  localStorage.setItem('checked_items', JSON.stringify(checkedItems));
+  localStorage.setItem(CHECKED_KEY, JSON.stringify(checkedItems));
+  localStorage.setItem(DELETED_KEY, JSON.stringify(deletedStack));
+  localStorage.setItem(DUE_DATES_KEY, JSON.stringify(dueDates));
+  document.getElementById('undoBtn').disabled = deletedStack.length === 0;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString();
+}
+function isOverdue(dateStr) {
+  if (!dateStr) return false;
+  return new Date(dateStr) < new Date();
+}
+function isUpcoming(dateStr) {
+  if (!dateStr) return false;
+  const now = new Date();
+  const due = new Date(dateStr);
+  const diff = due - now;
+  return diff >= 0 && diff <= 3*24*60*60*1000; // 3 days
+}
+
+function requestNotificationPermission() {
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "default") {
+    Notification.requestPermission();
+  }
+}
+
+function notifyDueTasks() {
+  if (Notification.permission !== "granted") return;
+  for (const [cat, items] of Object.entries(state)) {
+    if (cat !== '📋 Household Tasks') continue; // only for tasks category
+    for (const item of items) {
+      const due = dueDates[item];
+      if (!due) continue;
+      const dueDateObj = new Date(due);
+      const now = new Date();
+      const diff = dueDateObj - now;
+      if (diff > 0 && diff <= 60*60*1000) { // due within 1 hour
+        new Notification(`Reminder: "${item}" is due soon!`);
+      }
+    }
+  }
 }
 
 function render() {
-  const container = document.getElementById("container");
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  container.innerHTML = "";
+  const container = document.getElementById('container');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const filter = document.getElementById('taskFilter').value;
+  container.innerHTML = '';
+
   for (const [cat, items] of Object.entries(state)) {
-    const section = document.createElement("div");
-    section.className = "section";
-    const completed = items.length && items.every(i => checkedItems[i]);
-    if (completed) section.classList.add("completed");
+    if (filter !== 'all' && cat !== '📋 Household Tasks') continue;
 
-    section.innerHTML = `<h2 onclick="this.parentElement.classList.toggle('collapsed')">${cat} <span>${completed ? '✅' : ''}</span></h2><ul></ul>`;
-    const ul = section.querySelector("ul");
+    const filteredItems = items.filter(item => {
+      if (search && !item.toLowerCase().includes(search)) return false;
+      if (filter === 'due') return dueDates[item] && (isUpcoming(dueDates[item]) || isOverdue(dueDates[item]));
+      if (filter === 'overdue') return dueDates[item] && isOverdue(dueDates[item]);
+      return true;
+    });
 
-    items.forEach((item, i) => {
-      if (search && !item.toLowerCase().includes(search)) return;
-      const li = document.createElement("li");
-      const label = document.createElement("label");
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
+    if (filteredItems.length === 0) continue;
+
+    const section = document.createElement('div');
+    section.className = 'section';
+    const allChecked = filteredItems.length > 0 && filteredItems.every(item => checkedItems[item]);
+    if (allChecked) section.classList.add('completed');
+    section.innerHTML = `<h2>${cat} <span>${allChecked ? '✅' : ''}</span></h2><ul></ul>`;
+
+    const ul = section.querySelector('ul');
+
+    filteredItems.forEach((item, i) => {
+      const li = document.createElement('li');
+
+      const label = document.createElement('label');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
       checkbox.checked = !!checkedItems[item];
       checkbox.onchange = () => {
         checkedItems[item] = checkbox.checked;
         save();
         render();
       };
-      const span = document.createElement("span");
+
+      const span = document.createElement('span');
       span.textContent = item;
       span.contentEditable = true;
+      span.spellcheck = false;
       span.onblur = () => {
         const newText = span.textContent.trim();
-        if (newText && newText !== item) {
-          state[cat][i] = newText;
-          checkedItems[newText] = checkedItems[item];
-          delete checkedItems[item];
-          save();
-          render();
+        if (!newText) {
+          alert('Item name cannot be empty!');
+          span.textContent = item;
+          return;
+        }
+        if (newText !== item) {
+          // Update item name in state & checked items & due dates
+          const idx = state[cat].indexOf(item);
+          if (idx !== -1) {
+            state[cat][idx] = newText;
+            if (checkedItems[item]) {
+              checkedItems[newText] = checkedItems[item];
+              delete checkedItems[item];
+            }
+            if (dueDates[item]) {
+              dueDates[newText] = dueDates[item];
+              delete dueDates[item];
+            }
+            save();
+            render();
+          }
         }
       };
+
       label.appendChild(checkbox);
       label.appendChild(span);
 
-      const del = document.createElement("button");
-      del.textContent = "Delete";
+      // Due date display and edit button only for "📋 Household Tasks"
+      if (cat === '📋 Household Tasks') {
+        const dueDateText = document.createElement('span');
+        dueDateText.className = 'due-date';
+        const due = dueDates[item];
+        if (due) {
+          dueDateText.textContent = formatDate(due);
+          if (isOverdue(due)) dueDateText.classList.add('overdue');
+          else if (isUpcoming(due)) dueDateText.classList.add('upcoming');
+        }
+        label.appendChild(dueDateText);
+
+        const dueBtn = document.createElement('button');
+        dueBtn.className = 'due-date-btn';
+        dueBtn.title = 'Set/Edit due date';
+        dueBtn.innerHTML = '📅';
+        dueBtn.onclick = () => {
+          const newDate = prompt('Enter due date (YYYY-MM-DD):', dueDates[item] || '');
+          if (newDate === null) return; // cancelled
+          if (newDate.trim() === '') {
+            delete dueDates[item];
+          } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate.trim())) {
+            alert('Invalid date format. Use YYYY-MM-DD.');
+          } else {
+            dueDates[item] = newDate.trim();
+          }
+          save();
+          render();
+        };
+        label.appendChild(dueBtn);
+      }
+
+      const del = document.createElement('button');
+      del.textContent = 'Delete';
       del.onclick = () => {
         if (confirm(`Delete "${item}"?`)) {
-          state[cat].splice(i, 1);
+          deletedStack.push({ cat, item, checked: !!checkedItems[item], due: dueDates[item] });
+          const idx = state[cat].indexOf(item);
+          if (idx !== -1) state[cat].splice(idx, 1);
           delete checkedItems[item];
+          delete dueDates[item];
           save();
           render();
         }
@@ -124,19 +462,24 @@ function render() {
 
       li.appendChild(label);
       li.appendChild(del);
+
       ul.appendChild(li);
     });
 
     container.appendChild(section);
   }
-  populateCategories();
+
+  populateCategorySelect();
+  renderCategoryManager();
+  save();
+  initSortable();
 }
 
-function populateCategories() {
-  const catSelect = document.getElementById("categorySelect");
-  catSelect.innerHTML = "";
+function populateCategorySelect() {
+  const catSelect = document.getElementById('categorySelect');
+  catSelect.innerHTML = '';
   for (const cat of Object.keys(state)) {
-    const opt = document.createElement("option");
+    const opt = document.createElement('option');
     opt.value = cat;
     opt.textContent = cat;
     catSelect.appendChild(opt);
@@ -144,26 +487,268 @@ function populateCategories() {
 }
 
 function addItem() {
-  const name = document.getElementById("itemName").value.trim();
-  const cat = document.getElementById("categorySelect").value;
-  if (!name || !cat) return alert("Please fill out all fields.");
-  state[cat].push(name);
+  const name = document.getElementById('itemName').value.trim();
+  const cat = document.getElementById('categorySelect').value;
+  if (!name || !cat) {
+    alert('Please fill out all fields.');
+    return;
+  }
+
+  // Auto-categorisation keywords for groceries
+  const groceryProteins = ['tuna','chicken','eggs','beans'];
+  const groceryCarbs = ['bread','daal','potatoes','wraps','crumpets','pasta'];
+  const groceryVeggies = ['spring onion','coriander','garlic','lemon','lime'];
+  const grocerySpices = ['panch','bay leaves','cinnamon','cardamon','cajun','cayenne'];
+  const groceryCondiments = ['sandwich','tomato','ginger','garlic'];
+  const groceryDrinks = ['coffee','orange juice'];
+
+  let lcName = name.toLowerCase();
+  if (cat === '🛒 Groceries') {
+    if (groceryProteins.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else if (groceryCarbs.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else if (groceryVeggies.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else if (grocerySpices.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else if (groceryCondiments.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else if (groceryDrinks.some(w => lcName.includes(w))) state['🛒 Groceries'].push(name);
+    else state[cat].push(name);
+  } else {
+    state[cat].push(name);
+  }
+
+  document.getElementById('itemName').value = '';
   save();
   render();
-  document.getElementById("itemName").value = "";
+}
+
+function addCategory() {
+  const newCat = document.getElementById('newCategoryName').value.trim();
+  if (!newCat) {
+    alert('Category name cannot be empty!');
+    return;
+  }
+  if (state[newCat]) {
+    alert('Category already exists!');
+    return;
+  }
+  state[newCat] = [];
+  document.getElementById('newCategoryName').value = '';
+  save();
+  render();
+}
+
+function renderCategoryManager() {
+  const list = document.getElementById('categoryList');
+  list.innerHTML = '';
+  for (const cat of Object.keys(state)) {
+    const li = document.createElement('li');
+
+    const drag = document.createElement('span');
+    drag.className = 'drag-handle';
+    drag.textContent = '☰';
+    li.appendChild(drag);
+
+    const span = document.createElement('span');
+    span.textContent = cat;
+    span.contentEditable = true;
+    span.spellcheck = false;
+    span.onblur = () => {
+      const newName = span.textContent.trim();
+      if (!newName) {
+        alert('Category name cannot be empty!');
+        span.textContent = cat;
+        return;
+      }
+      if (newName !== cat) {
+        if (state[newName]) {
+          alert('Category name already exists!');
+          span.textContent = cat;
+          return;
+        }
+        state[newName] = state[cat];
+        delete state[cat];
+
+        // Fix checkedItems & dueDates keys for renamed category items
+        for (const item of state[newName]) {
+          if (checkedItems[item]) checkedItems[item] = checkedItems[item];
+          if (dueDates[item]) dueDates[item] = dueDates[item];
+        }
+        save();
+        render();
+      }
+    };
+    li.appendChild(span);
+
+    const del = document.createElement('button');
+    del.textContent = 'Delete';
+    del.onclick = () => {
+      if (confirm(`Delete category "${cat}" and all its items?`)) {
+        // Delete all checked items and due dates related to category items
+        for (const item of state[cat]) {
+          delete checkedItems[item];
+          delete dueDates[item];
+        }
+        delete state[cat];
+        save();
+        render();
+      }
+    };
+    li.appendChild(del);
+    list.appendChild(li);
+  }
+
+  // Make categories sortable
+  new Sortable(list, {
+    animation: 150,
+    handle: '.drag-handle',
+    onEnd: evt => {
+      const keys = Object.keys(state);
+      const moved = keys.splice(evt.oldIndex, 1)[0];
+      keys.splice(evt.newIndex, 0, moved);
+
+      // Rebuild state with new order
+      const newState = {};
+      for (const k of keys) newState[k] = state[k];
+      state = newState;
+      save();
+      render();
+    }
+  });
+}
+
+function undoDelete() {
+  if (deletedStack.length === 0) return;
+  const last = deletedStack.pop();
+  if (!state[last.cat]) state[last.cat] = [];
+  state[last.cat].push(last.item);
+  if (last.checked) checkedItems[last.item] = true;
+  if (last.due) dueDates[last.item] = last.due;
+  save();
+  render();
 }
 
 function downloadBackup() {
-  const blob = new Blob([JSON.stringify({ state, checkedItems }, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "inventory_backup.json";
+  const backup = {
+    state,
+    checkedItems,
+    deletedStack,
+    dueDates,
+  };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
+  const a = document.createElement('a');
+  a.href = dataStr;
+  a.download = 'inventory_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  a.remove();
 }
 
-render();
+function importBackup() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = evt => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (data.state && data.checkedItems) {
+          state = data.state;
+          checkedItems = data.checkedItems;
+          deletedStack = data.deletedStack || [];
+          dueDates = data.dueDates || {};
+          save();
+          render();
+          alert('Backup imported successfully!');
+        } else {
+          alert('Invalid backup file.');
+        }
+      } catch {
+        alert('Error reading backup file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let y = 10;
+  doc.setFontSize(18);
+  doc.text('🏠 Smart Household Inventory', 10, y);
+  y += 10;
+  doc.setFontSize(12);
+
+  for (const [cat, items] of Object.entries(state)) {
+    if (items.length === 0) continue;
+    doc.setTextColor(40, 40, 40);
+    doc.setFont(undefined, 'bold');
+    doc.text(cat, 10, y);
+    y += 8;
+    doc.setFont(undefined, 'normal');
+    for (const item of items) {
+      if (y > 280) {
+        doc.addPage();
+        y = 10;
+      }
+      const checkedMark = checkedItems[item] ? '✅ ' : '⬜ ';
+      let dueStr = '';
+      if (dueDates[item]) dueStr = ' (Due: ' + formatDate(dueDates[item]) + ')';
+      doc.text(checkedMark + item + dueStr, 15, y);
+      y += 7;
+    }
+    y += 5;
+  }
+  doc.save('inventory.pdf');
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('darkMode', 'true');
+  } else {
+    localStorage.removeItem('darkMode');
+  }
+}
+
+function restoreDarkMode() {
+  if (localStorage.getItem('darkMode')) {
+    document.body.classList.add('dark');
+  }
+}
+
+function initSortable() {
+  document.querySelectorAll('.section ul').forEach(ul => {
+    new Sortable(ul, {
+      animation: 150,
+      handle: 'label',
+      onEnd: evt => {
+        const cat = evt.to.parentElement.querySelector('h2').textContent.replace(' ✅', '').trim();
+        if (!state[cat]) return;
+        const reordered = [];
+        evt.to.querySelectorAll('li label span:first-child').forEach(span => reordered.push(span.textContent));
+        // Because span textContent is item text
+        // Use label span to get item text instead of span textContent? Just grab li label span[1]
+        reordered.length = 0;
+        evt.to.querySelectorAll('li label span').forEach(span => reordered.push(span.textContent));
+        state[cat] = reordered;
+        save();
+        render();
+      }
+    });
+  });
+}
+
+window.onload = () => {
+  restoreDarkMode();
+  requestNotificationPermission();
+  render();
+  document.getElementById('undoBtn').disabled = deletedStack.length === 0;
+  setInterval(notifyDueTasks, 60000); // check every minute
+};
 </script>
 
 </body>
