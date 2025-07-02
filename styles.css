@@ -1,7 +1,7 @@
 :root {
   --bg: #f4f6f8;
   --fg: #333333;
-  --accent: #0078d7;   /* Windows blue vibe */
+  --accent: #0078d7;
   --accent-dark: #005a9e;
   --shadow-light: rgba(0,0,0,0.12);
   --light-bg: #ffffff;
@@ -21,18 +21,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
+  padding: 2rem 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#container, .add-form, .category-manager {
-  background: var(--light-bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px var(--shadow-light);
-  padding: 1.5rem 2rem;
-  width: 720px;  /* fixed width for desktop feel */
-  margin-bottom: 2rem;
   user-select: none;
 }
 
@@ -41,13 +32,15 @@ h1 {
   font-size: 2.4rem;
   color: var(--accent);
   margin-bottom: 1.5rem;
-  user-select: none;
   text-align: center;
+  width: 100%;
 }
 
 .topbar {
-  width: 720px;
+  width: 100%;
+  max-width: 720px;
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.75rem;
   justify-content: space-between;
@@ -61,6 +54,7 @@ input[type="text"], select, button {
   border: 1px solid #ccc;
   padding: 0.5rem 0.75rem;
   transition: all var(--transition);
+  box-sizing: border-box;
 }
 
 input[type="text"]:focus, select:focus {
@@ -75,10 +69,23 @@ button {
   border: none;
   cursor: pointer;
   font-weight: 600;
+  min-width: 100px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: var(--accent-dark);
+}
+
+#container, .add-form, .category-manager {
+  background: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--shadow-light);
+  padding: 1.5rem 2rem;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 .section ul {
@@ -151,19 +158,91 @@ li button:hover {
   background-color: #9a0007;
 }
 
-/* Sticky header */
+.add-form input[type="text"],
+.category-manager input[type="text"] {
+  width: 100%;
+  max-width: 240px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 0.45rem 0.6rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.add-form input[type="text"]:focus,
+.category-manager input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.category-list {
+  margin-top: 0.8rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.category-list li {
+  padding: 0.3rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-list li span {
+  flex: 1;
+  cursor: text;
+  outline: none;
+}
+
+.category-list li span:focus {
+  background: #f0fdfa;
+  border-radius: 4px;
+}
+
+.category-list li button {
+  background: #f4a261;
+  border: none;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.category-list li button:hover {
+  background: #db7c3a;
+}
+
+.toggle-dark {
+  background: #444;
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  min-width: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-dark:hover {
+  background: #666;
+}
+
+/* Sticky topbar */
 .topbar {
   position: sticky;
   top: 0;
   background: var(--light-bg);
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   box-shadow: 0 2px 8px var(--shadow-light);
   z-index: 10;
 }
 
 /* Dark mode */
 body.dark {
-  background: #1e1e1e;
+  background: var(--dark-bg);
   color: var(--dark-fg);
 }
 
@@ -180,11 +259,34 @@ body.dark li:hover {
   background-color: #3a3a3a;
 }
 
-/* Add subtle animations */
-li,
-button,
-input,
-select,
-.section h2 {
-  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+
+  #container, .add-form, .category-manager, .topbar {
+    width: 100%;
+    padding: 1rem 1rem;
+    max-width: 100%;
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .topbar input[type="text"], .topbar select, .topbar button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .section ul {
+    max-height: 300px;
+  }
+
+  .category-list {
+    max-height: 150px;
+  }
 }
