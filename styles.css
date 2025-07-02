@@ -8,9 +8,11 @@
   --danger: #e76f51;
   --warning: #f4a261;
   --shadow: rgba(0, 0, 0, 0.1);
-  --light-bg: #fff;
+  --light-bg: #ffffff;
   --dark-bg: #121212;
   --dark-fg: #ddd;
+  --gradient-bg: linear-gradient(to right, #f0f0f0, #fafafa);
+  --dark-gradient: linear-gradient(to right, #1a1a1a, #121212);
   --transition: 0.25s ease;
   --radius: 10px;
 }
@@ -21,7 +23,7 @@ html, body {
   padding: 0;
   overflow-y: auto;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--bg);
+  background: var(--gradient-bg);
   color: var(--fg);
   transition: background var(--transition), color var(--transition);
   font-size: 1rem;
@@ -29,7 +31,7 @@ html, body {
 }
 
 body.dark {
-  background: var(--dark-bg);
+  background: var(--dark-gradient);
   color: var(--dark-fg);
 }
 
@@ -41,6 +43,12 @@ h1 {
   user-select: none;
   color: var(--accent);
   letter-spacing: -0.02em;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
 }
 
 .topbar {
@@ -59,7 +67,6 @@ button {
   border-radius: var(--radius);
   border: 1.3px solid #ddd;
   background: var(--light-bg);
-  box-shadow: none;
   transition:
     border-color var(--transition),
     box-shadow var(--transition),
@@ -77,6 +84,11 @@ button:focus {
   outline-color: var(--accent);
 }
 
+input[type="text"]::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
 button {
   border: none;
   background: var(--accent);
@@ -84,23 +96,24 @@ button {
   font-weight: 700;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 3px 8px var(--shadow);
-  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.3);
+  transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.25s ease;
 }
 
 button:hover {
   background: var(--accent-hover);
-  box-shadow: 0 5px 12px rgba(42, 157, 143, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(42, 157, 143, 0.45);
 }
 
 button.danger {
   background: var(--danger);
-  box-shadow: 0 3px 8px rgba(231, 111, 81, 0.3);
+  box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
 }
 
 button.danger:hover {
   background: #cc5b3e;
-  box-shadow: 0 5px 12px rgba(204, 91, 62, 0.5);
+  box-shadow: 0 6px 14px rgba(204, 91, 62, 0.5);
 }
 
 select {
@@ -120,17 +133,20 @@ input[type="text"] {
 }
 
 .section {
-  background: var(--light-bg);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius);
   box-shadow: 0 4px 12px var(--shadow);
   margin-bottom: 1.8rem;
   padding: 1.2rem 1.5rem;
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
   overflow: hidden;
 }
 
 body.dark .section {
-  background: #1f1f1f;
+  background: rgba(32, 32, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.65);
 }
 
@@ -140,13 +156,30 @@ body.dark .section {
   margin: 0 0 1rem 0;
   font-weight: 700;
   font-size: 1.3rem;
-  border-bottom: 2px solid #eee;
   padding-bottom: 0.3rem;
   letter-spacing: -0.01em;
   transition: border-color var(--transition);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  border-bottom: 2px solid #eee;
+}
+
+.section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width var(--transition);
+}
+
+.section h2:hover::after {
+  width: 100%;
 }
 
 body.dark .section h2 {
@@ -272,6 +305,24 @@ li button:hover {
   cursor: pointer;
   transition: background-color 0.25s ease;
   user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-dark::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(0);
+  border-radius: 50%;
+  transition: transform 0.4s ease;
+}
+
+.toggle-dark:active::after {
+  transform: scale(4);
+  transition: transform 0.4s ease;
 }
 
 .toggle-dark:hover {
