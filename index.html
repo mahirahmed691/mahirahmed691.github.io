@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏠 Household Inventory</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 1rem; background: #f8f8f8; }
+    h1 { text-align: center; }
+    .section { background: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .section h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
+    label { display: flex; align-items: center; gap: 0.5rem; flex: 1; }
+    input[type="checkbox"] { transform: scale(1.2); }
+    button { background: #e74c3c; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #c0392b; }
+    .add-form { margin-top: 2rem; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    input, select { padding: 0.5rem; margin-right: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+    .add-btn { background: #27ae60; color: white; border: none; cursor: pointer; }
+    .add-btn:hover { background: #1e8449; }
+  </style>
+</head>
+<body>
+
+<h1>🏠 Household Inventory</h1>
+
+<div id="container"></div>
+
+<div class="add-form">
+  <h2>Add New Item</h2>
+  <input type="text" id="itemName" placeholder="Item name" />
+  <select id="categorySelect"></select>
+  <button class="add-btn" onclick="addItem()">Add</button>
+</div>
+
+<script>
+const STORAGE_KEY = 'inventory_v1';
+
+let inventory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+  "🏠 Household": ["🔪 Kitchen", "🧦 Sock holder", "💨 Dehumidifier", "🛍️ Bin bags", "Kitchen roll", "Floor cleaner"],
+  "🧻 Bathroom": ["Toilet roll"],
+  "📋 Household Tasks": ["🔔 Contact maintenance (fix bell)", "💡 Ring Mark (light bulbs)"],
+  "🛒 Groceries": [
+    "🥩 Mixed beans (tin)", "Tuna", "Chicken breast", "Eggs",
+    "🍞 Daal", "Bread", "Potatoes", "Wraps", "Crumpets", "Pasta",
+    "🥬 Spring onion", "Coriander 🌿", "Garlic 🧄", "Lemon 🍋", "Lime 🍋",
+    "🌶️ Panch phoron", "Bay leaves 🍃", "Cinnamon stick", "Cardamon", "Cajun", "Cayenne 🌶️",
+    "🧂 Sandwich filling", "Tomato purée 🍅", "Garlic and ginger paste",
+    "☕ Coffee", "Orange juice 🍊"
+  ],
+  "🐱 House Stuff": ["Cat biscuits", "Cat litter 🐱", "Bin Buddy 🗑️"]
+};
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+}
+
+function render() {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+
+  for (const [category, items] of Object.entries(inventory)) {
+    const section = document.createElement("div");
+    section.className = "section";
+    section.innerHTML = `<h2>${category}</h2><ul></ul>`;
+    const ul = section.querySelector("ul");
+
+    items.forEach((item, index) => {
+      const li = document.createElement("li");
+      const label = document.createElement("label");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+
+      checkbox.onchange = () => {
+        checkbox.checked ? li.style.textDecoration = "line-through" : li.style.textDecoration = "none";
+      };
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(item));
+
+      const del = document.createElement("button");
+      del.textContent = "Delete";
+      del.onclick = () => {
+        if (confirm(`Delete "${item}"?`)) {
+          inventory[category].splice(index, 1);
+          save();
+          render();
+        }
+      };
+
+      li.appendChild(label);
+      li.appendChild(del);
+      ul.appendChild(li);
+    });
+
+    container.appendChild(section);
+  }
+
+  populateCategories();
+}
+
+function populateCategories() {
+  const catSelect = document.getElementById("categorySelect");
+  catSelect.innerHTML = "";
+  for (const cat of Object.keys(inventory)) {
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    catSelect.appendChild(opt);
+  }
+}
+
+function addItem() {
+  const name = document.getElementById("itemName").value.trim();
+  const cat = document.getElementById("categorySelect").value;
+
+  if (!name || !cat) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  inventory[cat].push(name);
+  save();
+  render();
+  document.getElementById("itemName").value = "";
+}
+
+render();
+</script>
+
+</body>
+</html>
