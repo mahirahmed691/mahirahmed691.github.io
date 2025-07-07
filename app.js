@@ -247,13 +247,21 @@ function showGroupDetails(groupKey, tasks) {
 
       // DELETE button
       const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
+      delBtn.innerHTML = `
+           <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="white" viewBox="0 0 16 16" style="vertical-align: middle;">
+    <path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
+    <path d="M10.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
+    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.086a1 1 0 0 1 
+      .707.293l.707.707h3l.707-.707A1 1 0 0 1 11.414 2H14.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 
+      1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118z"/>
+  </svg>
+        `;
+
       delBtn.style.marginLeft = "10px";
-      delBtn.style.color = "white";
-      delBtn.style.backgroundColor = "#d9534f"; // bootstrap danger red
+      delBtn.style.backgroundColor = "blue"; // bootstrap danger red
       delBtn.style.border = "none";
       delBtn.style.borderRadius = "4px";
-      delBtn.style.padding = "2px 6px";
+      delBtn.style.padding = "4px 6px"; // a little padding for icon
       delBtn.style.cursor = "pointer";
 
       delBtn.onclick = (e) => {
@@ -416,13 +424,21 @@ function showGroupDetails(groupKey, tasks) {
 
       // Delete button
       const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
+      delBtn.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       width="20" height="20" fill="white" 
+       viewBox="0 0 16 16" 
+       style="vertical-align: middle;">
+    <path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
+    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.086a1 1 0 0 1 .707.293l.707.707h3l.707-.707A1 1 0 0 1 11.414 2H14.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118z"/>
+  </svg>
+`;
+
       delBtn.style.marginLeft = "10px";
-      delBtn.style.color = "white";
-      delBtn.style.backgroundColor = "#d9534f";
+      delBtn.style.backgroundColor = "#d9534f"; // bootstrap danger red
       delBtn.style.border = "none";
       delBtn.style.borderRadius = "4px";
-      delBtn.style.padding = "2px 6px";
+      delBtn.style.padding = "4px 12px"; // a little padding for icon
       delBtn.style.cursor = "pointer";
 
       delBtn.addEventListener("click", (e) => {

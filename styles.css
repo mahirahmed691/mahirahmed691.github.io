@@ -545,12 +545,12 @@ body.dark .category-manager {
   border-radius: var(--radius);
   padding: 18px 22px;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: .8em;
   cursor: pointer;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   user-select: none;
   transition: transform 0.25s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  color: white;
+  color: #fdfdfd !important;
 }
 
 .group-summary-card:hover {
