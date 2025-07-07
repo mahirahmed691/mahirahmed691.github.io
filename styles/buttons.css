@@ -1,0 +1,101 @@
+/* Buttons */
+
+button {
+    background: transparent;
+    color: var(--accent);
+    border: none;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    border-radius: var(--radius);
+}
+
+button:hover {
+    background-color: transparent;
+    color: var(--light-bg);
+}
+
+button:focus {
+    outline: none !important;
+}
+
+/* Danger button */
+
+button.danger {
+    background: transparent;
+    color: var(--danger);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+button.danger:hover {
+    background: rgba(255, 82, 82, 0.15);
+    color: #d94343;
+    box-shadow: 0 4px 10px rgba(217, 67, 67, 0.4);
+}
+
+/* Back button */
+
+.back-button {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.25s ease;
+    outline: none;
+    box-shadow: none;
+    text-align: left;
+}
+
+.back-button:hover {
+    color: var(--accent-hover);
+}
+
+.back-button::before {
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: inline-block;
+    margin-right: 6px;
+    color: inherit;
+}
+
+/* Toggle dark mode button */
+
+.toggle-dark {
+    background: #555;
+    color: white;
+    padding: 0.55rem 1.25rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--shadow);
+    user-select: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle-dark:hover {
+    background: #3e8e7a;
+    box-shadow: 0 6px 14px var(--shadow-hover);
+}
+
+.toggle-dark:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}

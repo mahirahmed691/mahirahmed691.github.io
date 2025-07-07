@@ -1,0 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    letter-spacing: 0.015em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+}
+
+/* Headings */
+h1 {
+    font-weight: 900;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 5px var(--accent);
+    text-align: center;
+    margin: 1.5rem 0 2rem;
+    user-select: none;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.section h2 {
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fg);
+    user-select: none;
+    margin: 0 0 1rem;
+    line-height: 1.25;
+}
+
+body.dark .section h2 {
+    border-color: transparent;
+}
+
+/* Hidden utility class */
+.hidden {
+    display: none !important;
+}

@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+:root {
+    --bg: #f9f9f9;
+    --fg: #222;
+    --accent: #2a9d8f;
+    --accent-hover: #23867a;
+    --danger: #ff5252;
+    --light-bg: #fff;
+    --dark-bg: #121212;
+    --dark-fg: #eee;
+    --radius: 12px;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+}

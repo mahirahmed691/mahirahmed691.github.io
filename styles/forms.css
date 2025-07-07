@@ -1,0 +1,96 @@
+/* Forms */
+
+.add-form,
+.category-manager {
+    max-width: 95vw;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--light-bg);
+    border-radius: var(--radius);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+body.dark .add-form,
+body.dark .category-manager {
+    background: var(--dark-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    border: none;
+}
+
+.add-form h2,
+.category-manager h2 {
+    font-size: 2.25rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    user-select: none;
+}
+
+.category-manager ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.category-manager li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem 0;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.category-manager li:hover {
+    background-color: #e0f3f1;
+}
+
+/* Inputs, selects, buttons */
+
+input[type="text"],
+select,
+button {
+    font-size: 1.05rem;
+    padding: 0.75rem 1.5rem;
+    color: inherit;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+    user-select: none;
+    border-radius: var(--radius);
+    border: 2px solid #ddd;
+}
+
+input[type="text"]::placeholder {
+    color: #999;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+}
+
+input[type="text"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    background-color: #f0fdfa;
+}
+
+select {
+    min-width: 180px;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    width: 260px;
+}

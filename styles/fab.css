@@ -1,0 +1,70 @@
+/* FAB container positioning */
+
+.fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Floating Action Button (FAB) */
+
+.fab {
+    width: 56px;
+    height: 56px;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 50%;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(42, 157, 143, 0.4);
+    transition: background-color 0.25s ease;
+}
+
+.fab:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 6px 14px rgba(35, 134, 122, 0.5);
+}
+
+/* FAB menu */
+
+.fab-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--light-bg);
+    padding: 12px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+}
+
+.fab-menu.hidden {
+    display: none;
+}
+
+/* FAB menu buttons */
+
+.fab-menu button {
+    font-size: 1rem;
+    padding: 10px 14px;
+    background: #f4f4f4;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: none;
+}
+
+.fab-menu button:hover {
+    background: #e0e0e0;
+}

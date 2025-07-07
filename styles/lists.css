@@ -1,0 +1,131 @@
+/* List items */
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.5rem;
+    border-bottom: 1px solid #eee;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+}
+
+body.dark li {
+    border-color: #444;
+}
+
+li:hover {
+    background-color: #f0f9f8;
+}
+
+body.dark li:hover {
+    background-color: #2a3a35;
+}
+
+li label {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+li label span {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li label input[type="checkbox"] {
+    transform: scale(1.25);
+    cursor: pointer;
+    accent-color: var(--accent);
+    transition: accent-color 0.3s ease;
+}
+
+li button {
+    flex: 0 0 2.75rem;
+    height: 2.75rem;
+    font-size: 1.3rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+li button:hover {
+    background-color: rgba(255, 82, 82, 0.15);
+    color: #ff0000;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
+
+/* Sub info text */
+
+.task-subinfo {
+    font-style: italic;
+    color: #888;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    margin-left: 24px;
+    /* align with checkbox */
+}
+
+/* Scrollbars for sections */
+
+.section ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+    transition: max-height 0.3s ease;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.section ul::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.section ul::-webkit-scrollbar-thumb {
+    background-color: var(--accent);
+    border-radius: 5px;
+}
+
+.section ul::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Category manager list */
+
+.category-manager ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.category-manager li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem 0;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.category-manager li:hover {
+    background-color: #e0f3f1;
+}

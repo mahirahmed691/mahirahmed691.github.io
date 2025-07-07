@@ -1,0 +1,55 @@
+/* Group Summary Cards */
+
+.group-summary-card {
+    border-radius: var(--radius);
+    margin-top: 20px;
+    padding: 18px 22px;
+    font-weight: 700;
+    font-size: 0.8em;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    user-select: none;
+    transition: transform 0.25s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    color: #fdfdfd !important;
+}
+
+.group-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+
+}
+
+.group-summary-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Colors for groups */
+.stat-today {
+    background: #93c5fd;
+    /* soft sky blue */
+    color: #1e3a8a;
+    /* dark blue */
+}
+
+.stat-scheduled {
+    background: #6ee7b7;
+    /* light mint green */
+    color: #065f46;
+    /* dark green */
+}
+
+.stat-overdue {
+    background: #fca5a5;
+    /* pastel red/pink */
+    color: #7f1d1d;
+    /* dark red */
+}
+
+.stat-all {
+    background: #c4b5fd;
+    /* soft lavender */
+    color: #5b21b6;
+    /* dark purple */
+}

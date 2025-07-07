@@ -1,0 +1,23 @@
+/* List item hover and selected states */
+
+li:hover {
+  background-color: #f0f9f8;
+}
+
+body.dark li:hover {
+  background-color: #2a3a35;
+}
+
+/* Add selected or active class styles */
+
+li.selected,
+li.active {
+  background-color: var(--accent);
+  color: var(--light-bg);
+}
+
+body.dark li.selected,
+body.dark li.active {
+  background-color: var(--accent-hover);
+  color: var(--light-bg);
+}
