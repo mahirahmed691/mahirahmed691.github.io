@@ -14,33 +14,55 @@
 </head>
 <body>
 
-  <h1>HomeHive</h1>
-
+  <!-- Topbar -->
   <div class="topbar">
-    <input class="searchCategory" type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
-    <select id="taskFilter" onchange="render()">
-      <option value="all">Show: All Items</option>
-      <option value="due">Due Soon / Overdue Tasks</option>
-      <option value="overdue">Overdue Tasks Only</option>
-    </select>
-    <button onclick="toggleDarkMode()" class="toggle-dark" title="Toggle dark mode">🌓</button>
+    <div class="topbar-left">
+      <img src="./assets/logo.png" alt="HomeHive Logo" width="auto" height="60" />
+    </div>
+
+    <div class="topbar-center">
+      <input class="searchCategory" type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
+    </div>
+
+    <div class="topbar-right">
+      <label class="switch" title="Toggle dark mode">
+        <input type="checkbox" id="darkModeSwitch" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
   </div>
 
+  <!-- Main container -->
   <div id="container"></div>
 
-  <div class="add-form">
-    <h2>Add New Item</h2>
-    <input class="searchCategory" type="text" id="itemName" placeholder="Item name" />
-    <select id="categorySelect"></select>
-    <button onclick="addItem()">Add</button>
+  <!-- FAB + Menu -->
+ <div class="fab-container">
+  <div class="fab" onclick="toggleFabMenu()">＋</div>
+  <div id="fabMenu" class="fab-menu hidden">
+    <button onclick="openCategoryModal()">➕ Create Category</button>
+    <button onclick="openTaskModal()">📝 Add Task to Category</button>
   </div>
+</div>
 
-  <div class="category-manager">
-    <h2>Manage Categories</h2>
-    <input class="searchCategory" type="text" id="newCategoryName" placeholder="New category name" />
-    <button onclick="addCategory()">Add Category</button>
-    <ul class="category-list" id="categoryList"></ul>
+
+ <!-- Modal Overlay -->
+<div id="modalOverlay" class="modal-overlay hidden"></div>
+
+<!-- Modal Container -->
+<div id="modal" class="modal hidden">
+  <h2 id="modalTitle"></h2>
+  
+  <div id="modalContent">
+    <!-- Dynamic content goes here -->
   </div>
+  
+  <div class="modal-buttons">
+    <button id="modalCancelBtn">Cancel</button>
+    <button id="modalSubmitBtn">Add</button>
+  </div>
+</div>
+
 
   <script src="app.js"></script>
 
