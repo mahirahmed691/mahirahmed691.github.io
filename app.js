@@ -76,241 +76,83 @@ function renderGroupSummaryCard(container, title, tasks, cssClass) {
 }
 
 function renderCategorySections(container) {
-  for (const item of state[cat]) {
-    const li = document.createElement("li");
-
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = !!checkedItems[item];
-
-    checkbox.onclick = (event) => event.stopPropagation();
-    checkbox.onchange = (event) => {
-      event.stopPropagation();
-      if (checkbox.checked) checkedItems[item] = true;
-      else delete checkedItems[item];
-      save();
-      render();
-    };
-
-    label.appendChild(checkbox);
-
-    const span = document.createElement("span");
-    span.textContent = item;
-    label.appendChild(span);
-
-    li.appendChild(label);
-
-    // 🟢 ADD: Set Due Date button
-    const setDueBtn = document.createElement("button");
-    setDueBtn.textContent = "📅";
-    setDueBtn.title = "Set due date";
-    setDueBtn.style.marginLeft = "0.5em";
-    setDueBtn.onclick = () => {
-      const current = dueDates[item] || "";
-      const newDate = prompt(
-        `Enter due date for "${item}" (YYYY-MM-DD):`,
-        current
-      );
-      if (!newDate) return;
-
-      const isValid = /^\d{4}-\d{2}-\d{2}$/.test(newDate);
-      if (!isValid) {
-        alert("Invalid date format. Use YYYY-MM-DD.");
-        return;
-      }
-
-      dueDates[item] = newDate;
-      save();
-      render();
-    };
-    li.appendChild(setDueBtn);
-
-    ul.appendChild(li);
-  }
-}
-
-function showGroupDetails(groupKey, tasks) {
-  const container = document.getElementById("container");
-  container.innerHTML = "";
-
-  const backLabels = {
-    all: "All Tasks List",
-    scheduled: "Scheduled List",
-    today: "Today's List",
-    overdue: "Overdue List",
-  };
-  const backLabel = backLabels[groupKey] || "All Tasks List";
-
-  const backBtn = document.createElement("button");
-  backBtn.className = "back-button";
-  backBtn.textContent = `← ${backLabel}`;
-  backBtn.onclick = () => render();
-  container.appendChild(backBtn);
-
-  if (tasks.length === 0) {
-    const empty = document.createElement("p");
-    empty.textContent = "No tasks in this group.";
-    container.appendChild(empty);
-    return;
-  }
-
-  // Group tasks by category
-  const tasksByCategory = {};
-  for (const task of tasks) {
-    if (!tasksByCategory[task.cat]) tasksByCategory[task.cat] = [];
-    tasksByCategory[task.cat].push(task);
-  }
-
-  for (const cat of Object.keys(tasksByCategory)) {
-    const section = document.createElement("section");
-    section.className = "category-section";
-
-    // Header container
-    const header = document.createElement("div");
-    header.style.display = "flex";
-    header.style.alignItems = "center";
-    header.style.userSelect = "none";
-    header.style.marginBottom = "0.5em";
-    header.style.cursor = "default"; // no pointer on header container itself
-
-    // Arrow
-    const arrow = document.createElement("span");
-    arrow.textContent = "▶"; // right triangle
-    arrow.style.cursor = "pointer";
-    arrow.style.transition = "transform 0.2s ease";
-    arrow.style.marginRight = "8px";
-    arrow.style.userSelect = "none";
-
-    // Category title text
-    const titleSpan = document.createElement("span");
-    titleSpan.textContent = cat;
-    titleSpan.style.flexGrow = "1";
-    titleSpan.style.pointerEvents = "none";
-
-    // Append arrow and title to header
-    header.appendChild(arrow);
-    header.appendChild(titleSpan);
-
-    section.appendChild(header);
-
-    // Tasks list
-    const ul = document.createElement("ul");
-    ul.style.marginLeft = "1.5em";
-    ul.style.display = "none";
-
-    for (const { item, due, checked } of tasksByCategory[cat]) {
+  for (const cat in state) {
+    for (const item of state[cat]) {
       const li = document.createElement("li");
-      const label = document.createElement("label");
 
+      const label = document.createElement("label");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.checked = checked;
+      checkbox.checked = !!checkedItems[item];
 
-      checkbox.addEventListener("click", (e) => e.stopPropagation());
-      label.addEventListener("click", (e) => e.stopPropagation());
-
-      checkbox.onchange = () => {
+      checkbox.onclick = (event) => event.stopPropagation();
+      checkbox.onchange = (event) => {
+        event.stopPropagation();
         if (checkbox.checked) checkedItems[item] = true;
         else delete checkedItems[item];
         save();
-        showGroupDetails(groupKey, tasks);
+        render();
       };
 
       label.appendChild(checkbox);
 
-      // Task name span
-      const taskNameSpan = document.createElement("span");
-      taskNameSpan.textContent = ` ${item} `;
-      label.appendChild(taskNameSpan);
-
-      // Due date input
-      const dueInput = document.createElement("input");
-      dueInput.type = "date";
-      dueInput.value = due || "";
-      dueInput.style.marginLeft = "8px";
-      dueInput.title = "Set due date";
-
-      dueInput.onchange = () => {
-        if (dueInput.value) {
-          dueDates[item] = dueInput.value;
-        } else {
-          delete dueDates[item];
-        }
-        save();
-        showGroupDetails(groupKey, tasks);
-      };
-
-      label.appendChild(dueInput);
+      const span = document.createElement("span");
+      span.textContent = item;
+      label.appendChild(span);
 
       li.appendChild(label);
 
-      // DELETE button
-      const delBtn = document.createElement("button");
-      delBtn.innerHTML = `
-           <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="white" viewBox="0 0 16 16" style="vertical-align: middle;">
-    <path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
-    <path d="M10.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
-    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.086a1 1 0 0 1 
-      .707.293l.707.707h3l.707-.707A1 1 0 0 1 11.414 2H14.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 
-      1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118z"/>
-  </svg>
-        `;
+      // 🟢 ADD: Set Due Date button
+      const setDueBtn = document.createElement("button");
+      setDueBtn.textContent = "📅";
+      setDueBtn.title = "Set due date";
+      setDueBtn.style.marginLeft = "0.5em";
+      setDueBtn.onclick = () => {
+        const current = dueDates[item] || "";
+        const newDate = prompt(
+          `Enter due date for "${item}" (YYYY-MM-DD):`,
+          current
+        );
+        if (!newDate) return;
 
-      delBtn.style.marginLeft = "10px";
-      delBtn.style.backgroundColor = "blue"; // bootstrap danger red
-      delBtn.style.border = "none";
-      delBtn.style.borderRadius = "4px";
-      delBtn.style.padding = "4px 6px"; // a little padding for icon
-      delBtn.style.cursor = "pointer";
-
-      delBtn.onclick = (e) => {
-        e.stopPropagation();
-
-        // Confirm delete
-        if (
-          confirm(
-            `Are you sure you want to delete task "${item}" from category "${cat}"?`
-          )
-        ) {
-          // Remove from category array
-          const idx = state[cat].indexOf(item);
-          if (idx > -1) state[cat].splice(idx, 1);
-
-          // Remove from checkedItems and dueDates if present
-          delete checkedItems[item];
-          delete dueDates[item];
-
-          save();
-
-          // Refresh view with updated data
-          showGroupDetails(
-            groupKey,
-            tasks.filter((t) => t.item !== item)
-          );
+        const isValid = /^\d{4}-\d{2}-\d{2}$/.test(newDate);
+        if (!isValid) {
+          alert("Invalid date format. Use YYYY-MM-DD.");
+          return;
         }
-      };
 
-      li.appendChild(delBtn);
+        dueDates[item] = newDate;
+        save();
+        render();
+      };
+      li.appendChild(setDueBtn);
 
       ul.appendChild(li);
     }
-
-    section.appendChild(ul);
-
-    arrow.onclick = (e) => {
-      e.stopPropagation();
-      const isCollapsed = ul.style.display === "none";
-      ul.style.display = isCollapsed ? "block" : "none";
-      arrow.style.transform = isCollapsed ? "rotate(90deg)" : "rotate(0deg)";
-    };
-
-    header.onclick = (e) => e.stopPropagation();
-
-    container.appendChild(section);
   }
 }
+
+function getRandomPastelColor(seed) {
+  const pastelColors = [
+    "#d1fae5",
+    "#fecaca",
+    "#e0f2fe",
+    "#fef9c3",
+    "#ede9fe",
+    "#fcd5ce",
+    "#e7e5e4",
+  ];
+  const hash = [...seed].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return pastelColors[hash % pastelColors.length];
+}
 function showGroupDetails(groupKey, tasks) {
+  const categoryColors = {
+    work: "#fef9c3",
+    personal: "#e0f2fe",
+    shopping: "#fecaca",
+    // add your categories here
+  };
+
   const container = document.getElementById("container");
   container.innerHTML = "";
 
@@ -345,6 +187,10 @@ function showGroupDetails(groupKey, tasks) {
   for (const cat of Object.keys(tasksByCategory)) {
     const section = document.createElement("section");
     section.className = "category-section";
+
+    const color =
+      categoryColors[cat.toLowerCase()] || getRandomPastelColor(cat);
+    section.style.setProperty("--card-bg", color);
 
     // Header container
     const header = document.createElement("div");
