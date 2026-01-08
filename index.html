@@ -410,6 +410,16 @@ const FRAGRANCE_DNA = {
   "Bath & Body Works Dream Bright":{aliases:["dream bright"],original:"Valentino Donna Born In Roma",dna:["vanilla berry","pink florals","amber musk"],rationale:"Vanilla-berry floral sweetness matches Born In Roma.",tiers:[{name:"Valentino Donna Born In Roma",type:"original",priceTier:"designer"}]}
 };
 
+const FRAGRANCE_INDEX = {};
+
+Object.entries(FRAGRANCE_DNA).forEach(([name,data])=>{
+  FRAGRANCE_INDEX[normaliseKey(name)] = { name, data };
+  (data.aliases || []).forEach(a=>{
+    FRAGRANCE_INDEX[normaliseKey(a)] = { name, data };
+  });
+});
+
+
 
 // Optional: accord keywords that can steer matching if user adds "extra info"
 const ACCORD_HINTS = [
@@ -420,6 +430,13 @@ const ACCORD_HINTS = [
   { key: "oud for greatness", targets: ["Lattafa Oud for Glory"] },
   { key: "tuscan leather", targets: ["Maison Alhambra Toscano Leather"] }
 ];
+
+function normaliseKey(str){
+  return (str || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
+}
+
 
 // --- UI ---
 (() => {
@@ -490,49 +507,39 @@ const ACCORD_HINTS = [
     return uniq(hits);
   }
 
-  function findMatch(input, extra, mode) {
-    const cands = candidatesFromLibrary();
+  function findMatch(input, extra, mode){
+  const key = normaliseKey(input);
 
-    if (mode === "strict") {
-      const exact = cands.find(c => norm(c.name) === norm(input) || c.aliases.some(a => norm(a) === norm(input)));
-      if (exact) return { match: exact, confidence: 1, method: "strict exact" };
-      return null;
-    }
-
-    // Smart mode: alias contains + fuzzy token overlap + accord hint boost
-    const inputN = norm(input);
-    const hintKeys = applyAccordHints(extra);
-
-    let best = null;
-
-    for (const c of cands) {
-      const namesToCheck = [c.name, ...c.aliases];
-      let score = 0;
-
-      // Contains match
-      for (const n of namesToCheck) {
-        const nn = norm(n);
-        if (!nn) continue;
-        if (inputN.includes(nn) || nn.includes(inputN)) score = Math.max(score, 0.85);
-      }
-
-      // Token overlap
-      for (const n of namesToCheck) {
-        score = Math.max(score, tokenSetScore(inputN, n));
-      }
-
-      // Accord hint boost
-      if (hintKeys.includes(c.key)) score = Math.max(score, score + 0.25);
-
-      if (!best || score > best.score) best = { cand: c, score };
-    }
-
-    if (!best || best.score < 0.35) return null;
-
-    const confidence = Math.min(1, best.score);
-    const method = confidence >= 0.85 ? "alias/contains" : "fuzzy token overlap";
-    return { match: best.cand, confidence, method };
+  if(mode === "strict"){
+    return FRAGRANCE_INDEX[key]
+      ? { match:{ name:FRAGRANCE_INDEX[key].name, data:FRAGRANCE_INDEX[key].data }, confidence:1, method:"strict exact" }
+      : null;
   }
+
+  if(FRAGRANCE_INDEX[key]){
+    return { match:{ name:FRAGRANCE_INDEX[key].name, data:FRAGRANCE_INDEX[key].data }, confidence:0.95, method:"alias match" };
+  }
+
+  // fuzzy fallback
+  let best = null;
+
+  Object.entries(FRAGRANCE_INDEX).forEach(([k,v])=>{
+    const score = tokenSetScore(input, v.name);
+    if(!best || score > best.score){
+      best = { score, cand:v };
+    }
+  });
+
+  if(!best || best.score < 0.3) return null;
+
+  return {
+    match:{ name:best.cand.name, data:best.cand.data },
+    confidence: Math.min(0.85, best.score),
+    method:"fuzzy token overlap"
+  };
+}
+
+ 
 
   function render(matchObj, input) {
     const { match, confidence, method } = matchObj;
