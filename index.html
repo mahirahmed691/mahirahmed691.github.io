@@ -1,71 +1,950 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HomeHive</title>
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <!-- SortableJS for drag/drop -->
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <title>Scent Scribe — Fragrance Note Describer</title>
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --panel:#12141b;
+      --panel2:#0f1117;
+      --text:#e9eef7;
+      --muted:#a8b3c7;
+      --accent:#6ee7ff;
+      --accent2:#a78bfa;
+      --danger:#ff6b6b;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(110,231,255,.15), transparent 55%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(167,139,250,.15), transparent 55%),
+                  linear-gradient(180deg, #090a0e, var(--bg));
+      color:var(--text);
+      min-height:100vh;
+    }
+    header{
+      padding:28px 18px 18px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    h1{
+      margin:0 0 6px;
+      font-weight:750;
+      letter-spacing:.2px;
+      font-size:clamp(22px, 3vw, 34px);
+    }
+    .sub{
+      color:var(--muted);
+      margin:0;
+      line-height:1.5;
+      max-width:70ch;
+    }
+    main{
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 18px 36px;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 940px){
+      main{ grid-template-columns: 1.05fr .95fr; align-items:start; }
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd .ttl{
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+    .card .bd{
+      padding:16px;
+    }
+    label{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin:12px 0 6px;
+    }
+    input[type="text"], textarea, select{
+      width:100%;
+      background: rgba(10,12,18,.7);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      outline:none;
+      transition:.15s border-color ease, .15s transform ease;
+    }
+    textarea{ min-height:84px; resize:vertical; }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(110,231,255,.45);
+      transform: translateY(-1px);
+    }
+    .row{
+      display:grid;
+      gap:10px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 560px){
+      .row.two{ grid-template-columns: 1fr 1fr; }
+      .row.three{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+    button{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:650;
+      letter-spacing:.2px;
+      transition:.15s transform ease, .15s opacity ease, .15s filter ease;
+      background: rgba(110,231,255,.12);
+      color:var(--text);
+      border:1px solid rgba(110,231,255,.25);
+    }
+    button:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    button:active{ transform: translateY(0px); opacity:.9; }
+    button.primary{
+      background: linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25));
+      border-color: rgba(255,255,255,.18);
+    }
+    button.ghost{
+      background: transparent;
+      border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .pill{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      background: rgba(0,0,0,.15);
+      white-space:nowrap;
+    }
+    .out{
+      white-space:pre-wrap;
+      line-height:1.7;
+      font-size:15px;
+    }
+    .meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+      margin:10px 0 0;
+    }
+    .warn{
+      color: #ffd28a;
+      font-size:13px;
+      margin-top:10px;
+    }
+    .small{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .divider{
+      height:1px;
+      background: var(--border);
+      margin:14px 0;
+    }
+    .toast{
+      position:fixed;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background: rgba(15,17,23,.92);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding:10px 12px;
+      border-radius:12px;
+      color:var(--text);
+      opacity:0;
+      pointer-events:none;
+      transition: .18s ease;
+      max-width:min(520px, calc(100% - 24px));
+    }
+    .toast.show{ opacity:1; }
+    .kbd{
+      font-family:var(--mono);
+      font-size:12px;
+      border:1px solid var(--border);
+      padding:2px 6px;
+      border-radius:8px;
+      background: rgba(0,0,0,.22);
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Scent Scribe</h1>
+    <p class="sub">
+      Turn fragrance notes into vivid, non-generic descriptions. The generator uses a small imagery engine,
+      varied sentence structures, and avoids robotic filler.
+    </p>
+  </header>
 
-  <!-- Topbar -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <img src="./assets/logo.png" alt="HomeHive Logo" width="auto" height="60" />
-    </div>
+  <main>
+    <section class="card">
+      <div class="hd">
+        <div class="ttl">Inputs</div>
+        <div class="pill" id="statusPill">Draft not saved</div>
+      </div>
+      <div class="bd">
+        <div class="row two">
+          <div>
+            <label for="name">Fragrance name (optional)</label>
+            <input id="name" type="text" placeholder="e.g., Nocturne Citrus" />
+          </div>
+          <div>
+            <label for="audience">Voice / audience</label>
+            <select id="audience">
+              <option value="editorial">Editorial (magazine-style)</option>
+              <option value="luxury">Luxury boutique</option>
+              <option value="casual">Casual enthusiast</option>
+              <option value="poetic">Poetic / atmospheric</option>
+              <option value="minimal">Minimal, crisp</option>
+            </select>
+          </div>
+        </div>
 
-    <div class="topbar-center">
-      <input class="searchCategory" type="text" id="searchInput" placeholder="Search items..." oninput="render()" />
-    </div>
+        <label for="notes">Notes (comma-separated)</label>
+        <textarea id="notes" placeholder="e.g., bergamot, black tea, iris, cedar, ambroxan, vanilla"></textarea>
+        <div class="small">Tip: list top / heart / base in one line; the app will infer roles where possible.</div>
 
-    <div class="topbar-right">
-      <label class="theme-toggle" title="Toggle dark mode">
-        <input type="checkbox" id="darkModeSwitch" />
-        <span class="slider"></span>
-      </label>
-    </div>
+        <div class="row three">
+          <div>
+            <label for="mood">Mood</label>
+            <select id="mood">
+              <option value="confident">Confident</option>
+              <option value="mysterious">Mysterious</option>
+              <option value="comforting">Comforting</option>
+              <option value="bright">Bright</option>
+              <option value="sensual">Sensual</option>
+              <option value="quiet">Quiet / intimate</option>
+              <option value="clean">Clean / airy</option>
+            </select>
+          </div>
+          <div>
+            <label for="season">Season / setting</label>
+            <select id="season">
+              <option value="any">Anytime</option>
+              <option value="spring">Spring</option>
+              <option value="summer">Summer</option>
+              <option value="autumn">Autumn</option>
+              <option value="winter">Winter</option>
+              <option value="night">Night out</option>
+              <option value="office">Office-friendly</option>
+            </select>
+          </div>
+          <div>
+            <label for="persona">Persona</label>
+            <select id="persona">
+              <option value="unisex">Unisex</option>
+              <option value="masculine-leaning">Masculine-leaning</option>
+              <option value="feminine-leaning">Feminine-leaning</option>
+            </select>
+          </div>
+        </div>
 
-  </div>
+        <div class="row two">
+          <div>
+            <label for="projection">Projection</label>
+            <select id="projection">
+              <option value="soft">Soft</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="bold">Bold</option>
+            </select>
+          </div>
+          <div>
+            <label for="longevity">Longevity</label>
+            <select id="longevity">
+              <option value="short">3–5 hours</option>
+              <option value="medium" selected>6–8 hours</option>
+              <option value="long">9–12+ hours</option>
+            </select>
+          </div>
+        </div>
 
-  <!-- Main container -->
-  <div id="container"></div>
+        <label for="avoid">Words/phrases to avoid (comma-separated)</label>
+        <input id="avoid" type="text" placeholder="e.g., luxurious, unique, long-lasting, compliments" />
 
-  <!-- FAB + Menu -->
- <div class="fab-container">
-  <div class="fab" onclick="toggleFabMenu()">＋</div>
-  <div id="fabMenu" class="fab-menu hidden">
-    <button onclick="openCategoryModal()">➕ Create Category</button>
-    <button onclick="openTaskModal()">📝 Add Task to Category</button>
-  </div>
-</div>
+        <div class="btns">
+          <button class="primary" id="generateBtn">Generate description</button>
+          <button id="shuffleBtn">Shuffle phrasing</button>
+          <button class="ghost" id="exampleBtn">Load example</button>
+          <button class="ghost" id="saveBtn">Save draft</button>
+          <button class="ghost" id="clearBtn">Clear</button>
+        </div>
 
+        <p class="hint">
+          Shortcuts: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> generates, and
+          <span class="kbd">Ctrl</span> + <span class="kbd">S</span> saves the draft.
+        </p>
+      </div>
+    </section>
 
- <!-- Modal Overlay -->
-<div id="modalOverlay" class="modal-overlay hidden"></div>
+    <section class="card">
+      <div class="hd">
+        <div class="ttl">Output</div>
+        <div class="pill" id="qualityPill">Ready</div>
+      </div>
+      <div class="bd">
+        <div class="out" id="output">
+Paste your notes, then click “Generate description”.
+        </div>
 
-<!-- Modal Container -->
-<div id="modal" class="modal hidden">
-  <h2 id="modalTitle"></h2>
-  
-  <div id="modalContent">
-    <!-- Dynamic content goes here -->
-  </div>
-  
-  <div class="modal-buttons">
-    <button id="modalCancelBtn">Cancel</button>
-    <button id="modalSubmitBtn">Add</button>
-  </div>
-</div>
+        <div class="divider"></div>
 
+        <div class="btns">
+          <button class="primary" id="copyBtn">Copy</button>
+          <button id="regenerateBtn">Regenerate (same inputs)</button>
+        </div>
 
- <script type="module" src="app.js"></script>
+        <div class="meta" id="meta"></div>
 
+        <p class="warn" id="warn" style="display:none;"></p>
+      </div>
+    </section>
+  </main>
 
+  <div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const els = {
+    name: $("name"),
+    notes: $("notes"),
+    audience: $("audience"),
+    mood: $("mood"),
+    season: $("season"),
+    persona: $("persona"),
+    projection: $("projection"),
+    longevity: $("longevity"),
+    avoid: $("avoid"),
+    output: $("output"),
+    meta: $("meta"),
+    warn: $("warn"),
+    statusPill: $("statusPill"),
+    qualityPill: $("qualityPill"),
+    toast: $("toast"),
+    generateBtn: $("generateBtn"),
+    regenerateBtn: $("regenerateBtn"),
+    shuffleBtn: $("shuffleBtn"),
+    exampleBtn: $("exampleBtn"),
+    saveBtn: $("saveBtn"),
+    clearBtn: $("clearBtn"),
+    copyBtn: $("copyBtn")
+  };
+
+  // ----- Utility -----
+  const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+  const uniq = (arr) => Array.from(new Set(arr));
+  const clean = (s) => (s || "").trim();
+  const splitCSV = (s) => uniq(
+    (s || "")
+      .split(",")
+      .map(x => x.trim())
+      .filter(Boolean)
+  );
+
+  const toast = (msg) => {
+    els.toast.textContent = msg;
+    els.toast.classList.add("show");
+    setTimeout(() => els.toast.classList.remove("show"), 1600);
+  };
+
+  // Avoid robotic filler: we actively reject these phrases unless user wants them
+  const BANNED_GENERIC = [
+    "luxurious", "unique", "timeless", "sophisticated", "high-quality",
+    "perfect for any occasion", "crowd-pleaser", "compliment getter",
+    "turns heads", "must-have", "elegant blend", "masterfully crafted",
+    "long-lasting", "projects well", "versatile", "signature scent"
+  ];
+
+  // Note classification (simple heuristic)
+  const NOTE_FAMILIES = {
+    citrus: ["bergamot","lemon","lime","orange","grapefruit","mandarin","yuzu","citron","neroli","petitgrain"],
+    fruity: ["apple","pear","peach","apricot","plum","fig","blackcurrant","currant","raspberry","strawberry","pineapple","mango","melon","lychee"],
+    aromatic: ["lavender","rosemary","sage","basil","thyme","mint","shiso","clary sage"],
+    green: ["galbanum","violet leaf","grass","tea leaf","matcha","leafy greens","green tea"],
+    floral: ["rose","jasmine","iris","violet","tuberose","ylang-ylang","lily","orange blossom","osmanthus","magnolia","peony","heliotrope"],
+    spicy: ["pepper","pink pepper","cardamom","cinnamon","clove","nutmeg","ginger","saffron","cumin"],
+    woody: ["cedar","sandalwood","vetiver","patchouli","oakmoss","pine","cypress","guaiac wood","cashmeran"],
+    resin: ["incense","olibanum","frankincense","myrrh","benzoin","labdanum","amber"],
+    gourmand: ["vanilla","tonka","cacao","chocolate","caramel","honey","praline","coffee","almond"],
+    musk: ["musk","white musk","ambroxan","ambergris","iso e super","clean musk"],
+    leather: ["leather","suede","tobacco","birch tar"],
+    aquatic: ["sea salt","marine notes","calone","ozone","water notes"]
+  };
+
+  const IMAGERY = {
+    citrus: {
+      verbs: ["sparks", "flashes", "fizzes", "skims", "lifts"],
+      images: ["a clean peel snap", "sunlit zest on fingertips", "a bright edge of daylight", "a chilled citrus spritz"],
+      textures: ["crisp", "shimmering", "effervescent", "bright-edged"]
+    },
+    floral: {
+      verbs: ["unfurls", "floats", "softens", "glows", "breathes"],
+      images: ["petals warmed by skin", "a pressed bouquet in a book", "powdered silk", "a quiet bloom at dusk"],
+      textures: ["silken", "powdery", "velvet-soft", "dewy"]
+    },
+    woody: {
+      verbs: ["grounds", "threads", "smolders", "settles", "holds"],
+      images: ["fresh-cut wood", "dry pencil shavings", "a warm timberline", "cedar-lined drawers"],
+      textures: ["dry", "smooth-grained", "toasty", "resinous"]
+    },
+    spicy: {
+      verbs: ["pricks", "warms", "crackles", "flares", "stitches"],
+      images: ["a pinch of heat", "spice on the air", "a peppered sparkle", "cardamom-steam in a cup"],
+      textures: ["tingling", "golden", "sparked", "alive"]
+    },
+    resin: {
+      verbs: ["glows", "smolders", "hums", "lingers", "darkens"],
+      images: ["smoke curling into velvet", "amber lit from within", "chapel air and warm resin", "balsamic shadow"],
+      textures: ["balsamic", "smoky", "ambered", "honeyed"]
+    },
+    gourmand: {
+      verbs: ["melts", "swells", "coats", "sweetens", "rounds"],
+      images: ["vanilla bean scraped fresh", "warm pastry steam", "cocoa dust on skin", "toasted sugar at the edge"],
+      textures: ["creamy", "toasted", "satin-sweet", "buttery"]
+    },
+    musk: {
+      verbs: ["polishes", "smooths", "radiates", "hangs", "whispers"],
+      images: ["clean skin after a shower", "cotton warmed in sun", "a soft halo", "a barely-there hum"],
+      textures: ["clean", "sheer", "skin-close", "airy"]
+    },
+    green: {
+      verbs: ["cuts", "snaps", "brightens", "sharpens", "opens"],
+      images: ["crushed leaves", "stemmy freshness", "green sap on fingers", "tea steam and greenery"],
+      textures: ["leafy", "stemmy", "cool", "sap-green"]
+    },
+    aquatic: {
+      verbs: ["drifts", "washes", "rolls", "opens", "cools"],
+      images: ["salt on skin", "air after rain", "ocean wind through linen", "a clean wave of ozone"],
+      textures: ["cool", "mineral", "watery", "open-air"]
+    },
+    leather: {
+      verbs: ["darkens", "tightens", "leans", "purrs", "wears in"],
+      images: ["supple suede", "a worn jacket", "tobacco smoke in fabric", "polished hide"],
+      textures: ["suede-soft", "smoky", "animalic-leaning", "smooth"]
+    }
+  };
+
+  const VOICE = {
+    editorial: {
+      openers: [
+        "It opens with {top}, then turns toward {heart} before settling into {base}.",
+        "A first impression of {top} leads the way; {heart} follows, and {base} stays late.",
+        "The start is {top}; the center is {heart}; the finish is {base}."
+      ],
+      closers: [
+        "Worn close, it reads as {mood}. Given air, it becomes a quiet statement.",
+        "It’s {mood} without shouting—more presence than performance.",
+        "The drydown is where it earns its keep: {baseTail}."
+      ]
+    },
+    luxury: {
+      openers: [
+        "The first minutes feel like {top}, precise and luminous, before {heart} takes the skin.",
+        "It arrives as {top}—polished, deliberate—then {heart} blooms into focus.",
+        "A refined opening of {top} gives way to {heart}, anchored by {base}."
+      ],
+      closers: [
+        "The trail is {projectionText}; the impression is unmistakably {mood}.",
+        "It wears like tailored fabric: {mood}, controlled, and quietly magnetic.",
+        "A composed drydown of {baseTail} leaves a softly persistent signature."
+      ]
+    },
+    casual: {
+      openers: [
+        "Up top you’ll catch {top}, then it slides into {heart} and finishes on {base}.",
+        "It starts with {top}; a little later it’s all {heart}; and the base is {base}.",
+        "First hit: {top}. After a bit: {heart}. Later on: {base}."
+      ],
+      closers: [
+        "Overall it feels {mood}—easy to wear, hard to forget.",
+        "It sits {projectionText} and stays around {longevityText}.",
+        "If you like {baseTail}, this one will make sense fast."
+      ]
+    },
+    poetic: {
+      openers: [
+        "{top} arrives like a glance, and then {heart} begins to breathe; {base} stays, warm and certain.",
+        "There’s {top} at first—then {heart} unfurls, and {base} gathers the edges into shadow.",
+        "It starts as {top}, turns to {heart}, and drifts into {base} like a slow exhale."
+      ],
+      closers: [
+        "It feels {mood}, not by force, but by gravity—{baseTail} holding everything together.",
+        "The final hours are a soft echo of {baseTail}, close to skin and strangely calming.",
+        "{projectionText} in the air, {mood} on the skin—then a lingering hush of {baseTail}."
+      ]
+    },
+    minimal: {
+      openers: [
+        "{top}. Then {heart}. Then {base}.",
+        "Clean start: {top}. Center: {heart}. Finish: {base}.",
+        "{top} leads. {heart} follows. {base} remains."
+      ],
+      closers: [
+        "{mood}. {projectionText}. {longevityText}.",
+        "Simple structure, strong effect: {baseTail}.",
+        "Drydown: {baseTail}."
+      ]
+    }
+  };
+
+  const SEASONAL = {
+    any:    ["any season", "day or night", "whenever you want something composed"],
+    spring: ["spring air", "a light jacket season", "days that start cool and end warm"],
+    summer: ["warm weather", "sun on fabric", "late afternoons and open windows"],
+    autumn: ["autumn evenings", "soft knits", "cool air and warm cafés"],
+    winter: ["cold weather", "scarves and coats", "nights that call for warmth"],
+    night:  ["late nights", "dim rooms and good music", "a dressed-up evening"],
+    office: ["workdays", "close quarters", "clean lines and quiet confidence"]
+  };
+
+  const PROJECTION_TEXT = {
+    soft: "skin-close",
+    moderate: "present but controlled",
+    bold: "noticeable and confident"
+  };
+  const LONGEVITY_TEXT = {
+    short: "a shorter wear (3–5 hours)",
+    medium: "a solid wear (6–8 hours)",
+    long: "long wear (9–12+ hours)"
+  };
+
+  // Build role buckets: top/heart/base via simple cues, otherwise spread
+  function inferRoles(notes) {
+    const n = notes.slice();
+    const topCues = new Set(["bergamot","lemon","lime","grapefruit","mandarin","yuzu","neroli","petitgrain","pink pepper","pepper","mint","ginger"]);
+    const baseCues = new Set(["cedar","sandalwood","vetiver","patchouli","oakmoss","amber","benzoin","labdanum","incense","myrrh","vanilla","tonka","ambroxan","musk","leather","tobacco","iso e super"]);
+
+    const top = [];
+    const base = [];
+    const heart = [];
+
+    for (const note of n) {
+      const low = note.toLowerCase();
+      if (topCues.has(low)) top.push(note);
+      else if (baseCues.has(low)) base.push(note);
+      else heart.push(note);
+    }
+
+    // If too empty, rebalance
+    const all = [...top, ...heart, ...base];
+    if (all.length === 0) return { top:[], heart:[], base:[] };
+
+    // Ensure each has something if possible
+    const ensure = (arr, targetArr) => {
+      if (arr.length === 0 && targetArr.length > 0) arr.push(targetArr.shift());
+    };
+    ensure(top, heart);
+    ensure(base, heart);
+
+    // If still empty, slice by thirds
+    if (top.length === 0 || base.length === 0) {
+      const thirds = Math.max(1, Math.floor(all.length/3));
+      const t = all.slice(0, thirds);
+      const h = all.slice(thirds, 2*thirds);
+      const b = all.slice(2*thirds);
+      return { top: t, heart: h.length ? h : all.slice(thirds, -thirds), base: b.length ? b : all.slice(-thirds) };
+    }
+
+    return { top, heart, base };
+  }
+
+  function classifyFamilies(notes) {
+    const familiesFound = new Set();
+    for (const note of notes) {
+      const low = note.toLowerCase();
+      for (const [fam, list] of Object.entries(NOTE_FAMILIES)) {
+        if (list.includes(low)) familiesFound.add(fam);
+      }
+    }
+    // Map to imagery keys (some families share imagery buckets)
+    const map = (fam) => {
+      if (fam === "aromatic") return "green";
+      if (fam === "fruity") return "citrus";
+      if (fam === "resin") return "resin";
+      if (fam === "gourmand") return "gourmand";
+      if (fam === "musk") return "musk";
+      if (fam === "leather") return "leather";
+      if (fam === "aquatic") return "aquatic";
+      if (fam === "spicy") return "spicy";
+      if (fam === "woody") return "woody";
+      if (fam === "green") return "green";
+      if (fam === "floral") return "floral";
+      if (fam === "citrus") return "citrus";
+      return "woody";
+    };
+    const buckets = uniq(Array.from(familiesFound).map(map));
+    return buckets.length ? buckets : ["woody"];
+  }
+
+  function joinNatural(list) {
+    const a = list.filter(Boolean);
+    if (a.length === 0) return "";
+    if (a.length === 1) return a[0];
+    if (a.length === 2) return `${a[0]} and ${a[1]}`;
+    return `${a.slice(0, -1).join(", ")}, and ${a[a.length - 1]}`;
+  }
+
+  function phraseNote(note) {
+    // Add micro-variation so it doesn't read like a flat list
+    const forms = [
+      note,
+      `a touch of ${note}`,
+      `${note} in the air`,
+      `${note} on skin`,
+      `${note} threaded through`
+    ];
+    return rand(forms);
+  }
+
+  function makeSegment(notes, imageryKey, intensity = 0.8) {
+    const img = IMAGERY[imageryKey] || IMAGERY.woody;
+    const verb = rand(img.verbs);
+    const image = rand(img.images);
+    const tex = rand(img.textures);
+
+    const pick = notes.length ? joinNatural(uniq(notes).slice(0, clamp(notes.length, 1, 3))) : "a quiet accord";
+    const noteWords = notes.length ? joinNatural(notes.slice(0, 3).map(phraseNote)) : pick;
+
+    const templates = [
+      `{tex} and {verb}, with {noteWords}—like {image}.`,
+      `{noteWords} {verb} in first, {tex} in texture; it reads like {image}.`,
+      `A {tex} pulse of {noteWords}, carrying the feel of {image}.`
+    ];
+
+    // intensity influences how elaborate the sentence is (lightly)
+    const t = intensity < 0.6 ? templates[2] : rand(templates);
+    return t
+      .replaceAll("{tex}", tex)
+      .replaceAll("{verb}", verb)
+      .replaceAll("{noteWords}", noteWords)
+      .replaceAll("{image}", image);
+  }
+
+  function sanitizeAvoid(text, avoidList) {
+    let out = text;
+    for (const bad of avoidList) {
+      if (!bad) continue;
+      const escaped = bad.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const re = new RegExp("\\b" + escaped + "\\b", "gi");
+      out = out.replace(re, "");
+    }
+    // Clean double spaces / punctuation artifacts
+    out = out
+      .replace(/\s{2,}/g, " ")
+      .replace(/\s+,/g, ",")
+      .replace(/\s+\./g, ".")
+      .replace(/\s+;/g, ";")
+      .replace(/\(\s*\)/g, "")
+      .trim();
+    return out;
+  }
+
+  function qualityChecks(text, avoidList) {
+    const warnings = [];
+
+    const lower = text.toLowerCase();
+    const hits = [];
+
+    const allAvoid = uniq([...BANNED_GENERIC, ...avoidList.map(a => a.toLowerCase())].filter(Boolean));
+    for (const term of allAvoid) {
+      if (!term) continue;
+      if (lower.includes(term.toLowerCase())) hits.push(term);
+    }
+
+    // If text contains too many repeated words, note it
+    const words = lower.replace(/[^a-z\s-]/g, "").split(/\s+/).filter(Boolean);
+    const freq = new Map();
+    for (const w of words) freq.set(w, (freq.get(w)||0)+1);
+    const topRepeated = Array.from(freq.entries()).filter(([w,c]) => c >= 5 && w.length >= 5).slice(0,4);
+
+    if (hits.length) warnings.push(`Removed/flagged generic phrasing: ${joinNatural(hits.slice(0,6))}.`);
+    if (topRepeated.length) warnings.push(`Potential repetition: ${topRepeated.map(([w,c]) => `${w}×${c}`).join(", ")}.`);
+
+    return warnings;
+  }
+
+  function generate(seedJitter = Math.random()) {
+    const name = clean(els.name.value);
+    const notes = splitCSV(els.notes.value);
+    const audience = els.audience.value;
+    const mood = els.mood.value;
+    const season = els.season.value;
+    const persona = els.persona.value;
+    const projection = els.projection.value;
+    const longevity = els.longevity.value;
+    const avoid = splitCSV(els.avoid.value).map(s => s.toLowerCase());
+
+    if (notes.length === 0) {
+      els.output.textContent = "Add at least a few notes (comma-separated), then generate again.";
+      els.warn.style.display = "block";
+      els.warn.textContent = "No notes detected.";
+      els.qualityPill.textContent = "Needs notes";
+      return;
+    }
+
+    // Seed jitter used to vary selection without full RNG control
+    const roles = inferRoles(notes);
+    const buckets = classifyFamilies(notes);
+
+    // Construct segments
+    const topSeg = makeSegment(roles.top, buckets[0], 0.85);
+    const heartKey = buckets.length > 1 ? buckets[1] : buckets[0];
+    const baseKey = buckets.length > 2 ? buckets[2] : (buckets.length > 1 ? buckets[1] : buckets[0]);
+
+    const heartSeg = makeSegment(roles.heart.length ? roles.heart : notes.slice(0,3), heartKey, 0.9);
+    const baseSeg = makeSegment(roles.base.length ? roles.base : notes.slice(-3), baseKey, 0.95);
+
+    const topText = roles.top.length ? joinNatural(roles.top) : joinNatural(notes.slice(0,2));
+    const heartText = roles.heart.length ? joinNatural(roles.heart) : joinNatural(notes.slice(1,3));
+    const baseText = roles.base.length ? joinNatural(roles.base) : joinNatural(notes.slice(-2));
+
+    const voice = VOICE[audience] || VOICE.editorial;
+
+    const moodLex = {
+      confident: ["self-possessed", "cleanly assertive", "steady-handed"],
+      mysterious: ["shadowed", "suggestive", "low-lit"],
+      comforting: ["soft", "warm", "settling"],
+      bright: ["luminous", "freshly opened", "sun-leaning"],
+      sensual: ["skin-warm", "slow-burning", "magnetic"],
+      quiet: ["intimate", "understated", "close to skin"],
+      clean: ["airy", "polished", "freshly laundered-adjacent"]
+    };
+
+    const personaText = {
+      "unisex": ["balanced", "unforced", "easy to claim"],
+      "masculine-leaning": ["clean-cut", "sharper at the edges", "tailored"],
+      "feminine-leaning": ["softly radiant", "smooth-lined", "silk-adjacent"]
+    };
+
+    const settingText = rand(SEASONAL[season] || SEASONAL.any);
+
+    const opener = rand(voice.openers)
+      .replaceAll("{top}", topText || "a bright opening")
+      .replaceAll("{heart}", heartText || "a soft center")
+      .replaceAll("{base}", baseText || "a grounded base");
+
+    const closer = rand(voice.closers)
+      .replaceAll("{mood}", rand(moodLex[mood] || ["composed"]))
+      .replaceAll("{projectionText}", PROJECTION_TEXT[projection] || "present but controlled")
+      .replaceAll("{longevityText}", LONGEVITY_TEXT[longevity] || "a solid wear")
+      .replaceAll("{baseTail}", baseText || "a warm, lingering base");
+
+    const titleLine = name ? `${name}\n` : "";
+    const tagLine = `${rand(personaText[persona] || ["balanced"])} in tone, suited to ${settingText}.`;
+
+    // Slight structure variety
+    const middleChoices = [
+      `${topSeg}\n\n${heartSeg}\n\n${baseSeg}`,
+      `${topSeg}\n${heartSeg}\n${baseSeg}`,
+      `${topSeg}\n\n${heartSeg}\n\nIn the drydown, ${baseSeg.toLowerCase()}`
+    ];
+
+    let text =
+`${titleLine}${opener}
+
+${rand(middleChoices)}
+
+${tagLine} ${closer}`;
+
+    // Sanitize: remove generic banned + user avoid terms
+    text = sanitizeAvoid(text, uniq([...BANNED_GENERIC, ...avoid]));
+
+    // Quality checks & UI meta
+    const warnings = qualityChecks(text, avoid);
+    if (warnings.length) {
+      els.warn.style.display = "block";
+      els.warn.textContent = warnings.join(" ");
+      els.qualityPill.textContent = "Adjusted";
+    } else {
+      els.warn.style.display = "none";
+      els.qualityPill.textContent = "Strong";
+    }
+
+    // Meta pills
+    els.meta.innerHTML = "";
+    const pills = [
+      `Voice: ${audience}`,
+      `Mood: ${mood}`,
+      `Setting: ${season}`,
+      `Projection: ${PROJECTION_TEXT[projection]}`,
+      `Longevity: ${LONGEVITY_TEXT[longevity].replaceAll("(", "").replaceAll(")", "")}`
+    ];
+    for (const p of pills) {
+      const el = document.createElement("span");
+      el.className = "pill";
+      el.textContent = p;
+      els.meta.appendChild(el);
+    }
+
+    els.output.textContent = text;
+  }
+
+  // ----- Persistence -----
+  const KEY = "scent_scribe_draft_v1";
+
+  function getDraft() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  }
+
+  function setDraft(data) {
+    localStorage.setItem(KEY, JSON.stringify(data));
+  }
+
+  function saveDraft() {
+    const data = {
+      name: els.name.value,
+      notes: els.notes.value,
+      audience: els.audience.value,
+      mood: els.mood.value,
+      season: els.season.value,
+      persona: els.persona.value,
+      projection: els.projection.value,
+      longevity: els.longevity.value,
+      avoid: els.avoid.value,
+      savedAt: Date.now()
+    };
+    setDraft(data);
+    const dt = new Date(data.savedAt);
+    els.statusPill.textContent = `Saved ${dt.toLocaleString()}`;
+    toast("Draft saved");
+  }
+
+  function loadDraft() {
+    const d = getDraft();
+    if (!d) return false;
+    els.name.value = d.name || "";
+    els.notes.value = d.notes || "";
+    els.audience.value = d.audience || "editorial";
+    els.mood.value = d.mood || "confident";
+    els.season.value = d.season || "any";
+    els.persona.value = d.persona || "unisex";
+    els.projection.value = d.projection || "moderate";
+    els.longevity.value = d.longevity || "medium";
+    els.avoid.value = d.avoid || "";
+    if (d.savedAt) {
+      const dt = new Date(d.savedAt);
+      els.statusPill.textContent = `Loaded ${dt.toLocaleString()}`;
+    } else {
+      els.statusPill.textContent = "Draft loaded";
+    }
+    return true;
+  }
+
+  function clearAll() {
+    els.name.value = "";
+    els.notes.value = "";
+    els.avoid.value = "";
+    els.audience.value = "editorial";
+    els.mood.value = "confident";
+    els.season.value = "any";
+    els.persona.value = "unisex";
+    els.projection.value = "moderate";
+    els.longevity.value = "medium";
+    els.output.textContent = "Paste your notes, then click “Generate description”.";
+    els.meta.innerHTML = "";
+    els.warn.style.display = "none";
+    els.statusPill.textContent = "Draft not saved";
+    els.qualityPill.textContent = "Ready";
+  }
+
+  // ----- Events -----
+  els.generateBtn.addEventListener("click", () => generate());
+  els.regenerateBtn.addEventListener("click", () => generate());
+  els.shuffleBtn.addEventListener("click", () => generate(Math.random()));
+  els.saveBtn.addEventListener("click", saveDraft);
+
+  els.exampleBtn.addEventListener("click", () => {
+    els.name.value = "Nocturne Citrus";
+    els.notes.value = "bergamot, grapefruit, black tea, iris, cedar, ambroxan, vanilla";
+    els.audience.value = "editorial";
+    els.mood.value = "mysterious";
+    els.season.value = "autumn";
+    els.persona.value = "unisex";
+    els.projection.value = "moderate";
+    els.longevity.value = "medium";
+    els.avoid.value = "luxurious, unique, compliments, versatile";
+    toast("Example loaded");
+    generate();
+  });
+
+  els.clearBtn.addEventListener("click", () => {
+    localStorage.removeItem(KEY);
+    clearAll();
+    toast("Cleared");
+  });
+
+  els.copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(els.output.textContent);
+      toast("Copied to clipboard");
+    } catch {
+      toast("Copy failed (browser permissions).");
+    }
+  });
+
+  // Keyboard shortcuts
+  window.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "Enter") {
+      e.preventDefault();
+      generate();
+    }
+    if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
+      e.preventDefault();
+      saveDraft();
+    }
+  });
+
+  // Auto-load draft if present
+  const loaded = loadDraft();
+  if (loaded) toast("Draft loaded");
+})();
+</script>
 </body>
 </html>
