@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Scent Scribe — Fragrance Note Describer</title>
+  <title>Fragrance DNA Matcher — Dupe to Original Finder</title>
   <style>
     :root{
       --bg:#0b0c10;
@@ -13,7 +13,6 @@
       --muted:#a8b3c7;
       --accent:#6ee7ff;
       --accent2:#a78bfa;
-      --danger:#ff6b6b;
       --border: rgba(255,255,255,.08);
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 14px;
@@ -45,7 +44,7 @@
       color:var(--muted);
       margin:0;
       line-height:1.5;
-      max-width:70ch;
+      max-width:80ch;
     }
     main{
       max-width:1100px;
@@ -97,7 +96,6 @@
       outline:none;
       transition:.15s border-color ease, .15s transform ease;
     }
-    textarea{ min-height:84px; resize:vertical; }
     input:focus, textarea:focus, select:focus{
       border-color: rgba(110,231,255,.45);
       transform: translateY(-1px);
@@ -109,7 +107,6 @@
     }
     @media (min-width: 560px){
       .row.two{ grid-template-columns: 1fr 1fr; }
-      .row.three{ grid-template-columns: 1fr 1fr 1fr; }
     }
     .btns{
       display:flex;
@@ -207,136 +204,114 @@
       border-radius:8px;
       background: rgba(0,0,0,.22);
     }
+    details{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      background: rgba(0,0,0,.12);
+      margin-top:12px;
+    }
+    summary{
+      cursor:pointer;
+      color:var(--text);
+      font-weight:650;
+    }
+    .list{
+      margin:10px 0 0;
+      padding:0 0 0 18px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .tag{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      margin:4px 6px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      background: rgba(0,0,0,.12);
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Scent Scribe</h1>
+    <h1>Fragrance DNA Matcher</h1>
     <p class="sub">
-      Turn fragrance notes into vivid, non-generic descriptions. The generator uses a small imagery engine,
-      varied sentence structures, and avoids robotic filler.
+      Enter a fragrance (especially popular clone/dupe releases) to identify a higher-end original it is widely considered to be copying or heavily inspired by.
+      This is a curated knowledge-base matcher (not an AI web-scraper) and can be extended with your own entries.
     </p>
   </header>
 
   <main>
     <section class="card">
       <div class="hd">
-        <div class="ttl">Inputs</div>
+        <div class="ttl">Input</div>
         <div class="pill" id="statusPill">Draft not saved</div>
       </div>
       <div class="bd">
-        <div class="row two">
-          <div>
-            <label for="name">Fragrance name (optional)</label>
-            <input id="name" type="text" placeholder="e.g., Nocturne Citrus" />
-          </div>
-          <div>
-            <label for="audience">Voice / audience</label>
-            <select id="audience">
-              <option value="editorial">Editorial (magazine-style)</option>
-              <option value="luxury">Luxury boutique</option>
-              <option value="casual">Casual enthusiast</option>
-              <option value="poetic">Poetic / atmospheric</option>
-              <option value="minimal">Minimal, crisp</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="notes">Notes (comma-separated)</label>
-        <textarea id="notes" placeholder="e.g., bergamot, black tea, iris, cedar, ambroxan, vanilla"></textarea>
-        <div class="small">Tip: list top / heart / base in one line; the app will infer roles where possible.</div>
-
-        <div class="row three">
-          <div>
-            <label for="mood">Mood</label>
-            <select id="mood">
-              <option value="confident">Confident</option>
-              <option value="mysterious">Mysterious</option>
-              <option value="comforting">Comforting</option>
-              <option value="bright">Bright</option>
-              <option value="sensual">Sensual</option>
-              <option value="quiet">Quiet / intimate</option>
-              <option value="clean">Clean / airy</option>
-            </select>
-          </div>
-          <div>
-            <label for="season">Season / setting</label>
-            <select id="season">
-              <option value="any">Anytime</option>
-              <option value="spring">Spring</option>
-              <option value="summer">Summer</option>
-              <option value="autumn">Autumn</option>
-              <option value="winter">Winter</option>
-              <option value="night">Night out</option>
-              <option value="office">Office-friendly</option>
-            </select>
-          </div>
-          <div>
-            <label for="persona">Persona</label>
-            <select id="persona">
-              <option value="unisex">Unisex</option>
-              <option value="masculine-leaning">Masculine-leaning</option>
-              <option value="feminine-leaning">Feminine-leaning</option>
-            </select>
-          </div>
-        </div>
+        <label for="dupe">Fragrance you own (clone/dupe or mainstream)</label>
+        <input id="dupe" type="text" placeholder="e.g. Lattafa Asad, Afnan 9PM, Club De Nuit Intense Man" />
 
         <div class="row two">
           <div>
-            <label for="projection">Projection</label>
-            <select id="projection">
-              <option value="soft">Soft</option>
-              <option value="moderate" selected>Moderate</option>
-              <option value="bold">Bold</option>
+            <label for="matchMode">Match mode</label>
+            <select id="matchMode">
+              <option value="smart" selected>Smart (aliases + fuzzy)</option>
+              <option value="strict">Strict (exact name)</option>
             </select>
           </div>
           <div>
-            <label for="longevity">Longevity</label>
-            <select id="longevity">
-              <option value="short">3–5 hours</option>
-              <option value="medium" selected>6–8 hours</option>
-              <option value="long">9–12+ hours</option>
+            <label for="verbosity">Output style</label>
+            <select id="verbosity">
+              <option value="concise">Concise</option>
+              <option value="detailed" selected>Detailed</option>
             </select>
           </div>
         </div>
 
-        <label for="avoid">Words/phrases to avoid (comma-separated)</label>
-        <input id="avoid" type="text" placeholder="e.g., luxurious, unique, long-lasting, compliments" />
+        <label for="extra">Extra info you can add (optional)</label>
+        <input id="extra" type="text" placeholder="e.g. 'smoky vanilla', 'saffron oud', 'Aventus style'" />
 
         <div class="btns">
-          <button class="primary" id="generateBtn">Generate description</button>
-          <button id="shuffleBtn">Shuffle phrasing</button>
-          <button class="ghost" id="exampleBtn">Load example</button>
+          <button class="primary" id="matchBtn">Find original</button>
+          <button id="randomBtn">Try example</button>
           <button class="ghost" id="saveBtn">Save draft</button>
           <button class="ghost" id="clearBtn">Clear</button>
         </div>
 
         <p class="hint">
-          Shortcuts: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> generates, and
-          <span class="kbd">Ctrl</span> + <span class="kbd">S</span> saves the draft.
+          Shortcuts: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> matches, and
+          <span class="kbd">Ctrl</span> + <span class="kbd">S</span> saves.
         </p>
+
+        <details>
+          <summary>What this app does (and does not) do</summary>
+          <ul class="list">
+            <li><strong>Does:</strong> match against a curated dupe→original library and explain shared “DNA” (accord structure).</li>
+            <li><strong>Does not:</strong> scrape the web or guarantee “official” inspiration claims.</li>
+            <li><strong>Best use:</strong> you extend the library with your own entries over time.</li>
+          </ul>
+        </details>
       </div>
     </section>
 
     <section class="card">
       <div class="hd">
-        <div class="ttl">Output</div>
+        <div class="ttl">Match result</div>
         <div class="pill" id="qualityPill">Ready</div>
       </div>
       <div class="bd">
-        <div class="out" id="output">
-Paste your notes, then click “Generate description”.
-        </div>
+        <div class="out" id="output">Enter a fragrance name, then click “Find original”.</div>
 
         <div class="divider"></div>
 
         <div class="btns">
           <button class="primary" id="copyBtn">Copy</button>
-          <button id="regenerateBtn">Regenerate (same inputs)</button>
+          <button id="againBtn">Match again</button>
         </div>
 
         <div class="meta" id="meta"></div>
-
         <p class="warn" id="warn" style="display:none;"></p>
       </div>
     </section>
@@ -345,574 +320,359 @@ Paste your notes, then click “Generate description”.
   <div class="toast" id="toast"></div>
 
 <script>
+/**
+ * Curated dupe → original library
+ * Notes:
+ * - This is a community-style "widely regarded as inspired by" mapping, not an official claim.
+ * - Add entries freely; the matcher supports aliases for common abbreviations.
+ */
+const FRAGRANCE_DNA = {
+  "Lattafa Asad": {
+    aliases: ["asad", "lattafa asad"],
+    original: "Dior Sauvage Elixir",
+    dna: ["vanilla-amber", "dense spice", "resinous warmth", "aromatic edge"],
+    rationale: "Shares the same vanilla-amber backbone and spiced, concentrated structure, with a similarly dense, resinous late drydown.",
+    tiers: [
+      { name: "Dior Sauvage Elixir", type: "original", priceTier: "high-end designer" },
+      { name: "Dior Sauvage (EDT/EDP)", type: "adjacent", priceTier: "designer" }
+    ]
+  },
+  "Afnan 9PM": {
+    aliases: ["9pm", "afnan 9 pm", "afnan nine pm"],
+    original: "Jean Paul Gaultier Ultra Male",
+    dna: ["sweet apple", "vanilla", "ambery sweetness", "clubby gourmand"],
+    rationale: "A very close reconstruction of the sweet apple–vanilla DNA with the same syrupy amber lift and youthful gourmand profile.",
+    tiers: [
+      { name: "Jean Paul Gaultier Ultra Male", type: "original", priceTier: "designer" },
+      { name: "Jean Paul Gaultier Le Male", type: "adjacent", priceTier: "designer" }
+    ]
+  },
+  "Lattafa Khamrah": {
+    aliases: ["khamrah", "lattafa khamrah"],
+    original: "Kilian Angels’ Share",
+    dna: ["boozy cinnamon", "sweet woods", "praline warmth", "gourmand amber"],
+    rationale: "Mirrors the boozy cinnamon-gourmand architecture and the sweet woody base that defines the Angels’ Share style.",
+    tiers: [
+      { name: "Kilian Angels’ Share", type: "original", priceTier: "niche luxury" },
+      { name: "Kilian Apple Brandy on the Rocks", type: "adjacent", priceTier: "niche luxury" }
+    ]
+  },
+  "Armaf Club De Nuit Intense Man": {
+    aliases: ["cdnim", "club de nuit intense man", "armaf cdnim", "club de nuit"],
+    original: "Creed Aventus",
+    dna: ["smoky citrus", "birch smoke", "fruity-amber", "musky drydown"],
+    rationale: "Follows the same fruity-smoky citrus opening and birch-smoke core, finishing in a musky ambergris-style drydown typical of Aventus-inspired compositions.",
+    tiers: [
+      { name: "Creed Aventus", type: "original", priceTier: "niche luxury" },
+      { name: "Creed Aventus Cologne", type: "adjacent", priceTier: "niche luxury" }
+    ]
+  },
+  "Maison Alhambra Toscano Leather": {
+    aliases: ["toscano leather", "maison alhambra toscano leather"],
+    original: "Tom Ford Tuscan Leather",
+    dna: ["leather", "raspberry", "saffron", "suede smoke"],
+    rationale: "Directly reconstructs the leather-raspberry-saffron skeleton, with the same suede-like dryness and smoky undertone.",
+    tiers: [
+      { name: "Tom Ford Tuscan Leather", type: "original", priceTier: "luxury designer" },
+      { name: "Tom Ford Ombré Leather", type: "adjacent", priceTier: "designer" }
+    ]
+  },
+  "Lattafa Oud for Glory": {
+    aliases: ["oud for glory", "oud for glory lattafa"],
+    original: "Initio Oud for Greatness",
+    dna: ["spicy oud", "saffron/nutmeg heat", "patchouli depth", "dark woods"],
+    rationale: "Replicates the spicy-oud vertical progression: hot spice → dense oud → patchouli-wood foundation typical of Oud for Greatness-inspired releases.",
+    tiers: [
+      { name: "Initio Oud for Greatness", type: "original", priceTier: "niche luxury" },
+      { name: "Initio Side Effect", type: "adjacent", priceTier: "niche luxury" }
+    ]
+  }
+};
+
+// Optional: accord keywords that can steer matching if user adds "extra info"
+const ACCORD_HINTS = [
+  { key: "aventus", targets: ["Armaf Club De Nuit Intense Man"] },
+  { key: "ultra male", targets: ["Afnan 9PM"] },
+  { key: "angels share", targets: ["Lattafa Khamrah"] },
+  { key: "sauvage elixir", targets: ["Lattafa Asad"] },
+  { key: "oud for greatness", targets: ["Lattafa Oud for Glory"] },
+  { key: "tuscan leather", targets: ["Maison Alhambra Toscano Leather"] }
+];
+
+// --- UI ---
 (() => {
   const $ = (id) => document.getElementById(id);
 
   const els = {
-    name: $("name"),
-    notes: $("notes"),
-    audience: $("audience"),
-    mood: $("mood"),
-    season: $("season"),
-    persona: $("persona"),
-    projection: $("projection"),
-    longevity: $("longevity"),
-    avoid: $("avoid"),
+    dupe: $("dupe"),
+    matchMode: $("matchMode"),
+    verbosity: $("verbosity"),
+    extra: $("extra"),
     output: $("output"),
     meta: $("meta"),
     warn: $("warn"),
     statusPill: $("statusPill"),
     qualityPill: $("qualityPill"),
     toast: $("toast"),
-    generateBtn: $("generateBtn"),
-    regenerateBtn: $("regenerateBtn"),
-    shuffleBtn: $("shuffleBtn"),
-    exampleBtn: $("exampleBtn"),
+    matchBtn: $("matchBtn"),
+    againBtn: $("againBtn"),
+    randomBtn: $("randomBtn"),
     saveBtn: $("saveBtn"),
     clearBtn: $("clearBtn"),
     copyBtn: $("copyBtn")
   };
 
-  // ----- Utility -----
-  const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
   const uniq = (arr) => Array.from(new Set(arr));
-  const clean = (s) => (s || "").trim();
-  const splitCSV = (s) => uniq(
-    (s || "")
-      .split(",")
-      .map(x => x.trim())
-      .filter(Boolean)
-  );
-
   const toast = (msg) => {
     els.toast.textContent = msg;
     els.toast.classList.add("show");
     setTimeout(() => els.toast.classList.remove("show"), 1600);
   };
-
-  // Avoid robotic filler: we actively reject these phrases unless user wants them
-  const BANNED_GENERIC = [
-    "luxurious", "unique", "timeless", "sophisticated", "high-quality",
-    "perfect for any occasion", "crowd-pleaser", "compliment getter",
-    "turns heads", "must-have", "elegant blend", "masterfully crafted",
-    "long-lasting", "projects well", "versatile", "signature scent"
-  ];
-
-  // Note classification (simple heuristic)
-  const NOTE_FAMILIES = {
-    citrus: ["bergamot","lemon","lime","orange","grapefruit","mandarin","yuzu","citron","neroli","petitgrain"],
-    fruity: ["apple","pear","peach","apricot","plum","fig","blackcurrant","currant","raspberry","strawberry","pineapple","mango","melon","lychee"],
-    aromatic: ["lavender","rosemary","sage","basil","thyme","mint","shiso","clary sage"],
-    green: ["galbanum","violet leaf","grass","tea leaf","matcha","leafy greens","green tea"],
-    floral: ["rose","jasmine","iris","violet","tuberose","ylang-ylang","lily","orange blossom","osmanthus","magnolia","peony","heliotrope"],
-    spicy: ["pepper","pink pepper","cardamom","cinnamon","clove","nutmeg","ginger","saffron","cumin"],
-    woody: ["cedar","sandalwood","vetiver","patchouli","oakmoss","pine","cypress","guaiac wood","cashmeran"],
-    resin: ["incense","olibanum","frankincense","myrrh","benzoin","labdanum","amber"],
-    gourmand: ["vanilla","tonka","cacao","chocolate","caramel","honey","praline","coffee","almond"],
-    musk: ["musk","white musk","ambroxan","ambergris","iso e super","clean musk"],
-    leather: ["leather","suede","tobacco","birch tar"],
-    aquatic: ["sea salt","marine notes","calone","ozone","water notes"]
-  };
-
-  const IMAGERY = {
-    citrus: {
-      verbs: ["sparks", "flashes", "fizzes", "skims", "lifts"],
-      images: ["a clean peel snap", "sunlit zest on fingertips", "a bright edge of daylight", "a chilled citrus spritz"],
-      textures: ["crisp", "shimmering", "effervescent", "bright-edged"]
-    },
-    floral: {
-      verbs: ["unfurls", "floats", "softens", "glows", "breathes"],
-      images: ["petals warmed by skin", "a pressed bouquet in a book", "powdered silk", "a quiet bloom at dusk"],
-      textures: ["silken", "powdery", "velvet-soft", "dewy"]
-    },
-    woody: {
-      verbs: ["grounds", "threads", "smolders", "settles", "holds"],
-      images: ["fresh-cut wood", "dry pencil shavings", "a warm timberline", "cedar-lined drawers"],
-      textures: ["dry", "smooth-grained", "toasty", "resinous"]
-    },
-    spicy: {
-      verbs: ["pricks", "warms", "crackles", "flares", "stitches"],
-      images: ["a pinch of heat", "spice on the air", "a peppered sparkle", "cardamom-steam in a cup"],
-      textures: ["tingling", "golden", "sparked", "alive"]
-    },
-    resin: {
-      verbs: ["glows", "smolders", "hums", "lingers", "darkens"],
-      images: ["smoke curling into velvet", "amber lit from within", "chapel air and warm resin", "balsamic shadow"],
-      textures: ["balsamic", "smoky", "ambered", "honeyed"]
-    },
-    gourmand: {
-      verbs: ["melts", "swells", "coats", "sweetens", "rounds"],
-      images: ["vanilla bean scraped fresh", "warm pastry steam", "cocoa dust on skin", "toasted sugar at the edge"],
-      textures: ["creamy", "toasted", "satin-sweet", "buttery"]
-    },
-    musk: {
-      verbs: ["polishes", "smooths", "radiates", "hangs", "whispers"],
-      images: ["clean skin after a shower", "cotton warmed in sun", "a soft halo", "a barely-there hum"],
-      textures: ["clean", "sheer", "skin-close", "airy"]
-    },
-    green: {
-      verbs: ["cuts", "snaps", "brightens", "sharpens", "opens"],
-      images: ["crushed leaves", "stemmy freshness", "green sap on fingers", "tea steam and greenery"],
-      textures: ["leafy", "stemmy", "cool", "sap-green"]
-    },
-    aquatic: {
-      verbs: ["drifts", "washes", "rolls", "opens", "cools"],
-      images: ["salt on skin", "air after rain", "ocean wind through linen", "a clean wave of ozone"],
-      textures: ["cool", "mineral", "watery", "open-air"]
-    },
-    leather: {
-      verbs: ["darkens", "tightens", "leans", "purrs", "wears in"],
-      images: ["supple suede", "a worn jacket", "tobacco smoke in fabric", "polished hide"],
-      textures: ["suede-soft", "smoky", "animalic-leaning", "smooth"]
-    }
-  };
-
-  const VOICE = {
-    editorial: {
-      openers: [
-        "It opens with {top}, then turns toward {heart} before settling into {base}.",
-        "A first impression of {top} leads the way; {heart} follows, and {base} stays late.",
-        "The start is {top}; the center is {heart}; the finish is {base}."
-      ],
-      closers: [
-        "Worn close, it reads as {mood}. Given air, it becomes a quiet statement.",
-        "It’s {mood} without shouting—more presence than performance.",
-        "The drydown is where it earns its keep: {baseTail}."
-      ]
-    },
-    luxury: {
-      openers: [
-        "The first minutes feel like {top}, precise and luminous, before {heart} takes the skin.",
-        "It arrives as {top}—polished, deliberate—then {heart} blooms into focus.",
-        "A refined opening of {top} gives way to {heart}, anchored by {base}."
-      ],
-      closers: [
-        "The trail is {projectionText}; the impression is unmistakably {mood}.",
-        "It wears like tailored fabric: {mood}, controlled, and quietly magnetic.",
-        "A composed drydown of {baseTail} leaves a softly persistent signature."
-      ]
-    },
-    casual: {
-      openers: [
-        "Up top you’ll catch {top}, then it slides into {heart} and finishes on {base}.",
-        "It starts with {top}; a little later it’s all {heart}; and the base is {base}.",
-        "First hit: {top}. After a bit: {heart}. Later on: {base}."
-      ],
-      closers: [
-        "Overall it feels {mood}—easy to wear, hard to forget.",
-        "It sits {projectionText} and stays around {longevityText}.",
-        "If you like {baseTail}, this one will make sense fast."
-      ]
-    },
-    poetic: {
-      openers: [
-        "{top} arrives like a glance, and then {heart} begins to breathe; {base} stays, warm and certain.",
-        "There’s {top} at first—then {heart} unfurls, and {base} gathers the edges into shadow.",
-        "It starts as {top}, turns to {heart}, and drifts into {base} like a slow exhale."
-      ],
-      closers: [
-        "It feels {mood}, not by force, but by gravity—{baseTail} holding everything together.",
-        "The final hours are a soft echo of {baseTail}, close to skin and strangely calming.",
-        "{projectionText} in the air, {mood} on the skin—then a lingering hush of {baseTail}."
-      ]
-    },
-    minimal: {
-      openers: [
-        "{top}. Then {heart}. Then {base}.",
-        "Clean start: {top}. Center: {heart}. Finish: {base}.",
-        "{top} leads. {heart} follows. {base} remains."
-      ],
-      closers: [
-        "{mood}. {projectionText}. {longevityText}.",
-        "Simple structure, strong effect: {baseTail}.",
-        "Drydown: {baseTail}."
-      ]
-    }
-  };
-
-  const SEASONAL = {
-    any:    ["any season", "day or night", "whenever you want something composed"],
-    spring: ["spring air", "a light jacket season", "days that start cool and end warm"],
-    summer: ["warm weather", "sun on fabric", "late afternoons and open windows"],
-    autumn: ["autumn evenings", "soft knits", "cool air and warm cafés"],
-    winter: ["cold weather", "scarves and coats", "nights that call for warmth"],
-    night:  ["late nights", "dim rooms and good music", "a dressed-up evening"],
-    office: ["workdays", "close quarters", "clean lines and quiet confidence"]
-  };
-
-  const PROJECTION_TEXT = {
-    soft: "skin-close",
-    moderate: "present but controlled",
-    bold: "noticeable and confident"
-  };
-  const LONGEVITY_TEXT = {
-    short: "a shorter wear (3–5 hours)",
-    medium: "a solid wear (6–8 hours)",
-    long: "long wear (9–12+ hours)"
-  };
-
-  // Build role buckets: top/heart/base via simple cues, otherwise spread
-  function inferRoles(notes) {
-    const n = notes.slice();
-    const topCues = new Set(["bergamot","lemon","lime","grapefruit","mandarin","yuzu","neroli","petitgrain","pink pepper","pepper","mint","ginger"]);
-    const baseCues = new Set(["cedar","sandalwood","vetiver","patchouli","oakmoss","amber","benzoin","labdanum","incense","myrrh","vanilla","tonka","ambroxan","musk","leather","tobacco","iso e super"]);
-
-    const top = [];
-    const base = [];
-    const heart = [];
-
-    for (const note of n) {
-      const low = note.toLowerCase();
-      if (topCues.has(low)) top.push(note);
-      else if (baseCues.has(low)) base.push(note);
-      else heart.push(note);
-    }
-
-    // If too empty, rebalance
-    const all = [...top, ...heart, ...base];
-    if (all.length === 0) return { top:[], heart:[], base:[] };
-
-    // Ensure each has something if possible
-    const ensure = (arr, targetArr) => {
-      if (arr.length === 0 && targetArr.length > 0) arr.push(targetArr.shift());
-    };
-    ensure(top, heart);
-    ensure(base, heart);
-
-    // If still empty, slice by thirds
-    if (top.length === 0 || base.length === 0) {
-      const thirds = Math.max(1, Math.floor(all.length/3));
-      const t = all.slice(0, thirds);
-      const h = all.slice(thirds, 2*thirds);
-      const b = all.slice(2*thirds);
-      return { top: t, heart: h.length ? h : all.slice(thirds, -thirds), base: b.length ? b : all.slice(-thirds) };
-    }
-
-    return { top, heart, base };
-  }
-
-  function classifyFamilies(notes) {
-    const familiesFound = new Set();
-    for (const note of notes) {
-      const low = note.toLowerCase();
-      for (const [fam, list] of Object.entries(NOTE_FAMILIES)) {
-        if (list.includes(low)) familiesFound.add(fam);
-      }
-    }
-    // Map to imagery keys (some families share imagery buckets)
-    const map = (fam) => {
-      if (fam === "aromatic") return "green";
-      if (fam === "fruity") return "citrus";
-      if (fam === "resin") return "resin";
-      if (fam === "gourmand") return "gourmand";
-      if (fam === "musk") return "musk";
-      if (fam === "leather") return "leather";
-      if (fam === "aquatic") return "aquatic";
-      if (fam === "spicy") return "spicy";
-      if (fam === "woody") return "woody";
-      if (fam === "green") return "green";
-      if (fam === "floral") return "floral";
-      if (fam === "citrus") return "citrus";
-      return "woody";
-    };
-    const buckets = uniq(Array.from(familiesFound).map(map));
-    return buckets.length ? buckets : ["woody"];
-  }
+  const clean = (s) => (s || "").trim();
+  const norm = (s) => clean(s).toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
 
   function joinNatural(list) {
-    const a = list.filter(Boolean);
+    const a = (list || []).filter(Boolean);
     if (a.length === 0) return "";
     if (a.length === 1) return a[0];
     if (a.length === 2) return `${a[0]} and ${a[1]}`;
     return `${a.slice(0, -1).join(", ")}, and ${a[a.length - 1]}`;
   }
 
-  function phraseNote(note) {
-    // Add micro-variation so it doesn't read like a flat list
-    const forms = [
-      note,
-      `a touch of ${note}`,
-      `${note} in the air`,
-      `${note} on skin`,
-      `${note} threaded through`
-    ];
-    return rand(forms);
+  // Basic token-set similarity
+  function tokenSetScore(a, b) {
+    const A = new Set(norm(a).split(" ").filter(Boolean));
+    const B = new Set(norm(b).split(" ").filter(Boolean));
+    if (A.size === 0 || B.size === 0) return 0;
+    let inter = 0;
+    for (const t of A) if (B.has(t)) inter++;
+    return inter / Math.max(A.size, B.size);
   }
 
-  function makeSegment(notes, imageryKey, intensity = 0.8) {
-    const img = IMAGERY[imageryKey] || IMAGERY.woody;
-    const verb = rand(img.verbs);
-    const image = rand(img.images);
-    const tex = rand(img.textures);
-
-    const pick = notes.length ? joinNatural(uniq(notes).slice(0, clamp(notes.length, 1, 3))) : "a quiet accord";
-    const noteWords = notes.length ? joinNatural(notes.slice(0, 3).map(phraseNote)) : pick;
-
-    const templates = [
-      `{tex} and {verb}, with {noteWords}—like {image}.`,
-      `{noteWords} {verb} in first, {tex} in texture; it reads like {image}.`,
-      `A {tex} pulse of {noteWords}, carrying the feel of {image}.`
-    ];
-
-    // intensity influences how elaborate the sentence is (lightly)
-    const t = intensity < 0.6 ? templates[2] : rand(templates);
-    return t
-      .replaceAll("{tex}", tex)
-      .replaceAll("{verb}", verb)
-      .replaceAll("{noteWords}", noteWords)
-      .replaceAll("{image}", image);
+  function candidatesFromLibrary() {
+    return Object.entries(FRAGRANCE_DNA).map(([name, obj]) => ({
+      key: name,
+      name,
+      aliases: obj.aliases || [],
+      data: obj
+    }));
   }
 
-  function sanitizeAvoid(text, avoidList) {
-    let out = text;
-    for (const bad of avoidList) {
-      if (!bad) continue;
-      const escaped = bad.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const re = new RegExp("\\b" + escaped + "\\b", "gi");
-      out = out.replace(re, "");
-    }
-    // Clean double spaces / punctuation artifacts
-    out = out
-      .replace(/\s{2,}/g, " ")
-      .replace(/\s+,/g, ",")
-      .replace(/\s+\./g, ".")
-      .replace(/\s+;/g, ";")
-      .replace(/\(\s*\)/g, "")
-      .trim();
-    return out;
-  }
-
-  function qualityChecks(text, avoidList) {
-    const warnings = [];
-
-    const lower = text.toLowerCase();
+  function applyAccordHints(extra) {
+    const e = norm(extra);
+    if (!e) return [];
     const hits = [];
-
-    const allAvoid = uniq([...BANNED_GENERIC, ...avoidList.map(a => a.toLowerCase())].filter(Boolean));
-    for (const term of allAvoid) {
-      if (!term) continue;
-      if (lower.includes(term.toLowerCase())) hits.push(term);
+    for (const h of ACCORD_HINTS) {
+      if (e.includes(h.key)) hits.push(...h.targets);
     }
-
-    // If text contains too many repeated words, note it
-    const words = lower.replace(/[^a-z\s-]/g, "").split(/\s+/).filter(Boolean);
-    const freq = new Map();
-    for (const w of words) freq.set(w, (freq.get(w)||0)+1);
-    const topRepeated = Array.from(freq.entries()).filter(([w,c]) => c >= 5 && w.length >= 5).slice(0,4);
-
-    if (hits.length) warnings.push(`Removed/flagged generic phrasing: ${joinNatural(hits.slice(0,6))}.`);
-    if (topRepeated.length) warnings.push(`Potential repetition: ${topRepeated.map(([w,c]) => `${w}×${c}`).join(", ")}.`);
-
-    return warnings;
+    return uniq(hits);
   }
 
-  function generate(seedJitter = Math.random()) {
-    const name = clean(els.name.value);
-    const notes = splitCSV(els.notes.value);
-    const audience = els.audience.value;
-    const mood = els.mood.value;
-    const season = els.season.value;
-    const persona = els.persona.value;
-    const projection = els.projection.value;
-    const longevity = els.longevity.value;
-    const avoid = splitCSV(els.avoid.value).map(s => s.toLowerCase());
+  function findMatch(input, extra, mode) {
+    const cands = candidatesFromLibrary();
 
-    if (notes.length === 0) {
-      els.output.textContent = "Add at least a few notes (comma-separated), then generate again.";
-      els.warn.style.display = "block";
-      els.warn.textContent = "No notes detected.";
-      els.qualityPill.textContent = "Needs notes";
-      return;
+    if (mode === "strict") {
+      const exact = cands.find(c => norm(c.name) === norm(input) || c.aliases.some(a => norm(a) === norm(input)));
+      if (exact) return { match: exact, confidence: 1, method: "strict exact" };
+      return null;
     }
 
-    // Seed jitter used to vary selection without full RNG control
-    const roles = inferRoles(notes);
-    const buckets = classifyFamilies(notes);
+    // Smart mode: alias contains + fuzzy token overlap + accord hint boost
+    const inputN = norm(input);
+    const hintKeys = applyAccordHints(extra);
 
-    // Construct segments
-    const topSeg = makeSegment(roles.top, buckets[0], 0.85);
-    const heartKey = buckets.length > 1 ? buckets[1] : buckets[0];
-    const baseKey = buckets.length > 2 ? buckets[2] : (buckets.length > 1 ? buckets[1] : buckets[0]);
+    let best = null;
 
-    const heartSeg = makeSegment(roles.heart.length ? roles.heart : notes.slice(0,3), heartKey, 0.9);
-    const baseSeg = makeSegment(roles.base.length ? roles.base : notes.slice(-3), baseKey, 0.95);
+    for (const c of cands) {
+      const namesToCheck = [c.name, ...c.aliases];
+      let score = 0;
 
-    const topText = roles.top.length ? joinNatural(roles.top) : joinNatural(notes.slice(0,2));
-    const heartText = roles.heart.length ? joinNatural(roles.heart) : joinNatural(notes.slice(1,3));
-    const baseText = roles.base.length ? joinNatural(roles.base) : joinNatural(notes.slice(-2));
+      // Contains match
+      for (const n of namesToCheck) {
+        const nn = norm(n);
+        if (!nn) continue;
+        if (inputN.includes(nn) || nn.includes(inputN)) score = Math.max(score, 0.85);
+      }
 
-    const voice = VOICE[audience] || VOICE.editorial;
+      // Token overlap
+      for (const n of namesToCheck) {
+        score = Math.max(score, tokenSetScore(inputN, n));
+      }
 
-    const moodLex = {
-      confident: ["self-possessed", "cleanly assertive", "steady-handed"],
-      mysterious: ["shadowed", "suggestive", "low-lit"],
-      comforting: ["soft", "warm", "settling"],
-      bright: ["luminous", "freshly opened", "sun-leaning"],
-      sensual: ["skin-warm", "slow-burning", "magnetic"],
-      quiet: ["intimate", "understated", "close to skin"],
-      clean: ["airy", "polished", "freshly laundered-adjacent"]
-    };
+      // Accord hint boost
+      if (hintKeys.includes(c.key)) score = Math.max(score, score + 0.25);
 
-    const personaText = {
-      "unisex": ["balanced", "unforced", "easy to claim"],
-      "masculine-leaning": ["clean-cut", "sharper at the edges", "tailored"],
-      "feminine-leaning": ["softly radiant", "smooth-lined", "silk-adjacent"]
-    };
-
-    const settingText = rand(SEASONAL[season] || SEASONAL.any);
-
-    const opener = rand(voice.openers)
-      .replaceAll("{top}", topText || "a bright opening")
-      .replaceAll("{heart}", heartText || "a soft center")
-      .replaceAll("{base}", baseText || "a grounded base");
-
-    const closer = rand(voice.closers)
-      .replaceAll("{mood}", rand(moodLex[mood] || ["composed"]))
-      .replaceAll("{projectionText}", PROJECTION_TEXT[projection] || "present but controlled")
-      .replaceAll("{longevityText}", LONGEVITY_TEXT[longevity] || "a solid wear")
-      .replaceAll("{baseTail}", baseText || "a warm, lingering base");
-
-    const titleLine = name ? `${name}\n` : "";
-    const tagLine = `${rand(personaText[persona] || ["balanced"])} in tone, suited to ${settingText}.`;
-
-    // Slight structure variety
-    const middleChoices = [
-      `${topSeg}\n\n${heartSeg}\n\n${baseSeg}`,
-      `${topSeg}\n${heartSeg}\n${baseSeg}`,
-      `${topSeg}\n\n${heartSeg}\n\nIn the drydown, ${baseSeg.toLowerCase()}`
-    ];
-
-    let text =
-`${titleLine}${opener}
-
-${rand(middleChoices)}
-
-${tagLine} ${closer}`;
-
-    // Sanitize: remove generic banned + user avoid terms
-    text = sanitizeAvoid(text, uniq([...BANNED_GENERIC, ...avoid]));
-
-    // Quality checks & UI meta
-    const warnings = qualityChecks(text, avoid);
-    if (warnings.length) {
-      els.warn.style.display = "block";
-      els.warn.textContent = warnings.join(" ");
-      els.qualityPill.textContent = "Adjusted";
-    } else {
-      els.warn.style.display = "none";
-      els.qualityPill.textContent = "Strong";
+      if (!best || score > best.score) best = { cand: c, score };
     }
 
-    // Meta pills
+    if (!best || best.score < 0.35) return null;
+
+    const confidence = Math.min(1, best.score);
+    const method = confidence >= 0.85 ? "alias/contains" : "fuzzy token overlap";
+    return { match: best.cand, confidence, method };
+  }
+
+  function render(matchObj, input) {
+    const { match, confidence, method } = matchObj;
+    const d = match.data;
+
+    const confidencePct = Math.round(confidence * 100);
+    const verbosity = els.verbosity.value;
+
     els.meta.innerHTML = "";
-    const pills = [
-      `Voice: ${audience}`,
-      `Mood: ${mood}`,
-      `Setting: ${season}`,
-      `Projection: ${PROJECTION_TEXT[projection]}`,
-      `Longevity: ${LONGEVITY_TEXT[longevity].replaceAll("(", "").replaceAll(")", "")}`
+    const tags = [
+      `Confidence: ${confidencePct}%`,
+      `Method: ${method}`,
+      `Matched: ${match.name}`,
+      `Original: ${d.original}`
     ];
-    for (const p of pills) {
+    for (const t of tags) {
       const el = document.createElement("span");
       el.className = "pill";
-      el.textContent = p;
+      el.textContent = t;
       els.meta.appendChild(el);
     }
 
-    els.output.textContent = text;
+    const dnaLine = d.dna && d.dna.length ? d.dna.map(x => `• ${x}`).join("\n") : "• (No DNA tags)";
+    const tierLine = (d.tiers || []).map(x => `• ${x.name} — ${x.type} (${x.priceTier})`).join("\n");
+
+    const concise =
+`${input} is widely regarded as closely inspired by:
+
+${d.original}
+
+Shared DNA:
+${joinNatural(d.dna)}
+
+Why:
+${d.rationale}`;
+
+    const detailed =
+`${input} is widely regarded as closely inspired by:
+
+${d.original}
+
+Why this match is suggested:
+${d.rationale}
+
+Shared fragrance “DNA” (accord structure):
+${dnaLine}
+
+Higher-end / original reference set:
+${tierLine || "• (No tier suggestions available)"}
+
+Practical guidance:
+• If you like the clone’s overall direction, the original typically offers smoother transitions and higher material quality.
+• If you want something similar but less direct, try the “adjacent” options above (same family, different emphasis).
+• For best accuracy, add a short hint in “Extra info” (e.g., “Aventus style”, “saffron oud”, “boozy cinnamon”).`;
+
+    els.output.textContent = verbosity === "concise" ? concise : detailed;
+
+    els.warn.style.display = "block";
+    els.warn.textContent =
+      "Note: These mappings reflect common community comparisons and are not official endorsements or confirmed brand claims.";
+
+    els.qualityPill.textContent = confidencePct >= 85 ? "Strong match" : (confidencePct >= 60 ? "Probable match" : "Possible match");
   }
 
-  // ----- Persistence -----
-  const KEY = "scent_scribe_draft_v1";
+  function runMatch() {
+    const input = clean(els.dupe.value);
+    const extra = clean(els.extra.value);
+    const mode = els.matchMode.value;
 
+    if (!input) {
+      els.output.textContent = "Enter a fragrance name, then click “Find original”.";
+      els.warn.style.display = "none";
+      els.qualityPill.textContent = "Needs input";
+      els.meta.innerHTML = "";
+      return;
+    }
+
+    const matchObj = findMatch(input, extra, mode);
+    if (!matchObj) {
+      els.output.textContent =
+`No match found in the current library.
+
+Try:
+• A fuller name (brand + fragrance)
+• Common abbreviations (e.g., CDNIM, 9PM)
+• Add a hint in “Extra info” (e.g., “Aventus style”, “Ultra Male”, “Oud for Greatness”)`;
+      els.warn.style.display = "none";
+      els.qualityPill.textContent = "No match";
+      els.meta.innerHTML = "";
+      return;
+    }
+
+    render(matchObj, input);
+  }
+
+  // --- Persistence ---
+  const KEY = "fragrance_dna_matcher_draft_v1";
   function getDraft() {
     try {
       const raw = localStorage.getItem(KEY);
       return raw ? JSON.parse(raw) : null;
     } catch { return null; }
   }
-
   function setDraft(data) {
     localStorage.setItem(KEY, JSON.stringify(data));
   }
-
   function saveDraft() {
     const data = {
-      name: els.name.value,
-      notes: els.notes.value,
-      audience: els.audience.value,
-      mood: els.mood.value,
-      season: els.season.value,
-      persona: els.persona.value,
-      projection: els.projection.value,
-      longevity: els.longevity.value,
-      avoid: els.avoid.value,
+      dupe: els.dupe.value,
+      extra: els.extra.value,
+      matchMode: els.matchMode.value,
+      verbosity: els.verbosity.value,
       savedAt: Date.now()
     };
     setDraft(data);
-    const dt = new Date(data.savedAt);
-    els.statusPill.textContent = `Saved ${dt.toLocaleString()}`;
+    els.statusPill.textContent = `Saved ${new Date(data.savedAt).toLocaleString()}`;
     toast("Draft saved");
   }
-
   function loadDraft() {
     const d = getDraft();
     if (!d) return false;
-    els.name.value = d.name || "";
-    els.notes.value = d.notes || "";
-    els.audience.value = d.audience || "editorial";
-    els.mood.value = d.mood || "confident";
-    els.season.value = d.season || "any";
-    els.persona.value = d.persona || "unisex";
-    els.projection.value = d.projection || "moderate";
-    els.longevity.value = d.longevity || "medium";
-    els.avoid.value = d.avoid || "";
-    if (d.savedAt) {
-      const dt = new Date(d.savedAt);
-      els.statusPill.textContent = `Loaded ${dt.toLocaleString()}`;
-    } else {
-      els.statusPill.textContent = "Draft loaded";
-    }
+    els.dupe.value = d.dupe || "";
+    els.extra.value = d.extra || "";
+    els.matchMode.value = d.matchMode || "smart";
+    els.verbosity.value = d.verbosity || "detailed";
+    if (d.savedAt) els.statusPill.textContent = `Loaded ${new Date(d.savedAt).toLocaleString()}`;
     return true;
   }
 
   function clearAll() {
-    els.name.value = "";
-    els.notes.value = "";
-    els.avoid.value = "";
-    els.audience.value = "editorial";
-    els.mood.value = "confident";
-    els.season.value = "any";
-    els.persona.value = "unisex";
-    els.projection.value = "moderate";
-    els.longevity.value = "medium";
-    els.output.textContent = "Paste your notes, then click “Generate description”.";
+    els.dupe.value = "";
+    els.extra.value = "";
+    els.matchMode.value = "smart";
+    els.verbosity.value = "detailed";
+    els.output.textContent = "Enter a fragrance name, then click “Find original”.";
     els.meta.innerHTML = "";
     els.warn.style.display = "none";
     els.statusPill.textContent = "Draft not saved";
     els.qualityPill.textContent = "Ready";
   }
 
-  // ----- Events -----
-  els.generateBtn.addEventListener("click", () => generate());
-  els.regenerateBtn.addEventListener("click", () => generate());
-  els.shuffleBtn.addEventListener("click", () => generate(Math.random()));
-  els.saveBtn.addEventListener("click", saveDraft);
+  // --- Events ---
+  els.matchBtn.addEventListener("click", runMatch);
+  els.againBtn.addEventListener("click", runMatch);
 
-  els.exampleBtn.addEventListener("click", () => {
-    els.name.value = "Nocturne Citrus";
-    els.notes.value = "bergamot, grapefruit, black tea, iris, cedar, ambroxan, vanilla";
-    els.audience.value = "editorial";
-    els.mood.value = "mysterious";
-    els.season.value = "autumn";
-    els.persona.value = "unisex";
-    els.projection.value = "moderate";
-    els.longevity.value = "medium";
-    els.avoid.value = "luxurious, unique, compliments, versatile";
+  els.randomBtn.addEventListener("click", () => {
+    const examples = [
+      "Lattafa Asad",
+      "Afnan 9PM",
+      "CDNIM",
+      "Lattafa Khamrah",
+      "Maison Alhambra Toscano Leather",
+      "Lattafa Oud for Glory"
+    ];
+    const pick = examples[Math.floor(Math.random() * examples.length)];
+    els.dupe.value = pick;
+    els.extra.value = "";
     toast("Example loaded");
-    generate();
+    runMatch();
   });
+
+  els.saveBtn.addEventListener("click", saveDraft);
 
   els.clearBtn.addEventListener("click", () => {
     localStorage.removeItem(KEY);
@@ -933,7 +693,7 @@ ${tagLine} ${closer}`;
   window.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.key === "Enter") {
       e.preventDefault();
-      generate();
+      runMatch();
     }
     if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
       e.preventDefault();
@@ -941,7 +701,7 @@ ${tagLine} ${closer}`;
     }
   });
 
-  // Auto-load draft if present
+  // Auto-load saved draft
   const loaded = loadDraft();
   if (loaded) toast("Draft loaded");
 })();
