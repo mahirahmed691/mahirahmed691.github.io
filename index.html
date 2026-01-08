@@ -327,66 +327,83 @@
  * - Add entries freely; the matcher supports aliases for common abbreviations.
  */
 const FRAGRANCE_DNA = {
-  "Lattafa Asad": {
-    aliases: ["asad", "lattafa asad"],
-    original: "Dior Sauvage Elixir",
-    dna: ["vanilla-amber", "dense spice", "resinous warmth", "aromatic edge"],
-    rationale: "Shares the same vanilla-amber backbone and spiced, concentrated structure, with a similarly dense, resinous late drydown.",
-    tiers: [
-      { name: "Dior Sauvage Elixir", type: "original", priceTier: "high-end designer" },
-      { name: "Dior Sauvage (EDT/EDP)", type: "adjacent", priceTier: "designer" }
-    ]
-  },
-  "Afnan 9PM": {
-    aliases: ["9pm", "afnan 9 pm", "afnan nine pm"],
-    original: "Jean Paul Gaultier Ultra Male",
-    dna: ["sweet apple", "vanilla", "ambery sweetness", "clubby gourmand"],
-    rationale: "A very close reconstruction of the sweet apple–vanilla DNA with the same syrupy amber lift and youthful gourmand profile.",
-    tiers: [
-      { name: "Jean Paul Gaultier Ultra Male", type: "original", priceTier: "designer" },
-      { name: "Jean Paul Gaultier Le Male", type: "adjacent", priceTier: "designer" }
-    ]
-  },
-  "Lattafa Khamrah": {
-    aliases: ["khamrah", "lattafa khamrah"],
-    original: "Kilian Angels’ Share",
-    dna: ["boozy cinnamon", "sweet woods", "praline warmth", "gourmand amber"],
-    rationale: "Mirrors the boozy cinnamon-gourmand architecture and the sweet woody base that defines the Angels’ Share style.",
-    tiers: [
-      { name: "Kilian Angels’ Share", type: "original", priceTier: "niche luxury" },
-      { name: "Kilian Apple Brandy on the Rocks", type: "adjacent", priceTier: "niche luxury" }
-    ]
-  },
-  "Armaf Club De Nuit Intense Man": {
-    aliases: ["cdnim", "club de nuit intense man", "armaf cdnim", "club de nuit"],
-    original: "Creed Aventus",
-    dna: ["smoky citrus", "birch smoke", "fruity-amber", "musky drydown"],
-    rationale: "Follows the same fruity-smoky citrus opening and birch-smoke core, finishing in a musky ambergris-style drydown typical of Aventus-inspired compositions.",
-    tiers: [
-      { name: "Creed Aventus", type: "original", priceTier: "niche luxury" },
-      { name: "Creed Aventus Cologne", type: "adjacent", priceTier: "niche luxury" }
-    ]
-  },
-  "Maison Alhambra Toscano Leather": {
-    aliases: ["toscano leather", "maison alhambra toscano leather"],
-    original: "Tom Ford Tuscan Leather",
-    dna: ["leather", "raspberry", "saffron", "suede smoke"],
-    rationale: "Directly reconstructs the leather-raspberry-saffron skeleton, with the same suede-like dryness and smoky undertone.",
-    tiers: [
-      { name: "Tom Ford Tuscan Leather", type: "original", priceTier: "luxury designer" },
-      { name: "Tom Ford Ombré Leather", type: "adjacent", priceTier: "designer" }
-    ]
-  },
-  "Lattafa Oud for Glory": {
-    aliases: ["oud for glory", "oud for glory lattafa"],
-    original: "Initio Oud for Greatness",
-    dna: ["spicy oud", "saffron/nutmeg heat", "patchouli depth", "dark woods"],
-    rationale: "Replicates the spicy-oud vertical progression: hot spice → dense oud → patchouli-wood foundation typical of Oud for Greatness-inspired releases.",
-    tiers: [
-      { name: "Initio Oud for Greatness", type: "original", priceTier: "niche luxury" },
-      { name: "Initio Side Effect", type: "adjacent", priceTier: "niche luxury" }
-    ]
-  }
+  "Lattafa Asad": { aliases:["asad"], original:"Dior Sauvage Elixir", dna:["vanilla-amber","dense spice","aromatic resin"], rationale:"Vanilla-spice core and dark aromatic drydown replicate Sauvage Elixir.", tiers:[{name:"Dior Sauvage Elixir",type:"original",priceTier:"designer"}]},
+  "Lattafa Fakhar Black": { aliases:["fakhar black"], original:"YSL Y EDP", dna:["apple ginger","sweet woods","amber"], rationale:"Apple-ginger freshness and woody amber base mirror Y EDP.", tiers:[{name:"YSL Y EDP",type:"original",priceTier:"designer"}]},
+  "Lattafa Qaed Al Fursan": { aliases:["qaed fursan"], original:"Invictus Victory", dna:["pineapple","amber vanilla","smoky woods"], rationale:"Pineapple sweetness and smoky vanilla amber drydown match Victory.", tiers:[{name:"Invictus Victory",type:"original",priceTier:"designer"}]},
+  "Lattafa Khamrah": { aliases:["khamrah"], original:"Kilian Angels’ Share", dna:["boozy cinnamon","praline","sweet woods"], rationale:"Boozy cinnamon gourmand structure mirrors Angels’ Share.", tiers:[{name:"Kilian Angels’ Share",type:"original",priceTier:"niche"}]},
+  "Lattafa Oud for Glory": { aliases:["oud for glory"], original:"Initio Oud for Greatness", dna:["spicy oud","saffron","patchouli"], rationale:"Spicy-oud vertical progression identical to Oud for Greatness.", tiers:[{name:"Initio Oud for Greatness",type:"original",priceTier:"niche"}]},
+  "Afnan 9PM": { aliases:["9pm"], original:"JPG Ultra Male", dna:["apple vanilla","amber sweet","gourmand"], rationale:"Sweet apple-vanilla DNA closely copies Ultra Male.", tiers:[{name:"JPG Ultra Male",type:"original",priceTier:"designer"}]},
+  "Afnan Supremacy NOI": { aliases:["supremacy noi"], original:"Creed Aventus", dna:["smoky pineapple","birch","ambergris"], rationale:"Smoky pineapple birch DNA follows Aventus blueprint.", tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
+  "Armaf CDNIM": { aliases:["cdnim","club de nuit"], original:"Creed Aventus", dna:["citrus smoke","birch","ambergris"], rationale:"Classic Aventus clone with smoky citrus and birch.", tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
+  "Armaf Milestone": { aliases:["milestone"], original:"Creed Millesime Imperial", dna:["marine citrus","musk","amber"], rationale:"Marine citrus-musk DNA mirrors Millesime Imperial.", tiers:[{name:"Creed Millesime Imperial",type:"original",priceTier:"niche"}]},
+  "Armaf Sillage": { aliases:["sillage"], original:"Creed Silver Mountain Water", dna:["metallic citrus","green tea","musk"], rationale:"Metallic citrus-tea freshness identical to SMW.", tiers:[{name:"Creed Silver Mountain Water",type:"original",priceTier:"niche"}]},
+  "Maison Alhambra Toscano Leather": { aliases:["toscano leather"], original:"Tom Ford Tuscan Leather", dna:["leather raspberry","saffron","smoky suede"], rationale:"Leather-raspberry-saffron structure is a Tuscan Leather recreation.", tiers:[{name:"Tom Ford Tuscan Leather",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra Bright Peach": { aliases:["bright peach"], original:"Tom Ford Bitter Peach", dna:["peach rum","sweet woods","boozy"], rationale:"Boozy peach gourmand mirrors Bitter Peach.", tiers:[{name:"Tom Ford Bitter Peach",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra Lovely Cherie": { aliases:["lovely cherie"], original:"Tom Ford Lost Cherry", dna:["cherry almond","vanilla amber","liqueur"], rationale:"Cherry-almond liqueur DNA copies Lost Cherry.", tiers:[{name:"Tom Ford Lost Cherry",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra The Tux": { aliases:["the tux"], original:"YSL Tuxedo", dna:["patchouli amber","smoky vanilla","resinous woods"], rationale:"Patchouli-smoke-amber skeleton identical to Tuxedo.", tiers:[{name:"YSL Tuxedo",type:"original",priceTier:"luxury"}]},
+  "Fragrance World Proud Of You Absolute": { aliases:["proud of you absolute"], original:"Stronger With You Absolutely", dna:["boozy vanilla","amber sweetness","warm woods"], rationale:"Boozy vanilla amber core recreates SWY Absolutely.", tiers:[{name:"SWY Absolutely",type:"original",priceTier:"designer"}]},
+  "Fragrance World Suits": { aliases:["fw suits"], original:"YSL Tuxedo", dna:["patchouli amber","smoky woods","vanilla"], rationale:"Another direct Tuxedo clone.", tiers:[{name:"YSL Tuxedo",type:"original",priceTier:"luxury"}]},
+  "Al Haramain Amber Oud Gold": { aliases:["amber oud gold"], original:"Xerjoff Erba Pura", dna:["tropical fruits","sweet musk","amber sugar"], rationale:"Sweet fruity musk bomb copies Erba Pura.", tiers:[{name:"Xerjoff Erba Pura",type:"original",priceTier:"niche"}]},
+  "Al Haramain Detour Noir": { aliases:["detour noir"], original:"PDM Layton", dna:["vanilla apple","cardamom spice","amber woods"], rationale:"Sweet apple-cardamom-vanilla DNA mirrors Layton.", tiers:[{name:"PDM Layton",type:"original",priceTier:"niche"}]},
+  "Lattafa Ana Abiyedh Rouge": { aliases:["ana abiyedh rouge"], original:"Baccarat Rouge 540", dna:["saffron amber","sweet musk","resinous sugar"], rationale:"Amber-saffron sugar DNA mirrors BR540.", tiers:[{name:"Baccarat Rouge 540",type:"original",priceTier:"niche"}]},
+  "Lattafa Ana Abiyedh": { aliases:["ana abiyedh"], original:"Erba Pura", dna:["white musk","fruity sugar","amber"], rationale:"Sweet musky fruit DNA copies Erba Pura.", tiers:[{name:"Xerjoff Erba Pura",type:"original",priceTier:"niche"}]}
+  "Lattafa Badee Al Oud Amethyst":{aliases:["amethyst","badee al oud amethyst"],original:"Initio Atomic Rose",dna:["jammy rose","vanilla amber","powdery musk"],rationale:"Jammy rose and sweet amber core mirrors Atomic Rose’s thick floral sweetness.",tiers:[{name:"Initio Atomic Rose",type:"original",priceTier:"niche"}]},
+  "Lattafa Badee Al Oud Sublime":{aliases:["badee sublime"],original:"Kilian Love Don't Be Shy",dna:["marshmallow","orange blossom","powdered vanilla"],rationale:"Sugary marshmallow-floral DNA recreates Love Don't Be Shy.",tiers:[{name:"Kilian Love Don't Be Shy",type:"original",priceTier:"niche"}]},
+  "Lattafa Sheikh Al Shuyukh Final Edition":{aliases:["sheikh al shuyukh final"],original:"YSL Y EDP",dna:["green apple","ginger freshness","sweet woods"],rationale:"Apple-ginger freshness and amber woods follow Y EDP.",tiers:[{name:"YSL Y EDP",type:"original",priceTier:"designer"}]},
+  "Lattafa Najdia":{aliases:["najdia"],original:"Invictus Aqua",dna:["aquatic citrus","fresh woods","amber"],rationale:"Fresh aquatic-citrus DNA interprets Invictus Aqua.",tiers:[{name:"Invictus Aqua",type:"original",priceTier:"designer"}]},
+  "Afnan Turathi Blue":{aliases:["turathi blue"],original:"Bvlgari Tygar",dna:["grapefruit citrus","amber woods","musky freshness"],rationale:"Grapefruit-amberwood DNA matches Tygar.",tiers:[{name:"Bvlgari Tygar",type:"original",priceTier:"niche"}]},
+  "Afnan Modest Une":{aliases:["modest une"],original:"Dior Sauvage",dna:["pepper citrus","ambroxan","fresh woods"],rationale:"Peppery citrus-ambroxan backbone recreates Sauvage EDT.",tiers:[{name:"Dior Sauvage",type:"original",priceTier:"designer"}]},
+  "Armaf Ventana":{aliases:["ventana"],original:"Dior Sauvage",dna:["pepper citrus","ambroxan","aromatic woods"],rationale:"Citrus-pepper ambroxan DNA mirrors Sauvage.",tiers:[{name:"Dior Sauvage",type:"original",priceTier:"designer"}]},
+  "Armaf Tres Nuit":{aliases:["tres nuit"],original:"Creed Green Irish Tweed",dna:["green violet","lemon verbena","fresh woods"],rationale:"Green citrus-violet freshness mirrors GIT.",tiers:[{name:"Creed Green Irish Tweed",type:"original",priceTier:"niche"}]},
+  "Maison Alhambra Tabac":{aliases:["tabac maison"],original:"Tom Ford Tobacco Vanille",dna:["tobacco spice","vanilla sweetness","amber warmth"],rationale:"Sweet tobacco-vanilla structure copies Tobacco Vanille.",tiers:[{name:"Tom Ford Tobacco Vanille",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra Fabulo Intense":{aliases:["fabulo intense"],original:"Tom Ford Fucking Fabulous",dna:["lavender leather","tonka","powdered almond"],rationale:"Lavender-tonka leather DNA follows Fucking Fabulous.",tiers:[{name:"Tom Ford Fucking Fabulous",type:"original",priceTier:"luxury"}]},
+  "Fragrance World Barakkat Rouge 540":{aliases:["barakkat rouge"],original:"Baccarat Rouge 540",dna:["saffron amber","sweet resin","sugar musk"],rationale:"Amber-saffron sugar structure mirrors BR540.",tiers:[{name:"Baccarat Rouge 540",type:"original",priceTier:"niche"}]},
+  "Fragrance World Eau De Spice Extreme":{aliases:["eau de spice extreme"],original:"Spicebomb Extreme",dna:["pepper spice","smoky vanilla","amber woods"],rationale:"Hot pepper-smoky vanilla DNA clones Spicebomb Extreme.",tiers:[{name:"Spicebomb Extreme",type:"original",priceTier:"designer"}]},
+  "Al Haramain L'Aventure":{aliases:["laventure"],original:"Creed Aventus",dna:["pineapple citrus","birch smoke","ambergris"],rationale:"Smoky pineapple birch DNA copies Aventus.",tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
+  "Al Haramain Amber Oud Tobacco":{aliases:["amber oud tobacco"],original:"Tom Ford Tobacco Vanille",dna:["tobacco vanilla","spiced amber","sweet woods"],rationale:"Tobacco-vanilla gourmand mirrors Tobacco Vanille.",tiers:[{name:"Tom Ford Tobacco Vanille",type:"original",priceTier:"luxury"}]}
+  "Lattafa Ramz Silver":{aliases:["ramz silver"],original:"Jean Paul Gaultier Ultra Male",dna:["pear","mint vanilla","amber sweet"],rationale:"Pear-mint-vanilla sweetness follows Ultra Male DNA.",tiers:[{name:"JPG Ultra Male",type:"original",priceTier:"designer"}]},
+  "Lattafa Najdia Tribute":{aliases:["najdia tribute"],original:"Invictus",dna:["marine citrus","sweet amber","fresh woods"],rationale:"Marine-citrus Invictus structure recreation.",tiers:[{name:"Invictus",type:"original",priceTier:"designer"}]},
+  "Afnan Rare Carbon":{aliases:["rare carbon"],original:"Tom Ford Ombre Leather",dna:["suede leather","amber smoke","soft woods"],rationale:"Suede-smoke leather DNA matches Ombre Leather.",tiers:[{name:"Tom Ford Ombre Leather",type:"original",priceTier:"designer"}]},
+  "Afnan 9PM Pour Femme":{aliases:["9pm femme"],original:"Carolina Herrera Good Girl",dna:["sweet almond","coffee vanilla","amber"],rationale:"Almond-coffee sweetness mirrors Good Girl.",tiers:[{name:"Good Girl",type:"original",priceTier:"designer"}]},
+  "Armaf Hunter Intense":{aliases:["hunter intense"],original:"Dior Sauvage + Invictus hybrid",dna:["pepper citrus","bubblegum sweet","amber woods"],rationale:"Combines Sauvage ambroxan with Invictus sweetness.",tiers:[{name:"Dior Sauvage",type:"adjacent",priceTier:"designer"}]},
+  "Armaf Club De Nuit Milestone":{aliases:["cdnm"],original:"Creed Millesime Imperial",dna:["marine salt","citrus musk","amber"],rationale:"Marine citrus-musk clone of Millesime Imperial.",tiers:[{name:"Creed Millesime Imperial",type:"original",priceTier:"niche"}]},
+  "Maison Alhambra Porto Neroli":{aliases:["porto neroli"],original:"Tom Ford Neroli Portofino",dna:["neroli citrus","white florals","fresh musk"],rationale:"Bright neroli-citrus mirrors Neroli Portofino.",tiers:[{name:"Tom Ford Neroli Portofino",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra Amber & Leather":{aliases:["amber leather"],original:"Tom Ford Ombre Leather",dna:["amber leather","smoky woods","soft suede"],rationale:"Amber-leaning take on Ombre Leather DNA.",tiers:[{name:"Tom Ford Ombre Leather",type:"original",priceTier:"designer"}]},
+  "Fragrance World Hardcore Wood":{aliases:["hardcore wood"],original:"Initio Side Effect",dna:["rum vanilla","spicy amber","tobacco woods"],rationale:"Boozy rum-vanilla DNA mirrors Side Effect.",tiers:[{name:"Initio Side Effect",type:"original",priceTier:"niche"}]},
+  "Fragrance World Barakkat Satin Oud":{aliases:["satin oud"],original:"MFK Oud Satin Mood",dna:["rose vanilla","benzoin amber","powdered oud"],rationale:"Rose-vanilla benzoin structure recreates Oud Satin Mood.",tiers:[{name:"MFK Oud Satin Mood",type:"original",priceTier:"niche"}]},
+  "Al Haramain Amber Oud Bleu Edition":{aliases:["amber oud bleu"],original:"Bleu de Chanel Parfum",dna:["incense citrus","amber woods","smoky blue"],rationale:"Blue incense-amberwood DNA follows BdC Parfum.",tiers:[{name:"Bleu de Chanel Parfum",type:"original",priceTier:"designer"}]},
+  "Al Haramain L'Aventure Femme":{aliases:["laventure femme"],original:"Creed Aventus for Her",dna:["green apple","rose","musk amber"],rationale:"Feminine fruity-musk Aventus style DNA.",tiers:[{name:"Creed Aventus for Her",type:"original",priceTier:"niche"}]}
+  "Lattafa Ejaazi":{aliases:["ejaazi"],original:"Versace Dylan Blue",dna:["grapefruit ambroxan","blue incense","fresh woods"],rationale:"Grapefruit-ambroxan blue DNA closely follows Dylan Blue.",tiers:[{name:"Versace Dylan Blue",type:"original",priceTier:"designer"}]},
+  "Lattafa Maahir Legacy":{aliases:["maahir legacy"],original:"Parfums de Marly Sedley",dna:["mint citrus","watery woods","clean musk"],rationale:"Minty citrus freshness and watery woods mirror Sedley.",tiers:[{name:"PDM Sedley",type:"original",priceTier:"niche"}]},
+  "Afnan Historic Olmeda":{aliases:["olmeda"],original:"Initio Rehab",dna:["lavender spice","sweet woods","vanilla musk"],rationale:"Lavender-spice rehab-style DNA.",tiers:[{name:"Initio Rehab",type:"original",priceTier:"niche"}]},
+  "Afnan 9AM Dive":{aliases:["9am dive"],original:"YSL Y Live",dna:["ginger citrus","aquatic amber","fresh woods"],rationale:"Aquatic ginger-citrus freshness copies Y Live.",tiers:[{name:"YSL Y Live",type:"original",priceTier:"designer"}]},
+  "Armaf Odyssey Homme":{aliases:["odyssey homme"],original:"Tom Ford Noir Extreme",dna:["kulfi vanilla","spice amber","sweet woods"],rationale:"Kulfi-vanilla spice DNA recreates Noir Extreme.",tiers:[{name:"Tom Ford Noir Extreme",type:"original",priceTier:"designer"}]},
+  "Armaf Derby Club House Blanche":{aliases:["derby blanche"],original:"Creed Silver Mountain Water",dna:["metallic citrus","white musk","green tea"],rationale:"Silver Mountain Water style metallic tea DNA.",tiers:[{name:"Creed Silver Mountain Water",type:"original",priceTier:"niche"}]},
+  "Maison Alhambra Woody Oud":{aliases:["woody oud"],original:"Tom Ford Oud Wood",dna:["dry oud","cardamom spice","amber woods"],rationale:"Dry oud-cardamom amberwood structure copies Oud Wood.",tiers:[{name:"Tom Ford Oud Wood",type:"original",priceTier:"luxury"}]},
+  "Maison Alhambra Rose Petals":{aliases:["rose petals"],original:"Tom Ford Rose Prick",dna:["spicy rose","patchouli","amber"],rationale:"Spicy rose-patchouli DNA mirrors Rose Prick.",tiers:[{name:"Tom Ford Rose Prick",type:"original",priceTier:"luxury"}]},
+  "Fragrance World La Uno Million":{aliases:["la uno million"],original:"Paco Rabanne 1 Million",dna:["blood orange","cinnamon spice","amber leather"],rationale:"Sweet cinnamon-citrus DNA follows 1 Million.",tiers:[{name:"1 Million",type:"original",priceTier:"designer"}]},
+  "Fragrance World Hard Wood":{aliases:["hard wood"],original:"Initio Side Effect",dna:["rum vanilla","tobacco spice","amber woods"],rationale:"Boozy rum-vanilla tobacco DNA mirrors Side Effect.",tiers:[{name:"Initio Side Effect",type:"original",priceTier:"niche"}]},
+  "Al Haramain Amber Oud Ruby":{aliases:["amber oud ruby"],original:"Baccarat Rouge 540 Extrait",dna:["saffron amber","sweet resin","almond sugar"],rationale:"Extrait-level saffron-amber sugar DNA.",tiers:[{name:"BR540 Extrait",type:"original",priceTier:"niche"}]},
+  "Al Haramain L'Aventure Knight":{aliases:["laventure knight"],original:"Creed Green Irish Tweed",dna:["green violet","lemon verbena","oakmoss woods"],rationale:"Green aromatic fougère DNA mirrors GIT.",tiers:[{name:"Creed Green Irish Tweed",type:"original",priceTier:"niche"}]}
+  "VanillaVoyage":{aliases:["vanillavoyage","nextvanillavoyage","msvanillavoyage"],original:"MaisonMargielaBytheFireplace",dna:["smokyvanilla","toastedsugar","amberwoods"],rationale:"BuiltonthesamesmokygourmandvanillafireplaceaccordofBytheFireplace.",tiers:[{name:"MaisonMargielaBytheFireplace",type:"original",priceTier:"designerniche"}]},
+  "ZARARedVanilla":{aliases:["zararedvanilla"],original:"YSLBlackOpium",dna:["pearvanilla","coffeesweetness","amberflorals"],rationale:"SweetpearvanillaandcoffeefloralDNAmirrorsBlackOpium.",tiers:[{name:"YSLBlackOpium",type:"original",priceTier:"designer"}]},
+  "ZARARichWarmAddictive":{aliases:["richwarmaddictive"],original:"ByKilianAngelsShare",dna:["honeyrum","tobaccovanilla","boozysweetness"],rationale:"BoozyhoneytobaccogourmandechoesAngelsShare.",tiers:[{name:"ByKilianAngelsShare",type:"original",priceTier:"niche"}]},
+  "ZARAEnergeticallyNewYork":{aliases:["energeticallyny"],original:"LeLaboSantal33",dna:["sandalwoodleather","drywoods","muskyamber"],rationale:"DrysandalwoodleatherDNArecreatestheSantal33style.",tiers:[{name:"LeLaboSantal33",type:"original",priceTier:"niche"}]},
+  "ZARAVibrantLeather":{aliases:["vibrantleather"],original:"CreedAventus",dna:["pineapplecitrus","smokybirch","ambergris"],rationale:"SmokypineappleAventusstyleDNA.",tiers:[{name:"CreedAventus",type:"original",priceTier:"niche"}]},
+  "ZARAEbonyWood":{aliases:["ebonywood"],original:"LeLaboSantal33",dna:["sandalwoodviolet","drywoods","ambermusk"],rationale:"SharesthewoodyvioletmuskycoreofSantal33.",tiers:[{name:"LeLaboSantal33",type:"original",priceTier:"niche"}]},
+  "ZARAGardenia":{aliases:["zaragardenia"],original:"YSLBlackOpium",dna:["coffeevanilla","whiteflorals","amber"],rationale:"CoffeevanillafloralDNAmirrorsBlackOpium.",tiers:[{name:"YSLBlackOpium",type:"original",priceTier:"designer"}]},
+  "ZARAGoldenDecade":{aliases:["goldendecade"],original:"YSLLibre",dna:["lavendervanilla","amberflorals","whitemusk"],rationale:"LavendervanillafloralstructurerecreatesLibre.",tiers:[{name:"YSLLibre",type:"original",priceTier:"designer"}]},
+  "ZARARoseGourmand":{aliases:["rosegourmand"],original:"MFKOudSatinMood",dna:["rosevanilla","benzoinamber","powderedsweetness"],rationale:"RosevanillabenzoinDNAmirrorsOudSatinMood.",tiers:[{name:"MFKOudSatinMood",type:"original",priceTier:"niche"}]},
+  "ZARACherrySmoothie":{aliases:["cherrysmoothie"],original:"TomFordLostCherry",dna:["cherryliqueur","almond","vanillaamber"],rationale:"CherryalmondliqueurDNAcloselycopiesLostCherry.",tiers:[{name:"TomFordLostCherry",type:"original",priceTier:"luxury"}]},
+  "NEXTCashmere":{aliases:["nextcashmere"],original:"MFKGentleFluidityGold",dna:["vanillaamber","softwoods","muskywarmth"],rationale:"SoftambervanillacashmirestyleDNAmirrorsGentleFluidityGold.",tiers:[{name:"MFKGentleFluidityGold",type:"original",priceTier:"niche"}]},
+  "NEXTOudWood":{aliases:["nextoudwood"],original:"TomFordOudWood",dna:["dryoud","cardamomspice","amberwoods"],rationale:"DryoudcardamomamberwoodDNAcopiesOudWood.",tiers:[{name:"TomFordOudWood",type:"original",priceTier:"luxury"}]},
+  "MSWarmth":{aliases:["markswarmth","mswarmth"],original:"MaisonMargielaBytheFireplace",dna:["smokyvanilla","amberwoods","toastedsugar"],rationale:"WarmsmokyvanillaDNAmirrorsBytheFireplace.",tiers:[{name:"MaisonMargielaBytheFireplace",type:"original",priceTier:"designerniche"}]},
+  "BathBodyWorksIntheStars":{aliases:["inthestars"],original:"BaccaratRouge540",dna:["ambersugar","saffron","sweetmusk"],rationale:"SweetambersaffronsugarDNAmirrorsBR540.",tiers:[{name:"BaccaratRouge540",type:"original",priceTier:"niche"}]},
+  "BathBodyWorksFairytale":{aliases:["bbwfairytale"],original:"YSLLibre",dna:["lavendervanilla","amberflorals","whitemusk"],rationale:"LavendervanillafloralDNAsimilartoLibre.",tiers:[{name:"YSLLibre",type:"original",priceTier:"designer"}]},
+  "BathBodyWorksCoffeeWhiskey":{aliases:["coffeewhiskey"],original:"YSLYEDP",dna:["coffeewoods","sweetamber","aromaticfreshness"],rationale:"CoffeeamberaromaticstructureechoesYEDP.",tiers:[{name:"YSLYEDP",type:"original",priceTier:"designer"}]},
+  "BathBodyWorksIntotheNight":{aliases:["intothenight"],original:"YSLBlackOpium",dna:["coffeevanilla","darkflorals","ambermusk"],rationale:"DarkcoffeevanillafloralDNAmirrorsBlackOpium.",tiers:[{name:"YSLBlackOpium",type:"original",priceTier:"designer"}]},
+  "BathBodyWorksDreamBright":{aliases:["dreambright"],original:"ValentinoDonnaBornInRoma",dna:["vanillaberry","pinkflorals","ambermusk"],rationale:"VanillaberryfloralsweetnessmatchesBornInRoma.",tiers:[{name:"ValentinoDonnaBornInRoma",type:"original",priceTier:"designer"}]}
+
 };
 
 // Optional: accord keywords that can steer matching if user adds "extra info"
