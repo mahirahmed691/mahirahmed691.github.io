@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Mahir Ahmed</title>
 
   <style>
@@ -54,20 +53,17 @@
     }
 
     .profile {
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
-    .avatar-fallback {
+    .avatar {
       width: 94px;
       height: 94px;
       border-radius: 50%;
       margin: 0 auto 16px;
+      object-fit: cover;
+      border: 2px solid var(--border);
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      font-weight: 700;
     }
 
     h1 {
@@ -134,6 +130,40 @@
       box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
     }
 
+    /* 🔥 Features Section */
+    .features {
+      margin-top: 28px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .features h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .feature-group {
+      margin-bottom: 18px;
+    }
+
+    .feature-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-group h3 {
+      color: var(--accent-2);
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .feature-item {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
     .footer {
       margin-top: 28px;
       color: var(--muted);
@@ -147,13 +177,40 @@
   <div class="container">
 
     <div class="profile">
-      <div class="avatar-fallback">M</div>
+      <!-- Replace with your real image later -->
+      <img class="avatar" src="https://via.placeholder.com/150" />
       <h1>Mahir Ahmed</h1>
       <p class="handle">@mahirahmed691</p>
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </div>
 
     <div class="links" id="links"></div>
+
+    <!-- 🔥 Features UI -->
+    <section class="features">
+      <h2>Features</h2>
+
+      <div class="feature-group">
+        <h3>Link in Bio</h3>
+        <div class="feature-item">✅ Comprehensive analytics</div>
+      </div>
+
+      <div class="feature-group">
+        <h3>Growth Tools</h3>
+        <div class="feature-item">✅ Social posts</div>
+        <div class="feature-item">✅ Instagram DMs</div>
+      </div>
+
+      <div class="feature-group">
+        <h3>Make Money</h3>
+        <div class="feature-item">✅ Affiliate shop</div>
+      </div>
+
+      <div class="feature-group">
+        <h3>Priority Support</h3>
+        <div class="feature-item">✅ Contact / onboarding</div>
+      </div>
+    </section>
 
     <div class="footer">
       © 2026 Mahir Ahmed
@@ -173,11 +230,6 @@
         title: "LinkedIn",
         url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
         icon: "💼"
-      },
-      {
-        title: "What I’m Building",
-        url: "#",
-        icon: "🚀"
       },
       {
         title: "Contact Me",
@@ -201,10 +253,6 @@
         </span>
         <span>→</span>
       `;
-
-      a.addEventListener("click", () => {
-        console.log("Clicked:", link.title);
-      });
 
       container.appendChild(a);
     });
