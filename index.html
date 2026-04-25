@@ -2,41 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Mahir Ahmed</title>
 
   <style>
     :root {
       --bg: #0f0f10;
       --card: #1a1a1d;
+      --card-hover: #222226;
       --text: #ffffff;
       --muted: #a1a1aa;
       --accent: #6366f1;
+      --accent-2: #a855f7;
+      --border: #27272a;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     body {
-      background: var(--bg);
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(99, 102, 241, 0.25), transparent 35%),
+        var(--bg);
       color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      padding: 24px;
     }
 
     .container {
       width: 100%;
-      max-width: 420px;
-      padding: 24px;
+      max-width: 430px;
       text-align: center;
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
       animation: fadeIn 0.6s ease forwards;
     }
 
@@ -48,21 +54,31 @@
     }
 
     .profile {
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
-    .avatar {
-      width: 90px;
-      height: 90px;
+    .avatar-fallback {
+      width: 94px;
+      height: 94px;
       border-radius: 50%;
-      margin-bottom: 16px;
-      object-fit: cover;
-      border: 2px solid #27272a;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      font-weight: 700;
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 24px;
       margin-bottom: 6px;
+    }
+
+    .handle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
     }
 
     .bio {
@@ -77,33 +93,51 @@
     }
 
     .link {
+      width: 100%;
       background: var(--card);
-      padding: 14px 16px;
-      border-radius: 12px;
-      text-decoration: none;
       color: var(--text);
-      font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px 16px;
+      text-decoration: none;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
       transition: all 0.2s ease;
-      border: 1px solid transparent;
     }
 
     .link:hover {
       transform: translateY(-2px);
+      background: var(--card-hover);
       border-color: var(--accent);
     }
 
-    .link span {
-      color: var(--muted);
-      font-size: 13px;
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .link-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background: rgba(99, 102, 241, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
     }
 
     .footer {
       margin-top: 28px;
-      font-size: 12px;
       color: var(--muted);
+      font-size: 12px;
     }
   </style>
 </head>
@@ -113,32 +147,13 @@
   <div class="container">
 
     <div class="profile">
-      <!-- 🔥 Replace this with your image -->
-      <img class="avatar" src="https://via.placeholder.com/150" alt="Mahir Ahmed" />
-
+      <div class="avatar-fallback">M</div>
       <h1>Mahir Ahmed</h1>
+      <p class="handle">@mahirahmed691</p>
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </div>
 
-    <div class="links">
-
-      <a class="link" href="https://github.com/YOUR_USERNAME" target="_blank" onclick="track('GitHub')">
-        GitHub <span>→</span>
-      </a>
-
-      <a class="link" href="https://linkedin.com/in/YOUR_PROFILE" target="_blank" onclick="track('LinkedIn')">
-        LinkedIn <span>→</span>
-      </a>
-
-      <a class="link" href="#" onclick="track('What I’m Building')">
-        What I’m Building <span>→</span>
-      </a>
-
-      <a class="link" href="mailto:your@email.com" onclick="track('Contact')">
-        Contact Me <span>→</span>
-      </a>
-
-    </div>
+    <div class="links" id="links"></div>
 
     <div class="footer">
       © 2026 Mahir Ahmed
@@ -147,9 +162,52 @@
   </div>
 
   <script>
-    function track(linkName) {
-      console.log("Clicked:", linkName);
-    }
+    const links = [
+      {
+        title: "GitHub",
+        url: "https://github.com/mahirahmed691",
+        icon: "💻",
+        featured: true
+      },
+      {
+        title: "LinkedIn",
+        url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
+        icon: "💼"
+      },
+      {
+        title: "What I’m Building",
+        url: "#",
+        icon: "🚀"
+      },
+      {
+        title: "Contact Me",
+        url: "mailto:mahirahmed691@gmail.com",
+        icon: "✉️"
+      }
+    ];
+
+    const container = document.getElementById("links");
+
+    links.forEach(link => {
+      const a = document.createElement("a");
+      a.className = link.featured ? "link featured" : "link";
+      a.href = link.url;
+      a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
+
+      a.innerHTML = `
+        <span class="link-left">
+          <span class="link-icon">${link.icon}</span>
+          <span>${link.title}</span>
+        </span>
+        <span>→</span>
+      `;
+
+      a.addEventListener("click", () => {
+        console.log("Clicked:", link.title);
+      });
+
+      container.appendChild(a);
+    });
   </script>
 
 </body>
