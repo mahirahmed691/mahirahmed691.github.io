@@ -1,739 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fragrance DNA Matcher — Dupe to Original Finder</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahir Ahmed</title>
+
   <style>
-    :root{
-      --bg:#0b0c10;
-      --panel:#12141b;
-      --panel2:#0f1117;
-      --text:#e9eef7;
-      --muted:#a8b3c7;
-      --accent:#6ee7ff;
-      --accent2:#a78bfa;
-      --border: rgba(255,255,255,.08);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 14px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    :root {
+      --bg: #0f0f10;
+      --card: #1a1a1d;
+      --text: #ffffff;
+      --muted: #a1a1aa;
+      --accent: #6366f1;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      background: radial-gradient(1200px 700px at 20% -10%, rgba(110,231,255,.15), transparent 55%),
-                  radial-gradient(900px 600px at 90% 10%, rgba(167,139,250,.15), transparent 55%),
-                  linear-gradient(180deg, #090a0e, var(--bg));
-      color:var(--text);
-      min-height:100vh;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    header{
-      padding:28px 18px 18px;
-      max-width:1100px;
-      margin:0 auto;
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    h1{
-      margin:0 0 6px;
-      font-weight:750;
-      letter-spacing:.2px;
-      font-size:clamp(22px, 3vw, 34px);
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 24px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.6s ease forwards;
     }
-    .sub{
-      color:var(--muted);
-      margin:0;
-      line-height:1.5;
-      max-width:80ch;
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    main{
-      max-width:1100px;
-      margin:0 auto;
-      padding:0 18px 36px;
-      display:grid;
-      gap:16px;
-      grid-template-columns: 1fr;
+
+    .profile {
+      margin-bottom: 32px;
     }
-    @media (min-width: 940px){
-      main{ grid-template-columns: 1.05fr .95fr; align-items:start; }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-bottom: 16px;
+      object-fit: cover;
+      border: 2px solid #27272a;
     }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      border-radius:var(--radius);
-      overflow:hidden;
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
     }
-    .card .hd{
-      padding:14px 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+
+    .bio {
+      color: var(--muted);
+      font-size: 14px;
     }
-    .card .hd .ttl{
-      font-weight:650;
-      letter-spacing:.2px;
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-    .card .bd{
-      padding:16px;
+
+    .link {
+      background: var(--card);
+      padding: 14px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
     }
-    label{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin:12px 0 6px;
+
+    .link:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
     }
-    input[type="text"], textarea, select{
-      width:100%;
-      background: rgba(10,12,18,.7);
-      color:var(--text);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:10px 12px;
-      outline:none;
-      transition:.15s border-color ease, .15s transform ease;
+
+    .link span {
+      color: var(--muted);
+      font-size: 13px;
     }
-    input:focus, textarea:focus, select:focus{
-      border-color: rgba(110,231,255,.45);
-      transform: translateY(-1px);
-    }
-    .row{
-      display:grid;
-      gap:10px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 560px){
-      .row.two{ grid-template-columns: 1fr 1fr; }
-    }
-    .btns{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
-    }
-    button{
-      appearance:none;
-      border:none;
-      cursor:pointer;
-      border-radius:12px;
-      padding:10px 12px;
-      font-weight:650;
-      letter-spacing:.2px;
-      transition:.15s transform ease, .15s opacity ease, .15s filter ease;
-      background: rgba(110,231,255,.12);
-      color:var(--text);
-      border:1px solid rgba(110,231,255,.25);
-    }
-    button:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-    button:active{ transform: translateY(0px); opacity:.9; }
-    button.primary{
-      background: linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25));
-      border-color: rgba(255,255,255,.18);
-    }
-    button.ghost{
-      background: transparent;
-      border:1px solid var(--border);
-      color:var(--muted);
-    }
-    .pill{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      background: rgba(0,0,0,.15);
-      white-space:nowrap;
-    }
-    .out{
-      white-space:pre-wrap;
-      line-height:1.7;
-      font-size:15px;
-    }
-    .meta{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .hint{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-      margin:10px 0 0;
-    }
-    .warn{
-      color: #ffd28a;
-      font-size:13px;
-      margin-top:10px;
-    }
-    .small{
-      font-size:12px;
-      color:var(--muted);
-    }
-    .divider{
-      height:1px;
-      background: var(--border);
-      margin:14px 0;
-    }
-    .toast{
-      position:fixed;
-      bottom:18px;
-      left:50%;
-      transform:translateX(-50%);
-      background: rgba(15,17,23,.92);
-      border:1px solid var(--border);
-      box-shadow: var(--shadow);
-      padding:10px 12px;
-      border-radius:12px;
-      color:var(--text);
-      opacity:0;
-      pointer-events:none;
-      transition: .18s ease;
-      max-width:min(520px, calc(100% - 24px));
-    }
-    .toast.show{ opacity:1; }
-    .kbd{
-      font-family:var(--mono);
-      font-size:12px;
-      border:1px solid var(--border);
-      padding:2px 6px;
-      border-radius:8px;
-      background: rgba(0,0,0,.22);
-    }
-    details{
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:10px 12px;
-      background: rgba(0,0,0,.12);
-      margin-top:12px;
-    }
-    summary{
-      cursor:pointer;
-      color:var(--text);
-      font-weight:650;
-    }
-    .list{
-      margin:10px 0 0;
-      padding:0 0 0 18px;
-      color:var(--muted);
-      line-height:1.6;
-    }
-    .tag{
-      display:inline-block;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      margin:4px 6px 0 0;
-      font-size:12px;
-      color:var(--muted);
-      background: rgba(0,0,0,.12);
+
+    .footer {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted);
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>Fragrance DNA Matcher</h1>
-    <p class="sub">
-      Enter a fragrance (especially popular clone/dupe releases) to identify a higher-end original it is widely considered to be copying or heavily inspired by.
-      This is a curated knowledge-base matcher (not an AI web-scraper) and can be extended with your own entries.
-    </p>
-  </header>
 
-  <main>
-    <section class="card">
-      <div class="hd">
-        <div class="ttl">Input</div>
-        <div class="pill" id="statusPill">Draft not saved</div>
-      </div>
-      <div class="bd">
-        <label for="dupe">Fragrance you own (clone/dupe or mainstream)</label>
-        <input id="dupe" type="text" placeholder="e.g. Lattafa Asad, Afnan 9PM, Club De Nuit Intense Man" />
+  <div class="container">
 
-        <div class="row two">
-          <div>
-            <label for="matchMode">Match mode</label>
-            <select id="matchMode">
-              <option value="smart" selected>Smart (aliases + fuzzy)</option>
-              <option value="strict">Strict (exact name)</option>
-            </select>
-          </div>
-          <div>
-            <label for="verbosity">Output style</label>
-            <select id="verbosity">
-              <option value="concise">Concise</option>
-              <option value="detailed" selected>Detailed</option>
-            </select>
-          </div>
-        </div>
+    <div class="profile">
+      <!-- 🔥 Replace this with your image -->
+      <img class="avatar" src="https://via.placeholder.com/150" alt="Mahir Ahmed" />
 
-        <label for="extra">Extra info you can add (optional)</label>
-        <input id="extra" type="text" placeholder="e.g. 'smoky vanilla', 'saffron oud', 'Aventus style'" />
+      <h1>Mahir Ahmed</h1>
+      <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
+    </div>
 
-        <div class="btns">
-          <button class="primary" id="matchBtn">Find original</button>
-          <button id="randomBtn">Try example</button>
-          <button class="ghost" id="saveBtn">Save draft</button>
-          <button class="ghost" id="clearBtn">Clear</button>
-        </div>
+    <div class="links">
 
-        <p class="hint">
-          Shortcuts: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> matches, and
-          <span class="kbd">Ctrl</span> + <span class="kbd">S</span> saves.
-        </p>
+      <a class="link" href="https://github.com/YOUR_USERNAME" target="_blank" onclick="track('GitHub')">
+        GitHub <span>→</span>
+      </a>
 
-        <details>
-          <summary>What this app does (and does not) do</summary>
-          <ul class="list">
-            <li><strong>Does:</strong> match against a curated dupe→original library and explain shared “DNA” (accord structure).</li>
-            <li><strong>Does not:</strong> scrape the web or guarantee “official” inspiration claims.</li>
-            <li><strong>Best use:</strong> you extend the library with your own entries over time.</li>
-          </ul>
-        </details>
-      </div>
-    </section>
+      <a class="link" href="https://linkedin.com/in/YOUR_PROFILE" target="_blank" onclick="track('LinkedIn')">
+        LinkedIn <span>→</span>
+      </a>
 
-    <section class="card">
-      <div class="hd">
-        <div class="ttl">Match result</div>
-        <div class="pill" id="qualityPill">Ready</div>
-      </div>
-      <div class="bd">
-        <div class="out" id="output">Enter a fragrance name, then click “Find original”.</div>
+      <a class="link" href="#" onclick="track('What I’m Building')">
+        What I’m Building <span>→</span>
+      </a>
 
-        <div class="divider"></div>
+      <a class="link" href="mailto:your@email.com" onclick="track('Contact')">
+        Contact Me <span>→</span>
+      </a>
 
-        <div class="btns">
-          <button class="primary" id="copyBtn">Copy</button>
-          <button id="againBtn">Match again</button>
-        </div>
+    </div>
 
-        <div class="meta" id="meta"></div>
-        <p class="warn" id="warn" style="display:none;"></p>
-      </div>
-    </section>
-  </main>
+    <div class="footer">
+      © 2026 Mahir Ahmed
+    </div>
 
-  <div class="toast" id="toast"></div>
+  </div>
 
-<script>
-/**
- * Curated dupe → original library
- * Notes:
- * - This is a community-style "widely regarded as inspired by" mapping, not an official claim.
- * - Add entries freely; the matcher supports aliases for common abbreviations.
- */
-const FRAGRANCE_DNA = {
-  "Lattafa Asad":{aliases:["asad"],original:"Dior Sauvage Elixir",dna:["vanilla-amber","dense spice","aromatic resin"],rationale:"Vanilla-spice core and dark aromatic drydown replicate Sauvage Elixir.",tiers:[{name:"Dior Sauvage Elixir",type:"original",priceTier:"designer"}]},
-  "Lattafa Fakhar Black":{aliases:["fakhar black"],original:"YSL Y EDP",dna:["apple ginger","sweet woods","amber"],rationale:"Apple-ginger freshness and woody amber base mirror Y EDP.",tiers:[{name:"YSL Y EDP",type:"original",priceTier:"designer"}]},
-  "Lattafa Qaed Al Fursan":{aliases:["qaed fursan"],original:"Invictus Victory",dna:["pineapple","amber vanilla","smoky woods"],rationale:"Pineapple sweetness and smoky vanilla amber drydown match Victory.",tiers:[{name:"Invictus Victory",type:"original",priceTier:"designer"}]},
-  "Lattafa Khamrah":{aliases:["khamrah"],original:"Kilian Angels’ Share",dna:["boozy cinnamon","praline","sweet woods"],rationale:"Boozy cinnamon gourmand structure mirrors Angels’ Share.",tiers:[{name:"Kilian Angels’ Share",type:"original",priceTier:"niche"}]},
-  "Lattafa Oud for Glory":{aliases:["oud for glory"],original:"Initio Oud for Greatness",dna:["spicy oud","saffron","patchouli"],rationale:"Spicy-oud vertical progression identical to Oud for Greatness.",tiers:[{name:"Initio Oud for Greatness",type:"original",priceTier:"niche"}]},
-  "Lattafa Ana Abiyedh Rouge":{aliases:["ana abiyedh rouge"],original:"Baccarat Rouge 540",dna:["saffron amber","sweet musk","resinous sugar"],rationale:"Amber-saffron sugar DNA mirrors BR540.",tiers:[{name:"Baccarat Rouge 540",type:"original",priceTier:"niche"}]},
-  "Lattafa Ana Abiyedh":{aliases:["ana abiyedh"],original:"Xerjoff Erba Pura",dna:["white musk","fruity sugar","amber"],rationale:"Sweet musky fruit DNA copies Erba Pura.",tiers:[{name:"Xerjoff Erba Pura",type:"original",priceTier:"niche"}]},
-  "Lattafa Badee Al Oud Amethyst":{aliases:["amethyst","badee al oud amethyst"],original:"Initio Atomic Rose",dna:["jammy rose","vanilla amber","powdery musk"],rationale:"Jammy rose and sweet amber core mirrors Atomic Rose’s thick floral sweetness.",tiers:[{name:"Initio Atomic Rose",type:"original",priceTier:"niche"}]},
-  "Lattafa Badee Al Oud Sublime":{aliases:["badee sublime"],original:"Kilian Love Don't Be Shy",dna:["marshmallow","orange blossom","powdered vanilla"],rationale:"Sugary marshmallow-floral DNA recreates Love Don't Be Shy.",tiers:[{name:"Kilian Love Don't Be Shy",type:"original",priceTier:"niche"}]},
-  "Lattafa Sheikh Al Shuyukh Final Edition":{aliases:["sheikh al shuyukh final"],original:"YSL Y EDP",dna:["green apple","ginger freshness","sweet woods"],rationale:"Apple-ginger freshness and amber woods follow Y EDP.",tiers:[{name:"YSL Y EDP",type:"original",priceTier:"designer"}]},
-  "Lattafa Najdia":{aliases:["najdia"],original:"Invictus Aqua",dna:["aquatic citrus","fresh woods","amber"],rationale:"Fresh aquatic-citrus DNA interprets Invictus Aqua.",tiers:[{name:"Invictus Aqua",type:"original",priceTier:"designer"}]},
-  "Lattafa Ramz Silver":{aliases:["ramz silver"],original:"Jean Paul Gaultier Ultra Male",dna:["pear","mint vanilla","amber sweet"],rationale:"Pear-mint-vanilla sweetness follows Ultra Male DNA.",tiers:[{name:"Jean Paul Gaultier Ultra Male",type:"original",priceTier:"designer"}]},
-  "Lattafa Najdia Tribute":{aliases:["najdia tribute"],original:"Invictus",dna:["marine citrus","sweet amber","fresh woods"],rationale:"Marine-citrus Invictus structure recreation.",tiers:[{name:"Invictus",type:"original",priceTier:"designer"}]},
-  "Lattafa Ejaazi":{aliases:["ejaazi"],original:"Versace Dylan Blue",dna:["grapefruit ambroxan","blue incense","fresh woods"],rationale:"Grapefruit-ambroxan blue DNA closely follows Dylan Blue.",tiers:[{name:"Versace Dylan Blue",type:"original",priceTier:"designer"}]},
-  "Lattafa Maahir Legacy":{aliases:["maahir legacy"],original:"Parfums de Marly Sedley",dna:["mint citrus","watery woods","clean musk"],rationale:"Minty citrus freshness and watery woods mirror Sedley.",tiers:[{name:"Parfums de Marly Sedley",type:"original",priceTier:"niche"}]},
-
-  "Afnan 9PM":{aliases:["9pm"],original:"Jean Paul Gaultier Ultra Male",dna:["apple vanilla","amber sweet","gourmand"],rationale:"Sweet apple-vanilla DNA closely copies Ultra Male.",tiers:[{name:"Jean Paul Gaultier Ultra Male",type:"original",priceTier:"designer"}]},
-  "Afnan Supremacy NOI":{aliases:["supremacy noi"],original:"Creed Aventus",dna:["smoky pineapple","birch","ambergris"],rationale:"Smoky pineapple birch DNA follows Aventus blueprint.",tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
-  "Afnan Turathi Blue":{aliases:["turathi blue"],original:"Bvlgari Tygar",dna:["grapefruit citrus","amber woods","musky freshness"],rationale:"Grapefruit-amberwood DNA matches Tygar.",tiers:[{name:"Bvlgari Tygar",type:"original",priceTier:"niche"}]},
-  "Afnan Modest Une":{aliases:["modest une"],original:"Dior Sauvage",dna:["pepper citrus","ambroxan","fresh woods"],rationale:"Peppery citrus-ambroxan backbone recreates Sauvage EDT.",tiers:[{name:"Dior Sauvage",type:"original",priceTier:"designer"}]},
-  "Afnan Rare Carbon":{aliases:["rare carbon"],original:"Tom Ford Ombre Leather",dna:["suede leather","amber smoke","soft woods"],rationale:"Suede-smoke leather DNA matches Ombre Leather.",tiers:[{name:"Tom Ford Ombre Leather",type:"original",priceTier:"designer"}]},
-  "Afnan 9PM Pour Femme":{aliases:["9pm femme","9pm pour femme"],original:"Carolina Herrera Good Girl",dna:["sweet almond","coffee vanilla","amber"],rationale:"Almond-coffee sweetness mirrors Good Girl.",tiers:[{name:"Carolina Herrera Good Girl",type:"original",priceTier:"designer"}]},
-  "Afnan Historic Olmeda":{aliases:["olmeda","historic olmeda"],original:"Initio Rehab",dna:["lavender spice","sweet woods","vanilla musk"],rationale:"Lavender-spice rehab-style DNA.",tiers:[{name:"Initio Rehab",type:"original",priceTier:"niche"}]},
-  "Afnan 9AM Dive":{aliases:["9am dive","9 am dive"],original:"YSL Y Live",dna:["ginger citrus","aquatic amber","fresh woods"],rationale:"Aquatic ginger-citrus freshness copies Y Live.",tiers:[{name:"YSL Y Live",type:"original",priceTier:"designer"}]},
-
-  "Armaf CDNIM":{aliases:["cdnim","club de nuit"],original:"Creed Aventus",dna:["citrus smoke","birch","ambergris"],rationale:"Classic Aventus clone with smoky citrus and birch.",tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
-  "Armaf Milestone":{aliases:["milestone"],original:"Creed Millesime Imperial",dna:["marine citrus","musk","amber"],rationale:"Marine citrus-musk DNA mirrors Millesime Imperial.",tiers:[{name:"Creed Millesime Imperial",type:"original",priceTier:"niche"}]},
-  "Armaf Sillage":{aliases:["sillage"],original:"Creed Silver Mountain Water",dna:["metallic citrus","green tea","musk"],rationale:"Metallic citrus-tea freshness identical to SMW.",tiers:[{name:"Creed Silver Mountain Water",type:"original",priceTier:"niche"}]},
-  "Armaf Ventana":{aliases:["ventana"],original:"Dior Sauvage",dna:["pepper citrus","ambroxan","aromatic woods"],rationale:"Citrus-pepper ambroxan DNA mirrors Sauvage.",tiers:[{name:"Dior Sauvage",type:"original",priceTier:"designer"}]},
-  "Armaf Tres Nuit":{aliases:["tres nuit"],original:"Creed Green Irish Tweed",dna:["green violet","lemon verbena","fresh woods"],rationale:"Green citrus-violet freshness mirrors GIT.",tiers:[{name:"Creed Green Irish Tweed",type:"original",priceTier:"niche"}]},
-  "Armaf Hunter Intense":{aliases:["hunter intense"],original:"Dior Sauvage + Invictus hybrid",dna:["pepper citrus","bubblegum sweet","amber woods"],rationale:"Combines Sauvage ambroxan with Invictus sweetness.",tiers:[{name:"Dior Sauvage",type:"adjacent",priceTier:"designer"}]},
-  "Armaf Odyssey Homme":{aliases:["odyssey homme"],original:"Tom Ford Noir Extreme",dna:["kulfi vanilla","spice amber","sweet woods"],rationale:"Kulfi-vanilla spice DNA recreates Noir Extreme.",tiers:[{name:"Tom Ford Noir Extreme",type:"original",priceTier:"designer"}]},
-  "Armaf Derby Club House Blanche":{aliases:["derby blanche","club house blanche"],original:"Creed Silver Mountain Water",dna:["metallic citrus","white musk","green tea"],rationale:"Silver Mountain Water style metallic tea DNA.",tiers:[{name:"Creed Silver Mountain Water",type:"original",priceTier:"niche"}]},
-
-  "Maison Alhambra Toscano Leather":{aliases:["toscano leather"],original:"Tom Ford Tuscan Leather",dna:["leather raspberry","saffron","smoky suede"],rationale:"Leather-raspberry-saffron structure is a Tuscan Leather recreation.",tiers:[{name:"Tom Ford Tuscan Leather",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Bright Peach":{aliases:["bright peach"],original:"Tom Ford Bitter Peach",dna:["peach rum","sweet woods","boozy"],rationale:"Boozy peach gourmand mirrors Bitter Peach.",tiers:[{name:"Tom Ford Bitter Peach",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Lovely Cherie":{aliases:["lovely cherie"],original:"Tom Ford Lost Cherry",dna:["cherry almond","vanilla amber","liqueur"],rationale:"Cherry-almond liqueur DNA copies Lost Cherry.",tiers:[{name:"Tom Ford Lost Cherry",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra The Tux":{aliases:["the tux"],original:"YSL Tuxedo",dna:["patchouli amber","smoky vanilla","resinous woods"],rationale:"Patchouli-smoke-amber skeleton identical to Tuxedo.",tiers:[{name:"YSL Tuxedo",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Tabac":{aliases:["tabac","tabac maison","tobacco vanille"],original:"Tom Ford Tobacco Vanille",dna:["tobacco spice","vanilla sweetness","amber warmth"],rationale:"Sweet tobacco-vanilla structure copies Tobacco Vanille.",tiers:[{name:"Tom Ford Tobacco Vanille",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Fabulo Intense":{aliases:["fabulo intense"],original:"Tom Ford Fucking Fabulous",dna:["lavender leather","tonka","powdered almond"],rationale:"Lavender-tonka leather DNA follows Fucking Fabulous.",tiers:[{name:"Tom Ford Fucking Fabulous",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Porto Neroli":{aliases:["porto neroli"],original:"Tom Ford Neroli Portofino",dna:["neroli citrus","white florals","fresh musk"],rationale:"Bright neroli-citrus mirrors Neroli Portofino.",tiers:[{name:"Tom Ford Neroli Portofino",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Amber & Leather":{aliases:["amber leather","amber and leather"],original:"Tom Ford Ombre Leather",dna:["amber leather","smoky woods","soft suede"],rationale:"Amber-leaning take on Ombre Leather DNA.",tiers:[{name:"Tom Ford Ombre Leather",type:"original",priceTier:"designer"}]},
-  "Maison Alhambra Woody Oud":{aliases:["woody oud"],original:"Tom Ford Oud Wood",dna:["dry oud","cardamom spice","amber woods"],rationale:"Dry oud-cardamom amberwood structure copies Oud Wood.",tiers:[{name:"Tom Ford Oud Wood",type:"original",priceTier:"luxury"}]},
-  "Maison Alhambra Rose Petals":{aliases:["rose petals"],original:"Tom Ford Rose Prick",dna:["spicy rose","patchouli","amber"],rationale:"Spicy rose-patchouli DNA mirrors Rose Prick.",tiers:[{name:"Tom Ford Rose Prick",type:"original",priceTier:"luxury"}]},
-
-  "Fragrance World Proud Of You Absolute":{aliases:["proud of you absolute"],original:"Stronger With You Absolutely",dna:["boozy vanilla","amber sweetness","warm woods"],rationale:"Boozy vanilla amber core recreates SWY Absolutely.",tiers:[{name:"Stronger With You Absolutely",type:"original",priceTier:"designer"}]},
-  "Fragrance World Suits":{aliases:["fw suits","suits"],original:"YSL Tuxedo",dna:["patchouli amber","smoky woods","vanilla"],rationale:"Another direct Tuxedo clone.",tiers:[{name:"YSL Tuxedo",type:"original",priceTier:"luxury"}]},
-  "Fragrance World Barakkat Rouge 540":{aliases:["barakkat rouge","barakkat rouge 540"],original:"Baccarat Rouge 540",dna:["saffron amber","sweet resin","sugar musk"],rationale:"Amber-saffron sugar structure mirrors BR540.",tiers:[{name:"Baccarat Rouge 540",type:"original",priceTier:"niche"}]},
-  "Fragrance World Eau De Spice Extreme":{aliases:["eau de spice extreme"],original:"Spicebomb Extreme",dna:["pepper spice","smoky vanilla","amber woods"],rationale:"Hot pepper-smoky vanilla DNA clones Spicebomb Extreme.",tiers:[{name:"Spicebomb Extreme",type:"original",priceTier:"designer"}]},
-  "Fragrance World Hardcore Wood":{aliases:["hardcore wood"],original:"Initio Side Effect",dna:["rum vanilla","spicy amber","tobacco woods"],rationale:"Boozy rum-vanilla DNA mirrors Side Effect.",tiers:[{name:"Initio Side Effect",type:"original",priceTier:"niche"}]},
-  "Fragrance World Barakkat Satin Oud":{aliases:["satin oud","barakkat satin oud"],original:"MFK Oud Satin Mood",dna:["rose vanilla","benzoin amber","powdered oud"],rationale:"Rose-vanilla benzoin structure recreates Oud Satin Mood.",tiers:[{name:"MFK Oud Satin Mood",type:"original",priceTier:"niche"}]},
-  "Fragrance World La Uno Million":{aliases:["la uno million"],original:"Paco Rabanne 1 Million",dna:["blood orange","cinnamon spice","amber leather"],rationale:"Sweet cinnamon-citrus DNA follows 1 Million.",tiers:[{name:"1 Million",type:"original",priceTier:"designer"}]},
-  "Fragrance World Hard Wood":{aliases:["hard wood"],original:"Initio Side Effect",dna:["rum vanilla","tobacco spice","amber woods"],rationale:"Boozy rum-vanilla tobacco DNA mirrors Side Effect.",tiers:[{name:"Initio Side Effect",type:"original",priceTier:"niche"}]},
-
-  "Al Haramain Amber Oud Gold":{aliases:["amber oud gold"],original:"Xerjoff Erba Pura",dna:["tropical fruits","sweet musk","amber sugar"],rationale:"Sweet fruity musk bomb copies Erba Pura.",tiers:[{name:"Xerjoff Erba Pura",type:"original",priceTier:"niche"}]},
-  "Al Haramain Detour Noir":{aliases:["detour noir"],original:"Parfums de Marly Layton",dna:["vanilla apple","cardamom spice","amber woods"],rationale:"Sweet apple-cardamom-vanilla DNA mirrors Layton.",tiers:[{name:"PDM Layton",type:"original",priceTier:"niche"}]},
-  "Al Haramain L'Aventure":{aliases:["laventure","l aventure"],original:"Creed Aventus",dna:["pineapple citrus","birch smoke","ambergris"],rationale:"Smoky pineapple birch DNA copies Aventus.",tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
-  "Al Haramain Amber Oud Tobacco":{aliases:["amber oud tobacco"],original:"Tom Ford Tobacco Vanille",dna:["tobacco vanilla","spiced amber","sweet woods"],rationale:"Tobacco-vanilla gourmand mirrors Tobacco Vanille.",tiers:[{name:"Tom Ford Tobacco Vanille",type:"original",priceTier:"luxury"}]},
-  "Al Haramain Amber Oud Bleu Edition":{aliases:["amber oud bleu"],original:"Bleu de Chanel Parfum",dna:["incense citrus","amber woods","smoky blue"],rationale:"Blue incense-amberwood DNA follows BdC Parfum.",tiers:[{name:"Bleu de Chanel Parfum",type:"original",priceTier:"designer"}]},
-  "Al Haramain Amber Oud Ruby":{aliases:["amber oud ruby"],original:"Baccarat Rouge 540 Extrait",dna:["saffron amber","sweet resin","almond sugar"],rationale:"Extrait-level saffron-amber sugar DNA.",tiers:[{name:"Baccarat Rouge 540 Extrait",type:"original",priceTier:"niche"}]},
-  "Al Haramain L'Aventure Femme":{aliases:["laventure femme","l aventure femme"],original:"Creed Aventus for Her",dna:["green apple","rose","musk amber"],rationale:"Feminine fruity-musk Aventus style DNA.",tiers:[{name:"Creed Aventus for Her",type:"original",priceTier:"niche"}]},
-  "Al Haramain L'Aventure Knight":{aliases:["laventure knight","l aventure knight"],original:"Creed Green Irish Tweed",dna:["green violet","lemon verbena","oakmoss woods"],rationale:"Green aromatic fougère DNA mirrors GIT.",tiers:[{name:"Creed Green Irish Tweed",type:"original",priceTier:"niche"}]},
-
-  "Vanilla Voyage":{aliases:["vanilla voyage","next vanilla voyage","m&s vanilla voyage"],original:"Maison Margiela By the Fireplace",dna:["smoky vanilla","toasted sugar","amber woods"],rationale:"Built on the same smoky-gourmand vanilla fireplace accord as By the Fireplace.",tiers:[{name:"Maison Margiela By the Fireplace",type:"original",priceTier:"designer niche"}]},
-  "ZARA Red Vanilla":{aliases:["zara red vanilla"],original:"YSL Black Opium",dna:["pear vanilla","coffee sweetness","amber florals"],rationale:"Sweet pear-vanilla and coffee-floral DNA mirrors Black Opium.",tiers:[{name:"YSL Black Opium",type:"original",priceTier:"designer"}]},
-  "ZARA Rich Warm Addictive":{aliases:["rich warm addictive"],original:"By Kilian Angels’ Share",dna:["honey rum","tobacco vanilla","boozy sweetness"],rationale:"Boozy honey-tobacco gourmand echoes Angels’ Share.",tiers:[{name:"By Kilian Angels’ Share",type:"original",priceTier:"niche"}]},
-  "ZARA Energetically New York":{aliases:["energetically new york","energetically ny"],original:"Le Labo Santal 33",dna:["sandalwood leather","dry woods","musky amber"],rationale:"Dry sandalwood-leather DNA recreates the Santal 33 style.",tiers:[{name:"Le Labo Santal 33",type:"original",priceTier:"niche"}]},
-  "ZARA Vibrant Leather":{aliases:["vibrant leather"],original:"Creed Aventus",dna:["pineapple citrus","smoky birch","ambergris"],rationale:"Smoky pineapple Aventus-style DNA.",tiers:[{name:"Creed Aventus",type:"original",priceTier:"niche"}]},
-  "ZARA Ebony Wood":{aliases:["ebony wood"],original:"Le Labo Santal 33",dna:["sandalwood violet","dry woods","amber musk"],rationale:"Shares the woody-violet musky core of Santal 33.",tiers:[{name:"Le Labo Santal 33",type:"original",priceTier:"niche"}]},
-  "ZARA Gardenia":{aliases:["zara gardenia"],original:"YSL Black Opium",dna:["coffee vanilla","white florals","amber"],rationale:"Coffee-vanilla floral DNA mirrors Black Opium.",tiers:[{name:"YSL Black Opium",type:"original",priceTier:"designer"}]},
-  "ZARA Golden Decade":{aliases:["golden decade"],original:"YSL Libre",dna:["lavender vanilla","amber florals","white musk"],rationale:"Lavender-vanilla floral structure recreates Libre.",tiers:[{name:"YSL Libre",type:"original",priceTier:"designer"}]},
-  "ZARA Rose Gourmand":{aliases:["rose gourmand"],original:"MFK Oud Satin Mood",dna:["rose vanilla","benzoin amber","powdered sweetness"],rationale:"Rose-vanilla benzoin DNA mirrors Oud Satin Mood.",tiers:[{name:"MFK Oud Satin Mood",type:"original",priceTier:"niche"}]},
-  "ZARA Cherry Smoothie":{aliases:["cherry smoothie"],original:"Tom Ford Lost Cherry",dna:["cherry liqueur","almond","vanilla amber"],rationale:"Cherry-almond liqueur DNA closely copies Lost Cherry.",tiers:[{name:"Tom Ford Lost Cherry",type:"original",priceTier:"luxury"}]},
-  "NEXT Cashmere":{aliases:["next cashmere"],original:"MFK Gentle Fluidity Gold",dna:["vanilla amber","soft woods","musky warmth"],rationale:"Soft amber-vanilla cashmere DNA mirrors Gentle Fluidity Gold.",tiers:[{name:"MFK Gentle Fluidity Gold",type:"original",priceTier:"niche"}]},
-  "NEXT Oud Wood":{aliases:["next oud wood"],original:"Tom Ford Oud Wood",dna:["dry oud","cardamom spice","amber woods"],rationale:"Dry oud-cardamom amberwood DNA copies Oud Wood.",tiers:[{name:"Tom Ford Oud Wood",type:"original",priceTier:"luxury"}]},
-  "M&S Warmth":{aliases:["m&s warmth","marks warmth"],original:"Maison Margiela By the Fireplace",dna:["smoky vanilla","amber woods","toasted sugar"],rationale:"Warm smoky-vanilla DNA mirrors By the Fireplace.",tiers:[{name:"Maison Margiela By the Fireplace",type:"original",priceTier:"designer niche"}]},
-  "Bath & Body Works In The Stars":{aliases:["in the stars"],original:"Baccarat Rouge 540",dna:["amber sugar","saffron","sweet musk"],rationale:"Sweet amber-saffron sugar DNA mirrors BR540.",tiers:[{name:"Baccarat Rouge 540",type:"original",priceTier:"niche"}]},
-  "Bath & Body Works Fairytale":{aliases:["bbw fairytale","fairytale"],original:"YSL Libre",dna:["lavender vanilla","amber florals","white musk"],rationale:"Lavender-vanilla floral DNA resembles Libre.",tiers:[{name:"YSL Libre",type:"original",priceTier:"designer"}]},
-  "Bath & Body Works Coffee & Whiskey":{aliases:["coffee & whiskey","coffee whiskey"],original:"YSL Y EDP",dna:["coffee woods","sweet amber","aromatic freshness"],rationale:"Coffee-amber aromatic structure echoes Y EDP.",tiers:[{name:"YSL Y EDP",type:"original",priceTier:"designer"}]},
-  "Bath & Body Works Into The Night":{aliases:["into the night"],original:"YSL Black Opium",dna:["coffee vanilla","dark florals","amber musk"],rationale:"Dark coffee-vanilla floral DNA mirrors Black Opium.",tiers:[{name:"YSL Black Opium",type:"original",priceTier:"designer"}]},
-  "Bath & Body Works Dream Bright":{aliases:["dream bright"],original:"Valentino Donna Born In Roma",dna:["vanilla berry","pink florals","amber musk"],rationale:"Vanilla-berry floral sweetness matches Born In Roma.",tiers:[{name:"Valentino Donna Born In Roma",type:"original",priceTier:"designer"}]}
-};
-
-const FRAGRANCE_INDEX = {};
-
-Object.entries(FRAGRANCE_DNA).forEach(([name,data])=>{
-  FRAGRANCE_INDEX[normaliseKey(name)] = { name, data };
-  (data.aliases || []).forEach(a=>{
-    FRAGRANCE_INDEX[normaliseKey(a)] = { name, data };
-  });
-});
-
-
-
-// Optional: accord keywords that can steer matching if user adds "extra info"
-const ACCORD_HINTS = [
-  { key: "aventus", targets: ["Armaf Club De Nuit Intense Man"] },
-  { key: "ultra male", targets: ["Afnan 9PM"] },
-  { key: "angels share", targets: ["Lattafa Khamrah"] },
-  { key: "sauvage elixir", targets: ["Lattafa Asad"] },
-  { key: "oud for greatness", targets: ["Lattafa Oud for Glory"] },
-  { key: "tuscan leather", targets: ["Maison Alhambra Toscano Leather"] }
-];
-
-function normaliseKey(str){
-  return (str || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g,"");
-}
-
-
-// --- UI ---
-(() => {
-  const $ = (id) => document.getElementById(id);
-
-  const els = {
-    dupe: $("dupe"),
-    matchMode: $("matchMode"),
-    verbosity: $("verbosity"),
-    extra: $("extra"),
-    output: $("output"),
-    meta: $("meta"),
-    warn: $("warn"),
-    statusPill: $("statusPill"),
-    qualityPill: $("qualityPill"),
-    toast: $("toast"),
-    matchBtn: $("matchBtn"),
-    againBtn: $("againBtn"),
-    randomBtn: $("randomBtn"),
-    saveBtn: $("saveBtn"),
-    clearBtn: $("clearBtn"),
-    copyBtn: $("copyBtn")
-  };
-
-  const uniq = (arr) => Array.from(new Set(arr));
-  const toast = (msg) => {
-    els.toast.textContent = msg;
-    els.toast.classList.add("show");
-    setTimeout(() => els.toast.classList.remove("show"), 1600);
-  };
-  const clean = (s) => (s || "").trim();
-  const norm = (s) => clean(s).toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
-
-  function joinNatural(list) {
-    const a = (list || []).filter(Boolean);
-    if (a.length === 0) return "";
-    if (a.length === 1) return a[0];
-    if (a.length === 2) return `${a[0]} and ${a[1]}`;
-    return `${a.slice(0, -1).join(", ")}, and ${a[a.length - 1]}`;
-  }
-
-  // Basic token-set similarity
-  function tokenSetScore(a, b) {
-    const A = new Set(norm(a).split(" ").filter(Boolean));
-    const B = new Set(norm(b).split(" ").filter(Boolean));
-    if (A.size === 0 || B.size === 0) return 0;
-    let inter = 0;
-    for (const t of A) if (B.has(t)) inter++;
-    return inter / Math.max(A.size, B.size);
-  }
-
-  function candidatesFromLibrary() {
-    return Object.entries(FRAGRANCE_DNA).map(([name, obj]) => ({
-      key: name,
-      name,
-      aliases: obj.aliases || [],
-      data: obj
-    }));
-  }
-
-  function applyAccordHints(extra) {
-    const e = norm(extra);
-    if (!e) return [];
-    const hits = [];
-    for (const h of ACCORD_HINTS) {
-      if (e.includes(h.key)) hits.push(...h.targets);
+  <script>
+    function track(linkName) {
+      console.log("Clicked:", linkName);
     }
-    return uniq(hits);
-  }
+  </script>
 
-  function findMatch(input, extra, mode){
-  const key = normaliseKey(input);
-
-  if(mode === "strict"){
-    return FRAGRANCE_INDEX[key]
-      ? { match:{ name:FRAGRANCE_INDEX[key].name, data:FRAGRANCE_INDEX[key].data }, confidence:1, method:"strict exact" }
-      : null;
-  }
-
-  if(FRAGRANCE_INDEX[key]){
-    return { match:{ name:FRAGRANCE_INDEX[key].name, data:FRAGRANCE_INDEX[key].data }, confidence:0.95, method:"alias match" };
-  }
-
-  // fuzzy fallback
-  let best = null;
-
-  Object.entries(FRAGRANCE_INDEX).forEach(([k,v])=>{
-    const score = tokenSetScore(input, v.name);
-    if(!best || score > best.score){
-      best = { score, cand:v };
-    }
-  });
-
-  if(!best || best.score < 0.3) return null;
-
-  return {
-    match:{ name:best.cand.name, data:best.cand.data },
-    confidence: Math.min(0.85, best.score),
-    method:"fuzzy token overlap"
-  };
-}
-
- 
-
-  function render(matchObj, input) {
-    const { match, confidence, method } = matchObj;
-    const d = match.data;
-
-    const confidencePct = Math.round(confidence * 100);
-    const verbosity = els.verbosity.value;
-
-    els.meta.innerHTML = "";
-    const tags = [
-      `Confidence: ${confidencePct}%`,
-      `Method: ${method}`,
-      `Matched: ${match.name}`,
-      `Original: ${d.original}`
-    ];
-    for (const t of tags) {
-      const el = document.createElement("span");
-      el.className = "pill";
-      el.textContent = t;
-      els.meta.appendChild(el);
-    }
-
-    const dnaLine = d.dna && d.dna.length ? d.dna.map(x => `• ${x}`).join("\n") : "• (No DNA tags)";
-    const tierLine = (d.tiers || []).map(x => `• ${x.name} — ${x.type} (${x.priceTier})`).join("\n");
-
-    const concise =
-`${input} is widely regarded as closely inspired by:
-
-${d.original}
-
-Shared DNA:
-${joinNatural(d.dna)}
-
-Why:
-${d.rationale}`;
-
-    const detailed =
-`${input} is widely regarded as closely inspired by:
-
-${d.original}
-
-Why this match is suggested:
-${d.rationale}
-
-Shared fragrance “DNA” (accord structure):
-${dnaLine}
-
-Higher-end / original reference set:
-${tierLine || "• (No tier suggestions available)"}
-
-Practical guidance:
-• If you like the clone’s overall direction, the original typically offers smoother transitions and higher material quality.
-• If you want something similar but less direct, try the “adjacent” options above (same family, different emphasis).
-• For best accuracy, add a short hint in “Extra info” (e.g., “Aventus style”, “saffron oud”, “boozy cinnamon”).`;
-
-    els.output.textContent = verbosity === "concise" ? concise : detailed;
-
-    els.warn.style.display = "block";
-    els.warn.textContent =
-      "Note: These mappings reflect common community comparisons and are not official endorsements or confirmed brand claims.";
-
-    els.qualityPill.textContent = confidencePct >= 85 ? "Strong match" : (confidencePct >= 60 ? "Probable match" : "Possible match");
-  }
-
-  function runMatch() {
-    const input = clean(els.dupe.value);
-    const extra = clean(els.extra.value);
-    const mode = els.matchMode.value;
-
-    if (!input) {
-      els.output.textContent = "Enter a fragrance name, then click “Find original”.";
-      els.warn.style.display = "none";
-      els.qualityPill.textContent = "Needs input";
-      els.meta.innerHTML = "";
-      return;
-    }
-
-    const matchObj = findMatch(input, extra, mode);
-    if (!matchObj) {
-      els.output.textContent =
-`No match found in the current library.
-
-Try:
-• A fuller name (brand + fragrance)
-• Common abbreviations (e.g., CDNIM, 9PM)
-• Add a hint in “Extra info” (e.g., “Aventus style”, “Ultra Male”, “Oud for Greatness”)`;
-      els.warn.style.display = "none";
-      els.qualityPill.textContent = "No match";
-      els.meta.innerHTML = "";
-      return;
-    }
-
-    render(matchObj, input);
-  }
-
-  // --- Persistence ---
-  const KEY = "fragrance_dna_matcher_draft_v1";
-  function getDraft() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch { return null; }
-  }
-  function setDraft(data) {
-    localStorage.setItem(KEY, JSON.stringify(data));
-  }
-  function saveDraft() {
-    const data = {
-      dupe: els.dupe.value,
-      extra: els.extra.value,
-      matchMode: els.matchMode.value,
-      verbosity: els.verbosity.value,
-      savedAt: Date.now()
-    };
-    setDraft(data);
-    els.statusPill.textContent = `Saved ${new Date(data.savedAt).toLocaleString()}`;
-    toast("Draft saved");
-  }
-  function loadDraft() {
-    const d = getDraft();
-    if (!d) return false;
-    els.dupe.value = d.dupe || "";
-    els.extra.value = d.extra || "";
-    els.matchMode.value = d.matchMode || "smart";
-    els.verbosity.value = d.verbosity || "detailed";
-    if (d.savedAt) els.statusPill.textContent = `Loaded ${new Date(d.savedAt).toLocaleString()}`;
-    return true;
-  }
-
-  function clearAll() {
-    els.dupe.value = "";
-    els.extra.value = "";
-    els.matchMode.value = "smart";
-    els.verbosity.value = "detailed";
-    els.output.textContent = "Enter a fragrance name, then click “Find original”.";
-    els.meta.innerHTML = "";
-    els.warn.style.display = "none";
-    els.statusPill.textContent = "Draft not saved";
-    els.qualityPill.textContent = "Ready";
-  }
-
-  // --- Events ---
-  els.matchBtn.addEventListener("click", runMatch);
-  els.againBtn.addEventListener("click", runMatch);
-
-  els.randomBtn.addEventListener("click", () => {
-    const examples = [
-      "Lattafa Asad",
-      "Afnan 9PM",
-      "CDNIM",
-      "Lattafa Khamrah",
-      "Maison Alhambra Toscano Leather",
-      "Lattafa Oud for Glory"
-    ];
-    const pick = examples[Math.floor(Math.random() * examples.length)];
-    els.dupe.value = pick;
-    els.extra.value = "";
-    toast("Example loaded");
-    runMatch();
-  });
-
-  els.saveBtn.addEventListener("click", saveDraft);
-
-  els.clearBtn.addEventListener("click", () => {
-    localStorage.removeItem(KEY);
-    clearAll();
-    toast("Cleared");
-  });
-
-  els.copyBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(els.output.textContent);
-      toast("Copied to clipboard");
-    } catch {
-      toast("Copy failed (browser permissions).");
-    }
-  });
-
-  // Keyboard shortcuts
-  window.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key === "Enter") {
-      e.preventDefault();
-      runMatch();
-    }
-    if (e.ctrlKey && (e.key === "s" || e.key === "S")) {
-      e.preventDefault();
-      saveDraft();
-    }
-  });
-
-  // Auto-load saved draft
-  const loaded = loadDraft();
-  if (loaded) toast("Draft loaded");
-})();
-</script>
 </body>
 </html>
