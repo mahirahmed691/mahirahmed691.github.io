@@ -184,6 +184,19 @@ Paste this as your full index.html:
       letter-spacing: -0.04em;
       margin-bottom: 6px;
     }
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 19px;
+      height: 19px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 12px;
+      vertical-align: middle;
+    }
     .handle {
       color: var(--muted);
       font-size: 14px;
@@ -237,7 +250,7 @@ Paste this as your full index.html:
       color: var(--link-text, var(--text));
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 17px;
+      padding: 16px;
       text-decoration: none;
       display: flex;
       justify-content: space-between;
@@ -278,16 +291,51 @@ Paste this as your full index.html:
       gap: 12px;
     }
     .logo {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: .22s ease;
+      flex-shrink: 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,.18);
     }
     .logo svg {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       fill: currentColor;
+    }
+    .logo.github {
+      background: #111;
+      color: #fff;
+    }
+    .logo.linkedin {
+      background: #0077b5;
+      color: #fff;
+    }
+    .logo.instagram {
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+      color: #fff;
+    }
+    .logo.email {
+      background: linear-gradient(135deg, #6b7280, #374151);
+      color: #fff;
+    }
+    .link:hover .logo {
+      transform: scale(1.1) rotate(5deg);
+    }
+    body[data-theme="cyber"] .logo {
+      border-radius: 8px;
+      box-shadow: 0 0 16px rgba(34,197,94,.35);
+    }
+    body[data-theme="clean"] .logo {
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.1);
+    }
+    body[data-theme="linktree"] .logo {
+      border-radius: 50%;
+      box-shadow: none;
     }
     .actions {
       display: grid;
@@ -372,7 +420,7 @@ Paste this as your full index.html:
       <div class="avatar-ring">
         <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" />
       </div>
-      <h1>Mahir Ahmed</h1>
+      <h1>Mahir Ahmed <span class="verified">✓</span></h1>
       <p class="handle">@mahirahmed691</p>
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </section>
@@ -408,8 +456,8 @@ Paste this as your full index.html:
         <div class="feature-item">
           <span>🔗</span>
           <div>
-            <strong>Personal link hub</strong>
-            GitHub, LinkedIn, Instagram and email in one polished profile.
+            <strong>Branded link buttons</strong>
+            GitHub, LinkedIn, Instagram and email use proper animated icon styling.
           </div>
         </div>
       </div>
@@ -443,22 +491,26 @@ Paste this as your full index.html:
       {
         title: "GitHub",
         url: "https://github.com/mahirahmed691",
-        icon: icons.github
+        icon: icons.github,
+        type: "github"
       },
       {
         title: "LinkedIn",
         url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
-        icon: icons.linkedin
+        icon: icons.linkedin,
+        type: "linkedin"
       },
       {
         title: "Instagram",
         url: "https://www.instagram.com/mahirahmed691",
-        icon: icons.instagram
+        icon: icons.instagram,
+        type: "instagram"
       },
       {
         title: "Contact Me",
         url: "mailto:mahirahmed691@gmail.com",
-        icon: icons.email
+        icon: icons.email,
+        type: "email"
       }
     ];
     const linksContainer = document.getElementById("links");
@@ -472,7 +524,7 @@ Paste this as your full index.html:
         a.rel = "noopener noreferrer";
         a.innerHTML = `
           <span class="link-left">
-            <span class="logo">${link.icon}</span>
+            <span class="logo ${link.type}">${link.icon}</span>
             <span>${link.title}</span>
           </span>
           <span>→</span>
