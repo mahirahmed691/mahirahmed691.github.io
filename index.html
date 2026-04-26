@@ -1,11 +1,10 @@
-Paste this as your full index.html:
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mahir Ahmed | Links</title>
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDM6PMJJJC"></script>
   <script>
@@ -14,6 +13,7 @@ Paste this as your full index.html:
     gtag("js", new Date());
     gtag("config", "G-RDM6PMJJJC");
   </script>
+
   <style>
     body[data-theme="midnight"] {
       --bg: #050505;
@@ -27,6 +27,7 @@ Paste this as your full index.html:
       --radius: 22px;
       --shadow: 0 20px 70px rgba(99,102,241,.28);
     }
+
     body[data-theme="linktree"] {
       --bg: #39e09b;
       --text: #111111;
@@ -40,6 +41,7 @@ Paste this as your full index.html:
       --radius: 999px;
       --shadow: 7px 7px 0 #111111;
     }
+
     body[data-theme="cyber"] {
       --bg: #020617;
       --text: #d1fae5;
@@ -52,6 +54,7 @@ Paste this as your full index.html:
       --radius: 10px;
       --shadow: 0 0 35px rgba(34,197,94,.32);
     }
+
     body[data-theme="clean"] {
       --bg: #f7f7f2;
       --text: #111827;
@@ -64,6 +67,7 @@ Paste this as your full index.html:
       --radius: 20px;
       --shadow: 0 18px 45px rgba(0,0,0,.08);
     }
+
     body[data-theme="sunset"] {
       --bg: #2b1055;
       --text: #ffffff;
@@ -76,22 +80,26 @@ Paste this as your full index.html:
       --radius: 30px;
       --shadow: 0 20px 60px rgba(255,122,89,.3);
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
+
     body {
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      align-items: flex-start;
       padding: 30px 16px;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       transition: background .35s ease, color .35s ease;
     }
+
     body::before {
       content: "";
       position: fixed;
@@ -104,6 +112,7 @@ Paste this as your full index.html:
       opacity: .22;
       animation: floatBg 22s linear infinite;
     }
+
     body::after {
       content: "";
       position: fixed;
@@ -112,6 +121,7 @@ Paste this as your full index.html:
       backdrop-filter: blur(55px);
       background: rgba(0,0,0,.04);
     }
+
     body[data-theme="cyber"] {
       background:
         linear-gradient(rgba(34,197,94,.08) 1px, transparent 1px),
@@ -119,23 +129,38 @@ Paste this as your full index.html:
         var(--bg);
       background-size: 34px 34px;
     }
+
     body[data-theme="sunset"] {
       background: linear-gradient(135deg, #2b1055, #7b2cbf, #ff7a59);
     }
+
     @keyframes floatBg {
-      from { transform: rotate(0deg) translate(0,0); }
-      to { transform: rotate(360deg) translate(60px,-60px); }
+      from {
+        transform: rotate(0deg) translate(0,0);
+      }
+      to {
+        transform: rotate(360deg) translate(60px,-60px);
+      }
     }
+
     .container {
       width: 100%;
       max-width: 460px;
       text-align: center;
       animation: pageIn .65s ease both;
     }
+
     @keyframes pageIn {
-      from { opacity: 0; transform: translateY(18px) scale(.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
+
     .profile-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -145,11 +170,13 @@ Paste this as your full index.html:
       backdrop-filter: blur(16px);
       margin-bottom: 18px;
     }
+
     body[data-theme="linktree"] .profile-card {
       box-shadow: var(--shadow);
       color: #111;
       background: rgba(255,255,255,.35);
     }
+
     .avatar-ring {
       width: 118px;
       height: 118px;
@@ -159,6 +186,7 @@ Paste this as your full index.html:
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       animation: avatarFloat 4s ease-in-out infinite;
     }
+
     .avatar {
       width: 100%;
       height: 100%;
@@ -167,23 +195,32 @@ Paste this as your full index.html:
       border: 4px solid var(--bg);
       background: var(--card);
     }
+
     body[data-theme="cyber"] .avatar,
     body[data-theme="cyber"] .avatar-ring {
       border-radius: 20px;
     }
+
     body[data-theme="clean"] .avatar,
     body[data-theme="clean"] .avatar-ring {
       border-radius: 28px;
     }
+
     @keyframes avatarFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-7px);
+      }
     }
+
     h1 {
       font-size: 27px;
       letter-spacing: -0.04em;
       margin-bottom: 6px;
     }
+
     .verified {
       display: inline-flex;
       align-items: center;
@@ -197,28 +234,33 @@ Paste this as your full index.html:
       font-size: 12px;
       vertical-align: middle;
     }
+
     .handle {
       color: var(--muted);
       font-size: 14px;
       margin-bottom: 10px;
     }
+
     .bio {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.5;
     }
+
     body[data-theme="cyber"] h1 {
       text-transform: uppercase;
       letter-spacing: .08em;
       font-size: 23px;
       text-shadow: 0 0 14px rgba(34,197,94,.55);
     }
+
     .theme-switcher {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       margin-bottom: 18px;
     }
+
     .theme-btn {
       border: 1px solid var(--border);
       background: var(--card);
@@ -230,21 +272,25 @@ Paste this as your full index.html:
       transition: .2s ease;
       backdrop-filter: blur(10px);
     }
+
     .theme-btn:hover,
     .theme-btn.active {
       transform: translateY(-2px);
       border-color: var(--accent);
       box-shadow: var(--shadow);
     }
+
     body[data-theme="linktree"] .theme-btn,
     body[data-theme="linktree"] .action-btn {
       color: #fff;
     }
+
     .links {
       display: flex;
       flex-direction: column;
       gap: 13px;
     }
+
     .link {
       background: var(--card);
       color: var(--link-text, var(--text));
@@ -261,35 +307,61 @@ Paste this as your full index.html:
       transition: .22s ease;
       animation: linkIn .45s ease both;
     }
-    .link:nth-child(1) { animation-delay: .08s; }
-    .link:nth-child(2) { animation-delay: .16s; }
-    .link:nth-child(3) { animation-delay: .24s; }
-    .link:nth-child(4) { animation-delay: .32s; }
-    @keyframes linkIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .link:nth-child(1) {
+      animation-delay: .08s;
     }
+
+    .link:nth-child(2) {
+      animation-delay: .16s;
+    }
+
+    .link:nth-child(3) {
+      animation-delay: .24s;
+    }
+
+    .link:nth-child(4) {
+      animation-delay: .32s;
+    }
+
+    @keyframes linkIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .link:hover {
       transform: translateY(-4px) scale(1.01);
       background: var(--card-hover);
       border-color: var(--accent);
     }
+
     body[data-theme="linktree"] .link:hover {
       transform: translate(-3px, -3px);
       box-shadow: 10px 10px 0 #111;
     }
+
     body[data-theme="cyber"] .link {
       text-transform: uppercase;
       letter-spacing: .07em;
     }
+
     body[data-theme="cyber"] .link:hover {
       box-shadow: 0 0 32px rgba(34,197,94,.5);
     }
+
     .link-left {
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
+
     .logo {
       width: 36px;
       height: 36px;
@@ -301,48 +373,59 @@ Paste this as your full index.html:
       flex-shrink: 0;
       box-shadow: 0 10px 25px rgba(0,0,0,.18);
     }
+
     .logo svg {
       width: 22px;
       height: 22px;
       fill: currentColor;
     }
+
     .logo.github {
       background: #111;
       color: #fff;
     }
+
     .logo.linkedin {
       background: #0077b5;
       color: #fff;
     }
+
     .logo.instagram {
       background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
       color: #fff;
     }
+
     .logo.email {
       background: linear-gradient(135deg, #6b7280, #374151);
       color: #fff;
     }
+
     .link:hover .logo {
       transform: scale(1.1) rotate(5deg);
     }
+
     body[data-theme="cyber"] .logo {
       border-radius: 8px;
       box-shadow: 0 0 16px rgba(34,197,94,.35);
     }
+
     body[data-theme="clean"] .logo {
       border-radius: 14px;
       box-shadow: 0 8px 20px rgba(0,0,0,.1);
     }
+
     body[data-theme="linktree"] .logo {
       border-radius: 50%;
       box-shadow: none;
     }
+
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 16px;
     }
+
     .action-btn {
       background: var(--card);
       color: var(--text);
@@ -354,11 +437,13 @@ Paste this as your full index.html:
       box-shadow: var(--shadow);
       transition: .2s ease;
     }
+
     .action-btn:hover {
       transform: translateY(-2px);
       background: var(--card-hover);
       border-color: var(--accent);
     }
+
     .features {
       margin-top: 22px;
       background: var(--card);
@@ -369,18 +454,22 @@ Paste this as your full index.html:
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
     }
+
     body[data-theme="linktree"] .features {
       color: #fff;
       background: #111;
     }
+
     .features h2 {
       font-size: 17px;
       margin-bottom: 14px;
     }
+
     .feature-grid {
       display: grid;
       gap: 12px;
     }
+
     .feature-item {
       display: flex;
       gap: 10px;
@@ -388,42 +477,122 @@ Paste this as your full index.html:
       font-size: 14px;
       line-height: 1.4;
     }
+
     body[data-theme="linktree"] .feature-item {
       color: #d4d4d4;
     }
+
     .feature-item strong {
       color: var(--link-text, var(--text));
       display: block;
       margin-bottom: 2px;
     }
+
     .footer {
       margin-top: 24px;
       color: var(--muted);
       font-size: 12px;
     }
-    @media (max-width: 390px) {
+
+    @media (max-width: 520px) {
+      body {
+        padding: 18px 12px;
+      }
+
+      .container {
+        max-width: 100%;
+      }
+
+      .profile-card {
+        padding: 22px 14px;
+        border-radius: 26px;
+      }
+
+      .avatar-ring {
+        width: 96px;
+        height: 96px;
+      }
+
+      h1 {
+        font-size: clamp(22px, 7vw, 27px);
+      }
+
+      .bio {
+        font-size: 13px;
+        padding: 0 6px;
+      }
+
       .theme-switcher {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+      }
+
+      .theme-btn {
+        font-size: 12px;
+        padding: 11px 8px;
+      }
+
+      .link {
+        padding: 14px;
+        font-size: 15px;
+      }
+
+      .logo {
+        width: 34px;
+        height: 34px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .footer {
+        padding-bottom: 18px;
       }
     }
+
+    @media (max-width: 340px) {
+      .theme-switcher {
+        grid-template-columns: 1fr;
+      }
+
+      .link {
+        font-size: 14px;
+      }
+
+      .link-left {
+        gap: 9px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation: none !important;
         transition: none !important;
       }
     }
   </style>
 </head>
+
 <body data-theme="midnight">
   <main class="container">
     <section class="profile-card">
       <div class="avatar-ring">
         <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" />
       </div>
+
       <h1>Mahir Ahmed <span class="verified">✓</span></h1>
       <p class="handle">@mahirahmed691</p>
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </section>
+
     <div class="theme-switcher">
       <button class="theme-btn" data-theme-btn="midnight" onclick="setTheme('midnight')">Midnight</button>
       <button class="theme-btn" data-theme-btn="linktree" onclick="setTheme('linktree')">Linktree</button>
@@ -431,13 +600,17 @@ Paste this as your full index.html:
       <button class="theme-btn" data-theme-btn="clean" onclick="setTheme('clean')">Clean</button>
       <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')">Sunset</button>
     </div>
+
     <section class="links" id="links"></section>
+
     <div class="actions">
       <button class="action-btn" onclick="copyEmail()">Copy Email</button>
       <button class="action-btn" onclick="sharePage()">Share Page</button>
     </div>
+
     <section class="features">
       <h2>Premium Features</h2>
+
       <div class="feature-grid">
         <div class="feature-item">
           <span>📊</span>
@@ -446,6 +619,7 @@ Paste this as your full index.html:
             Google Analytics tracks page visits, link clicks and theme changes.
           </div>
         </div>
+
         <div class="feature-item">
           <span>🎨</span>
           <div>
@@ -453,6 +627,7 @@ Paste this as your full index.html:
             Each theme changes the page feel, button shape, animation and layout style.
           </div>
         </div>
+
         <div class="feature-item">
           <span>🔗</span>
           <div>
@@ -462,8 +637,10 @@ Paste this as your full index.html:
         </div>
       </div>
     </section>
+
     <footer class="footer">© 2026 Mahir Ahmed</footer>
   </main>
+
   <script>
     const icons = {
       github: `
@@ -487,6 +664,7 @@ Paste this as your full index.html:
         </svg>
       `
     };
+
     const links = [
       {
         title: "GitHub",
@@ -513,15 +691,20 @@ Paste this as your full index.html:
         type: "email"
       }
     ];
+
     const linksContainer = document.getElementById("links");
+
     function renderLinks() {
       linksContainer.innerHTML = "";
+
       links.forEach(link => {
         const a = document.createElement("a");
+
         a.className = "link";
         a.href = link.url;
         a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
         a.rel = "noopener noreferrer";
+
         a.innerHTML = `
           <span class="link-left">
             <span class="logo ${link.type}">${link.icon}</span>
@@ -529,6 +712,7 @@ Paste this as your full index.html:
           </span>
           <span>→</span>
         `;
+
         a.addEventListener("click", () => {
           if (typeof gtag === "function") {
             gtag("event", "link_click", {
@@ -537,30 +721,38 @@ Paste this as your full index.html:
             });
           }
         });
+
         linksContainer.appendChild(a);
       });
     }
+
     function setTheme(theme) {
       document.body.dataset.theme = theme;
       localStorage.setItem("theme", theme);
+
       document.querySelectorAll(".theme-btn").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.themeBtn === theme);
       });
+
       if (typeof gtag === "function") {
         gtag("event", "theme_change", {
           theme_name: theme
         });
       }
     }
+
     function copyEmail() {
       navigator.clipboard.writeText("mahirahmed691@gmail.com");
       alert("Email copied");
+
       if (typeof gtag === "function") {
         gtag("event", "copy_email");
       }
     }
+
     function sharePage() {
       const url = "https://mahirahmed.github.io";
+
       if (navigator.share) {
         navigator.share({
           title: "Mahir Ahmed",
@@ -571,11 +763,14 @@ Paste this as your full index.html:
         navigator.clipboard.writeText(url);
         alert("Page link copied");
       }
+
       if (typeof gtag === "function") {
         gtag("event", "share_page");
       }
     }
+
     renderLinks();
+
     const savedTheme = localStorage.getItem("theme") || "midnight";
     setTheme(savedTheme);
   </script>
