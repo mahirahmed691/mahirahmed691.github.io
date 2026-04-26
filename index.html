@@ -15,354 +15,262 @@
   </script>
 
   <style>
+    /* ================= THEMES ================= */
+
     body[data-theme="midnight"] {
       --bg: #050505;
-      --bg-glow: rgba(99, 102, 241, 0.35);
-      --card: rgba(255,255,255,0.08);
-      --card-hover: rgba(255,255,255,0.14);
       --text: #ffffff;
       --muted: #a1a1aa;
+      --card: rgba(255,255,255,0.08);
+      --card-hover: rgba(255,255,255,0.15);
+      --border: rgba(255,255,255,0.16);
       --accent: #8b5cf6;
-      --border: rgba(255,255,255,0.14);
+      --radius: 20px;
+      --avatar-radius: 50%;
+      --shadow: 0 20px 60px rgba(99,102,241,0.25);
     }
 
     body[data-theme="linktree"] {
       --bg: #39e09b;
-      --bg-glow: rgba(255,255,255,0.35);
-      --card: #111111;
-      --card-hover: #222222;
-      --text: #111111;
-      --link-text: #ffffff;
+      --text: #111;
       --muted: #174632;
-      --accent: #111111;
-      --border: rgba(0,0,0,0.18);
+      --card: #111;
+      --card-hover: #242424;
+      --link-text: #fff;
+      --border: #111;
+      --accent: #111;
+      --radius: 999px;
+      --avatar-radius: 50%;
+      --shadow: 6px 6px 0 #111;
+    }
+
+    body[data-theme="cyber"] {
+      --bg: #020617;
+      --text: #d1fae5;
+      --muted: #86efac;
+      --card: rgba(0,255,128,0.08);
+      --card-hover: rgba(0,255,128,0.16);
+      --border: rgba(34,197,94,0.45);
+      --accent: #22c55e;
+      --radius: 8px;
+      --avatar-radius: 18px;
+      --shadow: 0 0 30px rgba(34,197,94,0.28);
     }
 
     body[data-theme="clean"] {
-      --bg: #f5f5f4;
-      --bg-glow: rgba(0,0,0,0.08);
-      --card: #ffffff;
-      --card-hover: #f1f5f9;
+      --bg: #f7f7f2;
       --text: #111827;
       --muted: #6b7280;
-      --accent: #111827;
+      --card: #fff;
+      --card-hover: #f1f5f9;
       --border: #e5e7eb;
+      --accent: #111827;
+      --radius: 18px;
+      --avatar-radius: 26px;
+      --shadow: 0 18px 40px rgba(0,0,0,0.08);
     }
 
-    body[data-theme="tech"] {
-      --bg: #04120c;
-      --bg-glow: rgba(34,197,94,0.35);
-      --card: rgba(16,32,24,0.92);
-      --card-hover: rgba(23,45,34,0.95);
-      --text: #ffffff;
-      --muted: #a7b8ae;
-      --accent: #22c55e;
-      --border: rgba(34,197,94,0.22);
+    body[data-theme="sunset"] {
+      --bg: #2b1055;
+      --text: #fff;
+      --muted: #f8d7ff;
+      --card: rgba(255,255,255,0.12);
+      --card-hover: rgba(255,255,255,0.22);
+      --border: rgba(255,255,255,0.2);
+      --accent: #ff7a59;
+      --radius: 28px;
+      --avatar-radius: 50%;
+      --shadow: 0 20px 50px rgba(255,122,89,0.25);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    }
+    /* ================= BASE ================= */
 
+    * {margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Segoe UI,Roboto;}
     body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, var(--bg-glow), transparent 35%), var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      padding: 28px 18px;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:28px 18px;
+      background:var(--bg);
+      color:var(--text);
     }
 
     .container {
-      width: 100%;
-      max-width: 440px;
-      text-align: center;
+      width:100%;
+      max-width:450px;
+      text-align:center;
     }
 
+    /* PROFILE */
+
     .avatar {
-      width: 108px;
-      height: 108px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--border);
-      margin-bottom: 12px;
-      background: var(--card);
+      width:110px;
+      height:110px;
+      border-radius:var(--avatar-radius);
+      object-fit:cover;
+      border:3px solid var(--border);
+      box-shadow:var(--shadow);
+      margin-bottom:12px;
     }
 
     .upload-label {
-      display: inline-block;
-      margin-bottom: 18px;
-      font-size: 12px;
-      color: var(--text);
-      border: 1px solid var(--border);
-      background: var(--card);
-      padding: 8px 12px;
-      border-radius: 999px;
-      cursor: pointer;
+      display:inline-block;
+      margin-bottom:18px;
+      font-size:12px;
+      border:1px solid var(--border);
+      background:var(--card);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
     }
 
-    .upload-label:hover {
-      border-color: var(--accent);
-    }
+    #photoUpload {display:none;}
 
-    #photoUpload {
-      display: none;
-    }
+    h1 {font-size:26px;margin-bottom:6px;}
+    .handle {color:var(--muted);margin-bottom:10px;}
+    .bio {color:var(--muted);font-size:14px;margin-bottom:20px;}
 
-    h1 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
-
-    .handle {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .bio {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 22px;
-    }
+    /* THEMES */
 
     .theme-switcher {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 22px;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+      margin-bottom:20px;
     }
 
     .theme-btn {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 8px 6px;
-      font-size: 11px;
-      cursor: pointer;
+      padding:6px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:var(--card);
+      cursor:pointer;
+      font-size:10px;
     }
 
-    .theme-btn:hover,
-    .theme-btn.active {
-      border-color: var(--accent);
-    }
+    /* LINKS */
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-    }
+    .links {display:flex;flex-direction:column;gap:12px;}
 
     .link {
-      background: var(--card);
-      color: var(--link-text, var(--text));
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-weight: 700;
-      transition: 0.2s ease;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      text-decoration:none;
+      color:var(--link-text,var(--text));
+      font-weight:700;
+      box-shadow:var(--shadow);
     }
 
     .link:hover {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: var(--accent);
+      transform:translateY(-2px);
+      background:var(--card-hover);
+      border-color:var(--accent);
     }
 
     .link-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
 
     .logo svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
+      width:22px;
+      height:22px;
+      fill:currentColor;
     }
 
     .footer {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 12px;
+      margin-top:24px;
+      color:var(--muted);
+      font-size:12px;
     }
   </style>
 </head>
 
 <body data-theme="midnight">
 
-  <main class="container">
+<div class="container">
 
-    <img id="avatar" class="avatar" src="profile.jpg" alt="Mahir Ahmed" />
+  <img id="avatar" class="avatar" src="profile.jpg"/>
 
-    <br />
+  <br>
 
-    <label class="upload-label" for="photoUpload">
-      Upload profile photo
-    </label>
-    <input id="photoUpload" type="file" accept="image/*" />
+  <label class="upload-label" for="photoUpload">Upload photo</label>
+  <input id="photoUpload" type="file" accept="image/*"/>
 
-    <h1>Mahir Ahmed</h1>
-    <p class="handle">@mahirahmed691</p>
-    <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
+  <h1>Mahir Ahmed</h1>
+  <p class="handle">@mahirahmed691</p>
+  <p class="bio">Platform Engineer • DevOps</p>
 
-    <div class="theme-switcher">
-      <button class="theme-btn" data-theme-btn="midnight" onclick="setTheme('midnight')">Midnight</button>
-      <button class="theme-btn" data-theme-btn="linktree" onclick="setTheme('linktree')">Linktree</button>
-      <button class="theme-btn" data-theme-btn="clean" onclick="setTheme('clean')">Clean</button>
-      <button class="theme-btn" data-theme-btn="tech" onclick="setTheme('tech')">Tech</button>
-    </div>
+  <div class="theme-switcher">
+    <button onclick="setTheme('midnight')">Midnight</button>
+    <button onclick="setTheme('linktree')">Linktree</button>
+    <button onclick="setTheme('cyber')">Cyber</button>
+    <button onclick="setTheme('clean')">Clean</button>
+    <button onclick="setTheme('sunset')">Sunset</button>
+  </div>
 
-    <section class="links" id="links"></section>
+  <div id="links" class="links"></div>
 
-    <footer class="footer">
-      © 2026 Mahir Ahmed
-    </footer>
+  <div class="footer">© 2026 Mahir Ahmed</div>
 
-  </main>
+</div>
 
-  <script>
-    const icons = {
-      github: `
-        <svg viewBox="0 0 24 24">
-          <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.33.95.1-.74.4-1.24.72-1.53-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18A10.93 10.93 0 0 1 12 6.02c.97 0 1.95.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.77 1.04.77 2.1v3.2c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
-        </svg>
-      `,
-      linkedin: `
-        <svg viewBox="0 0 24 24">
-          <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.32 8.1h4.36V23H.32V8.1zM8.04 8.1h4.18v2.04h.06c.58-1.1 2-2.26 4.12-2.26 4.41 0 5.22 2.9 5.22 6.67V23h-4.36v-7.5c0-1.79-.03-4.09-2.49-4.09-2.49 0-2.87 1.95-2.87 3.96V23H7.54V8.1h.5z"/>
-        </svg>
-      `,
-      instagram: `
-        <svg viewBox="0 0 24 24">
-          <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-2.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/>
-        </svg>
-      `,
-      email: `
-        <svg viewBox="0 0 24 24">
-          <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm9 8.2L3.5 7H3v.4l9 6.6 9-6.6V7h-.5L12 13.2z"/>
-        </svg>
-      `
-    };
+<script>
+const icons = {
+  github:`<svg viewBox="0 0 24 24"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.3-3.9-1.3-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.7 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3 0 0 1-.3 3.2 1.2.9-.2 1.9-.3 2.9-.3s2 .1 2.9.3c2.2-1.5 3.2-1.2 3.2-1.2.6 1.5.2 2.7.1 3 .8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.3.8 1 .8 2v3c0 .3.2.7.8.6A11.5 11.5 0 0023.5 12C23.5 5.6 18.4.5 12 .5z"/></svg>`,
+  linkedin:`<svg viewBox="0 0 24 24"><path d="M2.5 1C1.1 1 0 2.1 0 3.5S1.1 6 2.5 6 5 4.9 5 3.5 3.9 1 2.5 1zM0 8h5v15H0V8zm8 0h4v2h.1c.6-1 2-2 4-2 4 0 5 3 5 7v8h-5v-7c0-2-.1-4-2.5-4s-3 2-3 4v7H8V8z"/></svg>`,
+  instagram:`<svg viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0122 7.5v9A5.5 5.5 0 0116.5 22h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zm0 2A3.5 3.5 0 004 7.5v9A3.5 3.5 0 007.5 20h9a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0016.5 4h-9z"/></svg>`,
+  email:`<svg viewBox="0 0 24 24"><path d="M3 5h18a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2zm9 7L3 7v10h18V7l-9 5z"/></svg>`
+};
 
-    const links = [
-      {
-        title: "GitHub",
-        url: "https://github.com/mahirahmed691",
-        icon: icons.github
-      },
-      {
-        title: "LinkedIn",
-        url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
-        icon: icons.linkedin
-      },
-      {
-        title: "Instagram",
-        url: "https://www.instagram.com/mahirahmed691",
-        icon: icons.instagram
-      },
-      {
-        title: "Contact Me",
-        url: "mailto:mahirahmed691@gmail.com",
-        icon: icons.email
-      }
-    ];
+const links = [
+  {title:"GitHub",url:"https://github.com/mahirahmed691",icon:icons.github},
+  {title:"LinkedIn",url:"https://www.linkedin.com/in/mahir-ahmed-84a346149",icon:icons.linkedin},
+  {title:"Instagram",url:"https://www.instagram.com/mahirahmed691",icon:icons.instagram},
+  {title:"Contact",url:"mailto:mahirahmed691@gmail.com",icon:icons.email}
+];
 
-    const linksContainer = document.getElementById("links");
+const container = document.getElementById("links");
 
-    function renderLinks() {
-      linksContainer.innerHTML = "";
+links.forEach(link=>{
+  const a=document.createElement("a");
+  a.className="link";
+  a.href=link.url;
+  a.target="_blank";
+  a.innerHTML=`<span class="link-left"><span class="logo">${link.icon}</span>${link.title}</span><span>→</span>`;
+  a.onclick=()=>gtag("event","link_click",{link_name:link.title});
+  container.appendChild(a);
+});
 
-      links.forEach(link => {
-        const a = document.createElement("a");
-        a.className = "link";
-        a.href = link.url;
-        a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
-        a.rel = "noopener noreferrer";
+function setTheme(t){
+  document.body.dataset.theme=t;
+  localStorage.setItem("theme",t);
+}
 
-        a.innerHTML = `
-          <span class="link-left">
-            <span class="logo">${link.icon}</span>
-            <span>${link.title}</span>
-          </span>
-          <span>→</span>
-        `;
+setTheme(localStorage.getItem("theme")||"midnight");
 
-        a.addEventListener("click", () => {
-          if (typeof gtag === "function") {
-            gtag("event", "link_click", {
-              link_name: link.title
-            });
-          }
-        });
+const avatar=document.getElementById("avatar");
+const upload=document.getElementById("photoUpload");
 
-        linksContainer.appendChild(a);
-      });
-    }
+const saved=localStorage.getItem("photo");
+if(saved) avatar.src=saved;
 
-    function setTheme(theme) {
-      document.body.dataset.theme = theme;
-      localStorage.setItem("theme", theme);
-
-      document.querySelectorAll(".theme-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.themeBtn === theme);
-      });
-
-      if (typeof gtag === "function") {
-        gtag("event", "theme_change", {
-          theme_name: theme
-        });
-      }
-    }
-
-    const avatar = document.getElementById("avatar");
-    const photoUpload = document.getElementById("photoUpload");
-
-    const savedPhoto = localStorage.getItem("profilePhoto");
-    if (savedPhoto) {
-      avatar.src = savedPhoto;
-    }
-
-    photoUpload.addEventListener("change", function () {
-      const file = this.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-
-      reader.onload = function (event) {
-        const imageData = event.target.result;
-        avatar.src = imageData;
-        localStorage.setItem("profilePhoto", imageData);
-
-        if (typeof gtag === "function") {
-          gtag("event", "profile_photo_upload");
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-
-    renderLinks();
-
-    const savedTheme = localStorage.getItem("theme") || "midnight";
-    setTheme(savedTheme);
-  </script>
+upload.onchange=e=>{
+  const file=e.target.files[0];
+  const reader=new FileReader();
+  reader.onload=()=>{
+    avatar.src=reader.result;
+    localStorage.setItem("photo",reader.result);
+  };
+  reader.readAsDataURL(file);
+};
+</script>
 
 </body>
 </html>
