@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mahir Ahmed</title>
 
   <style>
-    :root {
+    /* ===== THEMES ===== */
+    body[data-theme="dark"] {
       --bg: #0f0f10;
       --card: #1a1a1d;
       --card-hover: #222226;
@@ -17,177 +18,208 @@
       --border: #27272a;
     }
 
+    body[data-theme="light"] {
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --card-hover: #f1f1f5;
+      --text: #18181b;
+      --muted: #71717a;
+      --accent: #6366f1;
+      --accent-2: #7c3aed;
+      --border: #e4e4e7;
+    }
+
+    body[data-theme="purple"] {
+      --bg: #16091f;
+      --card: #241031;
+      --card-hover: #301542;
+      --text: #ffffff;
+      --muted: #c4b5d9;
+      --accent: #c026d3;
+      --accent-2: #9333ea;
+      --border: #4a1d66;
+    }
+
+    body[data-theme="green"] {
+      --bg: #07130d;
+      --card: #102018;
+      --card-hover: #172d22;
+      --text: #ffffff;
+      --muted: #a7b8ae;
+      --accent: #22c55e;
+      --accent-2: #14b8a6;
+      --border: #214532;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top, rgba(99, 102, 241, 0.25), transparent 35%),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px;
+      min-height: 100vh;
+      padding: 20px;
+      transition: all 0.3s ease;
     }
 
     .container {
       width: 100%;
-      max-width: 430px;
+      max-width: 420px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeIn 0.6s ease forwards;
+      animation: fadeIn 0.5s ease;
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
-    .profile {
-      margin-bottom: 28px;
-    }
-
+    /* ===== PROFILE ===== */
     .avatar {
-      width: 94px;
-      height: 94px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      margin: 0 auto 16px;
       object-fit: cover;
+      margin-bottom: 16px;
       border: 2px solid var(--border);
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 15px rgba(99,102,241,0.4);
     }
 
     h1 {
-      font-size: 24px;
-      margin-bottom: 6px;
+      font-size: 22px;
     }
 
     .handle {
       color: var(--muted);
-      font-size: 14px;
       margin-bottom: 10px;
     }
 
     .bio {
       color: var(--muted);
       font-size: 14px;
+      margin-bottom: 20px;
     }
 
-    .links {
+    /* ===== THEME SWITCHER ===== */
+    .theme-switcher {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
     }
 
-    .link {
-      width: 100%;
+    .theme-switcher button {
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 15px 16px;
-      text-decoration: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .theme-switcher button:hover {
+      border-color: var(--accent);
+    }
+
+    /* ===== LINKS ===== */
+    .links {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link {
+      background: var(--card);
+      padding: 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
       justify-content: space-between;
-      font-weight: 600;
-      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      transition: 0.2s;
     }
 
     .link:hover {
       transform: translateY(-2px);
-      background: var(--card-hover);
       border-color: var(--accent);
-    }
-
-    .link-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .link-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      background: rgba(99, 102, 241, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--card-hover);
     }
 
     .featured {
       border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 0 12px rgba(99,102,241,0.3);
     }
 
-    /* 🔥 Features Section */
+    /* ===== FEATURES ===== */
     .features {
-      margin-top: 28px;
+      margin-top: 24px;
       text-align: left;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.03);
+      padding: 16px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
     }
 
     .features h2 {
-      font-size: 18px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .feature-group {
-      margin-bottom: 18px;
-    }
-
-    .feature-group:last-child {
-      margin-bottom: 0;
+      margin-bottom: 12px;
     }
 
     .feature-group h3 {
       color: var(--accent-2);
-      font-size: 15px;
-      margin-bottom: 10px;
+      font-size: 14px;
     }
 
     .feature-item {
-      font-size: 14px;
-      margin-bottom: 8px;
+      font-size: 13px;
+      margin-top: 4px;
     }
 
     .footer {
-      margin-top: 28px;
-      color: var(--muted);
+      margin-top: 20px;
       font-size: 12px;
+      color: var(--muted);
     }
   </style>
 </head>
 
-<body>
+<body data-theme="dark">
 
   <div class="container">
 
-    <div class="profile">
-      <!-- Replace with your real image later -->
-      <img class="avatar" src="https://via.placeholder.com/150" />
-      <h1>Mahir Ahmed</h1>
-      <p class="handle">@mahirahmed691</p>
-      <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
+    <!-- 🔥 Your Instagram photo -->
+    <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" />
+
+    <h1>Mahir Ahmed</h1>
+    <p class="handle">@mahirahmed691</p>
+    <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+      <button onclick="setTheme('dark')">Dark</button>
+      <button onclick="setTheme('light')">Light</button>
+      <button onclick="setTheme('purple')">Purple</button>
+      <button onclick="setTheme('green')">Green</button>
     </div>
 
+    <!-- Links -->
     <div class="links" id="links"></div>
 
-    <!-- 🔥 Features UI -->
-    <section class="features">
+    <!-- Features -->
+    <div class="features">
       <h2>Features</h2>
 
       <div class="feature-group">
@@ -210,7 +242,7 @@
         <h3>Priority Support</h3>
         <div class="feature-item">✅ Contact / onboarding</div>
       </div>
-    </section>
+    </div>
 
     <div class="footer">
       © 2026 Mahir Ahmed
@@ -223,18 +255,15 @@
       {
         title: "GitHub",
         url: "https://github.com/mahirahmed691",
-        icon: "💻",
         featured: true
       },
       {
         title: "LinkedIn",
-        url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
-        icon: "💼"
+        url: "https://www.linkedin.com/in/mahir-ahmed-84a346149"
       },
       {
         title: "Contact Me",
-        url: "mailto:mahirahmed691@gmail.com",
-        icon: "✉️"
+        url: "mailto:mahirahmed691@gmail.com"
       }
     ];
 
@@ -245,17 +274,17 @@
       a.className = link.featured ? "link featured" : "link";
       a.href = link.url;
       a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
-
-      a.innerHTML = `
-        <span class="link-left">
-          <span class="link-icon">${link.icon}</span>
-          <span>${link.title}</span>
-        </span>
-        <span>→</span>
-      `;
-
+      a.innerHTML = `${link.title} <span>→</span>`;
       container.appendChild(a);
     });
+
+    function setTheme(theme) {
+      document.body.dataset.theme = theme;
+      localStorage.setItem("theme", theme);
+    }
+
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
   </script>
 
 </body>
