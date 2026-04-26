@@ -5,21 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Mahir Ahmed | Links</title>
-  <meta name="description" content="Mahir Ahmed - Platform Engineer, DevOps and builder. GitHub, LinkedIn, Instagram and contact links." />
-  <meta name="theme-color" content="#050505" />
+  <meta name="description" content="Platform Engineer • DevOps • Building things that scale" />
 
+  <!-- Open Graph -->
   <meta property="og:title" content="Mahir Ahmed | Links" />
   <meta property="og:description" content="Platform Engineer • DevOps • Building things that scale" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mahirahmed691.github.io" />
   <meta property="og:image" content="https://mahirahmed691.github.io/profile.jpg" />
+  <meta property="og:url" content="https://mahirahmed691.github.io" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Mahir Ahmed | Links" />
-  <meta name="twitter:description" content="Platform Engineer • DevOps • Building things that scale" />
-  <meta name="twitter:image" content="https://mahirahmed691.github.io/profile.jpg" />
-
-  <!-- Google Analytics -->
+  <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDM6PMJJJC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -29,77 +23,24 @@
   </script>
 
   <style>
-    body[data-theme="midnight"] {
-      --bg: #050505;
-      --text: #ffffff;
-      --muted: #a1a1aa;
-      --card: rgba(255,255,255,0.08);
-      --card-hover: rgba(255,255,255,0.16);
-      --border: rgba(255,255,255,0.16);
-      --accent: #8b5cf6;
-      --accent2: #6366f1;
-      --radius: 22px;
-      --shadow: 0 20px 70px rgba(99,102,241,.28);
-    }
-
-    body[data-theme="linktree"] {
-      --bg: #39e09b;
-      --text: #111111;
-      --muted: #174632;
-      --card: #111111;
-      --card-hover: #242424;
-      --link-text: #ffffff;
-      --border: #111111;
-      --accent: #111111;
-      --accent2: #111111;
-      --radius: 999px;
-      --shadow: 7px 7px 0 #111111;
-    }
-
-    body[data-theme="cyber"] {
-      --bg: #020617;
-      --text: #d1fae5;
-      --muted: #86efac;
-      --card: rgba(0,255,128,.08);
-      --card-hover: rgba(0,255,128,.18);
-      --border: rgba(34,197,94,.45);
-      --accent: #22c55e;
-      --accent2: #14b8a6;
-      --radius: 10px;
-      --shadow: 0 0 35px rgba(34,197,94,.32);
-    }
-
-    body[data-theme="clean"] {
-      --bg: #f7f7f2;
-      --text: #111827;
-      --muted: #6b7280;
+    body[data-theme="agate"] {
+      --bg: #e8eadf;
+      --text: #050505;
+      --muted: #3f4038;
       --card: #ffffff;
-      --card-hover: #f1f5f9;
-      --border: #e5e7eb;
-      --accent: #111827;
-      --accent2: #4f46e5;
-      --radius: 20px;
-      --shadow: 0 18px 45px rgba(0,0,0,.08);
-    }
-
-    body[data-theme="sunset"] {
-      --bg: #2b1055;
-      --text: #ffffff;
-      --muted: #f8d7ff;
-      --card: rgba(255,255,255,.13);
-      --card-hover: rgba(255,255,255,.24);
-      --border: rgba(255,255,255,.22);
-      --accent: #ff7a59;
-      --accent2: #ffd166;
-      --radius: 30px;
-      --shadow: 0 20px 60px rgba(255,122,89,.3);
+      --card-hover: #f5f5f0;
+      --border: #050505;
+      --accent: #a3ff00;
+      --accent2: #14b8a6;
+      --radius: 28px;
+      --shadow: 0 14px 30px rgba(0,0,0,.18);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -107,802 +48,187 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      padding: 30px 16px;
+      padding: 24px 14px;
       background: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
-      transition: background .35s ease, color .35s ease;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: -50%;
-      z-index: -2;
-      background:
-        radial-gradient(circle at 20% 20%, var(--accent), transparent 22%),
-        radial-gradient(circle at 80% 10%, var(--accent2), transparent 18%),
-        radial-gradient(circle at 50% 90%, var(--accent), transparent 24%);
-      opacity: .22;
-      animation: floatBg 22s linear infinite;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      backdrop-filter: blur(55px);
-      background: rgba(0,0,0,.04);
-    }
-
-    body[data-theme="cyber"] {
-      background:
-        linear-gradient(rgba(34,197,94,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34,197,94,.08) 1px, transparent 1px),
-        var(--bg);
-      background-size: 34px 34px;
-    }
-
-    body[data-theme="sunset"] {
-      background: linear-gradient(135deg, #2b1055, #7b2cbf, #ff7a59);
-    }
-
-    @keyframes floatBg {
-      from { transform: rotate(0deg) translate(0,0); }
-      to { transform: rotate(360deg) translate(60px,-60px); }
     }
 
     .container {
       width: 100%;
       max-width: 460px;
       text-align: center;
-      animation: pageIn .65s ease both;
-    }
-
-    @keyframes pageIn {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
     }
 
     .profile-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 32px;
-      padding: 24px 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 22px;
       margin-bottom: 18px;
-    }
-
-    body[data-theme="linktree"] .profile-card {
       box-shadow: var(--shadow);
-      color: #111;
-      background: rgba(255,255,255,.35);
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      margin-bottom: 14px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--link-text, var(--text));
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 14px rgba(34,197,94,.9);
-    }
-
-    .avatar-ring {
-      width: 118px;
-      height: 118px;
-      margin: 0 auto 14px;
-      border-radius: 50%;
-      padding: 4px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      animation: avatarFloat 4s ease-in-out infinite;
     }
 
     .avatar {
-      width: 100%;
-      height: 100%;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid var(--bg);
-      background: var(--card);
-    }
-
-    body[data-theme="cyber"] .avatar,
-    body[data-theme="cyber"] .avatar-ring {
-      border-radius: 20px;
-    }
-
-    body[data-theme="clean"] .avatar,
-    body[data-theme="clean"] .avatar-ring {
-      border-radius: 28px;
-    }
-
-    @keyframes avatarFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 27px;
-      letter-spacing: -0.04em;
-      margin-bottom: 6px;
-    }
-
-    .verified {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 19px;
-      height: 19px;
-      margin-left: 6px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      font-size: 12px;
-      vertical-align: middle;
+      font-size: 24px;
     }
 
     .handle {
       color: var(--muted);
       font-size: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .bio {
-      color: var(--muted);
       font-size: 14px;
-      line-height: 1.5;
-    }
-
-    body[data-theme="cyber"] h1 {
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: 23px;
-      text-shadow: 0 0 14px rgba(34,197,94,.55);
-    }
-
-    .theme-switcher {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .theme-btn {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 10px 6px;
-      font-size: 10px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .theme-btn:hover,
-    .theme-btn.active {
-      transform: translateY(-2px);
-      border-color: var(--accent);
-      box-shadow: var(--shadow);
-    }
-
-    body[data-theme="linktree"] .theme-btn,
-    body[data-theme="linktree"] .action-btn {
-      color: #fff;
+      color: var(--muted);
     }
 
     .links {
       display: flex;
       flex-direction: column;
-      gap: 13px;
+      gap: 12px;
     }
 
     .link {
-      position: relative;
-      overflow: hidden;
       background: var(--card);
-      color: var(--link-text, var(--text));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 16px;
-      text-decoration: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 800;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--text);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-      transition: .22s ease;
-      animation: linkIn .45s ease both;
-    }
-
-    .link::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(255,255,255,.26), transparent 42%);
-      opacity: 0;
-      transform: scale(.7);
-      transition: .25s ease;
-      pointer-events: none;
-    }
-
-    .link:active::after {
-      opacity: 1;
-      transform: scale(1.7);
-    }
-
-    .link:active {
-      transform: scale(.98);
-    }
-
-    .link:nth-child(1) { animation-delay: .08s; }
-    .link:nth-child(2) { animation-delay: .16s; }
-    .link:nth-child(3) { animation-delay: .24s; }
-    .link:nth-child(4) { animation-delay: .32s; }
-
-    @keyframes linkIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      transition: 0.2s;
     }
 
     .link:hover {
-      transform: translateY(-4px) scale(1.01);
+      transform: translateY(-3px);
       background: var(--card-hover);
-      border-color: var(--accent);
-    }
-
-    body[data-theme="linktree"] .link:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 10px 10px 0 #111;
-    }
-
-    body[data-theme="cyber"] .link {
-      text-transform: uppercase;
-      letter-spacing: .07em;
-    }
-
-    body[data-theme="cyber"] .link:hover {
-      box-shadow: 0 0 32px rgba(34,197,94,.5);
-    }
-
-    .link-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: .22s ease;
-      flex-shrink: 0;
-      box-shadow: 0 10px 25px rgba(0,0,0,.18);
-    }
-
-    .logo svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
-
-    .logo.github {
-      background: #111;
-      color: #fff;
-    }
-
-    .logo.linkedin {
-      background: #0077b5;
-      color: #fff;
-    }
-
-    .logo.instagram {
-      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
-      color: #fff;
-    }
-
-    .logo.email {
-      background: linear-gradient(135deg, #6b7280, #374151);
-      color: #fff;
-    }
-
-    .link:hover .logo {
-      transform: scale(1.1) rotate(5deg);
-    }
-
-    body[data-theme="cyber"] .logo {
-      border-radius: 8px;
-      box-shadow: 0 0 16px rgba(34,197,94,.35);
-    }
-
-    body[data-theme="clean"] .logo {
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.1);
-    }
-
-    body[data-theme="linktree"] .logo {
-      border-radius: 50%;
-      box-shadow: none;
     }
 
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 10px;
+      margin-top: 14px;
     }
 
     .action-btn {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
+      padding: 12px;
       border-radius: var(--radius);
-      padding: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: .2s ease;
-    }
-
-    .action-btn:hover {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: var(--accent);
-    }
-
-    .features {
-      margin-top: 22px;
-      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 18px;
-      text-align: left;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-    }
-
-    body[data-theme="linktree"] .features {
-      color: #fff;
-      background: #111;
-    }
-
-    .features h2 {
-      font-size: 17px;
-      margin-bottom: 14px;
-    }
-
-    .feature-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .feature-item {
-      display: flex;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    body[data-theme="linktree"] .feature-item {
-      color: #d4d4d4;
-    }
-
-    .feature-item strong {
-      color: var(--link-text, var(--text));
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .footer {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 12px;
+      background: var(--card);
+      font-weight: bold;
+      cursor: pointer;
     }
 
     .toast {
       position: fixed;
+      bottom: 20px;
       left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%) translateY(20px);
+      transform: translateX(-50%);
       background: var(--card);
-      color: var(--link-text, var(--text));
-      border: 1px solid var(--border);
+      padding: 10px 16px;
       border-radius: 999px;
-      padding: 12px 18px;
-      font-weight: 800;
-      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
       opacity: 0;
-      pointer-events: none;
-      transition: .25s ease;
-      z-index: 99;
-      backdrop-filter: blur(16px);
-      white-space: nowrap;
+      transition: 0.3s;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 520px) {
-      body {
-        padding: 18px 12px;
-      }
-
-      .container {
-        max-width: 100%;
-      }
-
-      .profile-card {
-        padding: 22px 14px;
-        border-radius: 26px;
-      }
-
-      .status-badge {
-        font-size: 11px;
-        padding: 7px 11px;
-      }
-
-      .avatar-ring {
-        width: 96px;
-        height: 96px;
-      }
-
-      h1 {
-        font-size: clamp(22px, 7vw, 27px);
-      }
-
-      .bio {
-        font-size: 13px;
-        padding: 0 6px;
-      }
-
-      .theme-switcher {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 9px;
-      }
-
-      .theme-btn {
-        font-size: 12px;
-        padding: 11px 8px;
-      }
-
-      .link {
-        padding: 14px;
-        font-size: 15px;
-      }
-
-      .logo {
-        width: 34px;
-        height: 34px;
-      }
-
+    @media (max-width: 500px) {
       .actions {
         grid-template-columns: 1fr;
-      }
-
-      .features {
-        padding: 16px;
-        border-radius: 24px;
-      }
-
-      .footer {
-        padding-bottom: 18px;
-      }
-    }
-
-    @media (max-width: 340px) {
-      .theme-switcher {
-        grid-template-columns: 1fr;
-      }
-
-      .link {
-        font-size: 14px;
-      }
-
-      .link-left {
-        gap: 9px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
       }
     }
   </style>
 </head>
 
-<body data-theme="midnight">
+<body data-theme="agate">
   <main class="container">
+
     <section class="profile-card">
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        Available for work / projects
-      </div>
-
-      <div class="avatar-ring">
-        <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" onerror="this.src='https://ui-avatars.com/api/?name=Mahir+Ahmed&background=111827&color=ffffff&size=256';" />
-      </div>
-
-      <h1>Mahir Ahmed <span class="verified">✓</span></h1>
+      <img class="avatar" src="profile.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Mahir+Ahmed';" />
+      <h1>Mahir Ahmed</h1>
       <p class="handle">@mahirahmed691</p>
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </section>
 
-    <div class="theme-switcher" aria-label="Theme switcher">
-      <button class="theme-btn" data-theme-btn="midnight" onclick="setTheme('midnight')">🌙 Midnight</button>
-      <button class="theme-btn" data-theme-btn="linktree" onclick="setTheme('linktree')">🌿 Linktree</button>
-      <button class="theme-btn" data-theme-btn="cyber" onclick="setTheme('cyber')">🟢 Cyber</button>
-      <button class="theme-btn" data-theme-btn="clean" onclick="setTheme('clean')">⚪ Clean</button>
-      <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')">🌅 Sunset</button>
-    </div>
-
-    <section class="links" id="links" aria-label="Mahir Ahmed links"></section>
+    <section class="links" id="links"></section>
 
     <div class="actions">
       <button class="action-btn" onclick="copyEmail()">Copy Email</button>
       <button class="action-btn" onclick="sharePage()">Share Page</button>
     </div>
 
-    <section class="features">
-      <h2>Premium Features</h2>
-
-      <div class="feature-grid">
-        <div class="feature-item">
-          <span>📊</span>
-          <div>
-            <strong>Analytics enabled</strong>
-            Google Analytics tracks page visits, link clicks and theme changes.
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <span>🎨</span>
-          <div>
-            <strong>Dynamic themes</strong>
-            Each theme changes the page feel, button shape, animation and layout style.
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <span>🔗</span>
-          <div>
-            <strong>Branded link buttons</strong>
-            GitHub, LinkedIn, Instagram and email use animated icon styling.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">© 2026 Mahir Ahmed</footer>
   </main>
 
   <script>
-    const icons = {
-      github: `
-        <svg viewBox="0 0 24 24">
-          <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.33.95.1-.74.4-1.24.72-1.53-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18A10.93 10.93 0 0 1 12 6.02c.97 0 1.95.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.77 1.04.77 2.1v3.2c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
-        </svg>
-      `,
-      linkedin: `
-        <svg viewBox="0 0 24 24">
-          <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.32 8.1h4.36V23H.32V8.1zM8.04 8.1h4.18v2.04h.06c.58-1.1 2-2.26 4.12-2.26 4.41 0 5.22 2.9 5.22 6.67V23h-4.36v-7.5c0-1.79-.03-4.09-2.49-4.09-2.49 0-2.87 1.95-2.87 3.96V23H7.54V8.1h.5z"/>
-        </svg>
-      `,
-      instagram: `
-        <svg viewBox="0 0 24 24">
-          <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-2.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/>
-        </svg>
-      `,
-      email: `
-        <svg viewBox="0 0 24 24">
-          <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm9 8.2L3.5 7H3v.4l9 6.6 9-6.6V7h-.5L12 13.2z"/>
-        </svg>
-      `
+    const SITE_CONFIG = {
+      theme: "agate",
+      email: "mahirahmed691@gmail.com",
+      shareUrl: "https://mahirahmed691.github.io"
     };
 
     const links = [
-      {
-        title: "GitHub",
-        url: "https://github.com/mahirahmed691",
-        icon: icons.github,
-        type: "github",
-        label: "Open Mahir Ahmed GitHub profile"
-      },
-      {
-        title: "LinkedIn",
-        url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
-        icon: icons.linkedin,
-        type: "linkedin",
-        label: "Open Mahir Ahmed LinkedIn profile"
-      },
-      {
-        title: "Instagram",
-        url: "https://www.instagram.com/mahirahmed691",
-        icon: icons.instagram,
-        type: "instagram",
-        label: "Open Mahir Ahmed Instagram profile"
-      },
-      {
-        title: "Contact Me",
-        url: "mailto:mahirahmed691@gmail.com",
-        icon: icons.email,
-        type: "email",
-        label: "Email Mahir Ahmed"
-      }
+      { title: "GitHub", url: "https://github.com/mahirahmed691" },
+      { title: "LinkedIn", url: "https://linkedin.com" },
+      { title: "Instagram", url: "https://instagram.com" },
+      { title: "Contact Me", url: "mailto:" + SITE_CONFIG.email }
     ];
 
     const linksContainer = document.getElementById("links");
 
     function renderLinks() {
-      linksContainer.innerHTML = "";
-
       links.forEach(link => {
         const a = document.createElement("a");
-
         a.className = "link";
         a.href = link.url;
-        a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
-        a.rel = "noopener noreferrer";
-        a.setAttribute("aria-label", link.label);
-
-        a.innerHTML = `
-          <span class="link-left">
-            <span class="logo ${link.type}">${link.icon}</span>
-            <span>${link.title}</span>
-          </span>
-          <span>→</span>
-        `;
-
-        a.addEventListener("click", () => {
-          trackEvent("link_click", {
-            link_name: link.title,
-            link_url: link.url
-          });
-        });
-
+        a.target = "_blank";
+        a.innerHTML = `${link.title} →`;
         linksContainer.appendChild(a);
       });
     }
 
     function setTheme(theme) {
       document.body.dataset.theme = theme;
-      localStorage.setItem("theme", theme);
-
-      document.querySelectorAll(".theme-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.themeBtn === theme);
-      });
-
-      trackEvent("theme_change", {
-        theme_name: theme
-      });
     }
 
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        return true;
-      } catch {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-
-        try {
-          document.execCommand("copy");
-          textarea.remove();
-          return true;
-        } catch {
-          textarea.remove();
-          return false;
-        }
-      }
+    function showToast(msg) {
+      const t = document.createElement("div");
+      t.className = "toast";
+      t.innerText = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.classList.add("show"), 10);
+      setTimeout(() => t.remove(), 2000);
     }
 
-    async function copyEmail() {
-      const copied = await copyText("mahirahmed691@gmail.com");
-
-      showToast(copied ? "Email copied" : "Could not copy email");
-
-      trackEvent("copy_email");
+    function copyEmail() {
+      navigator.clipboard.writeText(SITE_CONFIG.email);
+      showToast("Email copied");
     }
 
-    async function sharePage() {
-      const url = "https://mahirahmed691.github.io";
-
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: "Mahir Ahmed",
-            text: "Mahir Ahmed links",
-            url
-          });
-
-          showToast("Page shared");
-        } catch {
-          showToast("Share cancelled");
-        }
-      } else {
-        const copied = await copyText(url);
-        showToast(copied ? "Page link copied" : "Could not copy page link");
-      }
-
-      trackEvent("share_page");
-    }
-
-    function showToast(message) {
-      const existingToast = document.querySelector(".toast");
-      if (existingToast) existingToast.remove();
-
-      const toast = document.createElement("div");
-      toast.className = "toast";
-      toast.textContent = message;
-
-      document.body.appendChild(toast);
-
-      setTimeout(() => {
-        toast.classList.add("show");
-      }, 10);
-
-      setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => toast.remove(), 250);
-      }, 2200);
-    }
-
-    function trackEvent(eventName, params = {}) {
-      if (typeof gtag === "function") {
-        gtag("event", eventName, params);
-      }
+    function sharePage() {
+      navigator.clipboard.writeText(SITE_CONFIG.shareUrl);
+      showToast("Link copied");
     }
 
     renderLinks();
-
-    const savedTheme = localStorage.getItem("theme") || "midnight";
-    setTheme(savedTheme);
+    setTheme(SITE_CONFIG.theme);
   </script>
 </body>
 </html>
