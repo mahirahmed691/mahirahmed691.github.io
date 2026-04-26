@@ -3,7 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Mahir Ahmed | Links</title>
+  <meta name="description" content="Mahir Ahmed - Platform Engineer, DevOps and builder. GitHub, LinkedIn, Instagram and contact links." />
+  <meta name="theme-color" content="#050505" />
+
+  <meta property="og:title" content="Mahir Ahmed | Links" />
+  <meta property="og:description" content="Platform Engineer • DevOps • Building things that scale" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mahirahmed691.github.io" />
+  <meta property="og:image" content="https://mahirahmed691.github.io/profile.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mahir Ahmed | Links" />
+  <meta name="twitter:description" content="Platform Engineer • DevOps • Building things that scale" />
+  <meta name="twitter:image" content="https://mahirahmed691.github.io/profile.jpg" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDM6PMJJJC"></script>
@@ -86,6 +100,7 @@
       padding: 0;
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -135,12 +150,8 @@
     }
 
     @keyframes floatBg {
-      from {
-        transform: rotate(0deg) translate(0,0);
-      }
-      to {
-        transform: rotate(360deg) translate(60px,-60px);
-      }
+      from { transform: rotate(0deg) translate(0,0); }
+      to { transform: rotate(360deg) translate(60px,-60px); }
     }
 
     .container {
@@ -177,6 +188,28 @@
       background: rgba(255,255,255,.35);
     }
 
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--link-text, var(--text));
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 14px rgba(34,197,94,.9);
+    }
+
     .avatar-ring {
       width: 118px;
       height: 118px;
@@ -207,12 +240,8 @@
     }
 
     @keyframes avatarFloat {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-7px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
     }
 
     h1 {
@@ -266,8 +295,9 @@
       background: var(--card);
       color: var(--text);
       border-radius: 999px;
-      padding: 9px 6px;
+      padding: 10px 6px;
       font-size: 10px;
+      font-weight: 800;
       cursor: pointer;
       transition: .2s ease;
       backdrop-filter: blur(10px);
@@ -292,6 +322,8 @@
     }
 
     .link {
+      position: relative;
+      overflow: hidden;
       background: var(--card);
       color: var(--link-text, var(--text));
       border: 1px solid var(--border);
@@ -308,21 +340,30 @@
       animation: linkIn .45s ease both;
     }
 
-    .link:nth-child(1) {
-      animation-delay: .08s;
+    .link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,.26), transparent 42%);
+      opacity: 0;
+      transform: scale(.7);
+      transition: .25s ease;
+      pointer-events: none;
     }
 
-    .link:nth-child(2) {
-      animation-delay: .16s;
+    .link:active::after {
+      opacity: 1;
+      transform: scale(1.7);
     }
 
-    .link:nth-child(3) {
-      animation-delay: .24s;
+    .link:active {
+      transform: scale(.98);
     }
 
-    .link:nth-child(4) {
-      animation-delay: .32s;
-    }
+    .link:nth-child(1) { animation-delay: .08s; }
+    .link:nth-child(2) { animation-delay: .16s; }
+    .link:nth-child(3) { animation-delay: .24s; }
+    .link:nth-child(4) { animation-delay: .32s; }
 
     @keyframes linkIn {
       from {
@@ -494,6 +535,31 @@
       font-size: 12px;
     }
 
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--card);
+      color: var(--link-text, var(--text));
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      z-index: 99;
+      backdrop-filter: blur(16px);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (max-width: 520px) {
       body {
         padding: 18px 12px;
@@ -506,6 +572,11 @@
       .profile-card {
         padding: 22px 14px;
         border-radius: 26px;
+      }
+
+      .status-badge {
+        font-size: 11px;
+        padding: 7px 11px;
       }
 
       .avatar-ring {
@@ -584,8 +655,13 @@
 <body data-theme="midnight">
   <main class="container">
     <section class="profile-card">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Available for work / projects
+      </div>
+
       <div class="avatar-ring">
-        <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" />
+        <img class="avatar" src="profile.jpg" alt="Mahir Ahmed" onerror="this.src='https://ui-avatars.com/api/?name=Mahir+Ahmed&background=111827&color=ffffff&size=256';" />
       </div>
 
       <h1>Mahir Ahmed <span class="verified">✓</span></h1>
@@ -593,15 +669,15 @@
       <p class="bio">Platform Engineer • DevOps • Building things that scale</p>
     </section>
 
-    <div class="theme-switcher">
-      <button class="theme-btn" data-theme-btn="midnight" onclick="setTheme('midnight')">Midnight</button>
-      <button class="theme-btn" data-theme-btn="linktree" onclick="setTheme('linktree')">Linktree</button>
-      <button class="theme-btn" data-theme-btn="cyber" onclick="setTheme('cyber')">Cyber</button>
-      <button class="theme-btn" data-theme-btn="clean" onclick="setTheme('clean')">Clean</button>
-      <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')">Sunset</button>
+    <div class="theme-switcher" aria-label="Theme switcher">
+      <button class="theme-btn" data-theme-btn="midnight" onclick="setTheme('midnight')">🌙 Midnight</button>
+      <button class="theme-btn" data-theme-btn="linktree" onclick="setTheme('linktree')">🌿 Linktree</button>
+      <button class="theme-btn" data-theme-btn="cyber" onclick="setTheme('cyber')">🟢 Cyber</button>
+      <button class="theme-btn" data-theme-btn="clean" onclick="setTheme('clean')">⚪ Clean</button>
+      <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')">🌅 Sunset</button>
     </div>
 
-    <section class="links" id="links"></section>
+    <section class="links" id="links" aria-label="Mahir Ahmed links"></section>
 
     <div class="actions">
       <button class="action-btn" onclick="copyEmail()">Copy Email</button>
@@ -632,7 +708,7 @@
           <span>🔗</span>
           <div>
             <strong>Branded link buttons</strong>
-            GitHub, LinkedIn, Instagram and email use proper animated icon styling.
+            GitHub, LinkedIn, Instagram and email use animated icon styling.
           </div>
         </div>
       </div>
@@ -670,25 +746,29 @@
         title: "GitHub",
         url: "https://github.com/mahirahmed691",
         icon: icons.github,
-        type: "github"
+        type: "github",
+        label: "Open Mahir Ahmed GitHub profile"
       },
       {
         title: "LinkedIn",
         url: "https://www.linkedin.com/in/mahir-ahmed-84a346149",
         icon: icons.linkedin,
-        type: "linkedin"
+        type: "linkedin",
+        label: "Open Mahir Ahmed LinkedIn profile"
       },
       {
         title: "Instagram",
         url: "https://www.instagram.com/mahirahmed691",
         icon: icons.instagram,
-        type: "instagram"
+        type: "instagram",
+        label: "Open Mahir Ahmed Instagram profile"
       },
       {
         title: "Contact Me",
         url: "mailto:mahirahmed691@gmail.com",
         icon: icons.email,
-        type: "email"
+        type: "email",
+        label: "Email Mahir Ahmed"
       }
     ];
 
@@ -704,6 +784,7 @@
         a.href = link.url;
         a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
         a.rel = "noopener noreferrer";
+        a.setAttribute("aria-label", link.label);
 
         a.innerHTML = `
           <span class="link-left">
@@ -714,12 +795,10 @@
         `;
 
         a.addEventListener("click", () => {
-          if (typeof gtag === "function") {
-            gtag("event", "link_click", {
-              link_name: link.title,
-              link_url: link.url
-            });
-          }
+          trackEvent("link_click", {
+            link_name: link.title,
+            link_url: link.url
+          });
         });
 
         linksContainer.appendChild(a);
@@ -734,38 +813,89 @@
         btn.classList.toggle("active", btn.dataset.themeBtn === theme);
       });
 
-      if (typeof gtag === "function") {
-        gtag("event", "theme_change", {
-          theme_name: theme
-        });
+      trackEvent("theme_change", {
+        theme_name: theme
+      });
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        try {
+          document.execCommand("copy");
+          textarea.remove();
+          return true;
+        } catch {
+          textarea.remove();
+          return false;
+        }
       }
     }
 
-    function copyEmail() {
-      navigator.clipboard.writeText("mahirahmed691@gmail.com");
-      alert("Email copied");
+    async function copyEmail() {
+      const copied = await copyText("mahirahmed691@gmail.com");
 
-      if (typeof gtag === "function") {
-        gtag("event", "copy_email");
-      }
+      showToast(copied ? "Email copied" : "Could not copy email");
+
+      trackEvent("copy_email");
     }
 
-    function sharePage() {
-      const url = "https://mahirahmed.github.io";
+    async function sharePage() {
+      const url = "https://mahirahmed691.github.io";
 
       if (navigator.share) {
-        navigator.share({
-          title: "Mahir Ahmed",
-          text: "Mahir Ahmed links",
-          url
-        });
+        try {
+          await navigator.share({
+            title: "Mahir Ahmed",
+            text: "Mahir Ahmed links",
+            url
+          });
+
+          showToast("Page shared");
+        } catch {
+          showToast("Share cancelled");
+        }
       } else {
-        navigator.clipboard.writeText(url);
-        alert("Page link copied");
+        const copied = await copyText(url);
+        showToast(copied ? "Page link copied" : "Could not copy page link");
       }
 
+      trackEvent("share_page");
+    }
+
+    function showToast(message) {
+      const existingToast = document.querySelector(".toast");
+      if (existingToast) existingToast.remove();
+
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.textContent = message;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add("show");
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 250);
+      }, 2200);
+    }
+
+    function trackEvent(eventName, params = {}) {
       if (typeof gtag === "function") {
-        gtag("event", "share_page");
+        gtag("event", eventName, params);
       }
     }
 
